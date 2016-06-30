@@ -13,7 +13,8 @@ class UpdateBusinessesTable extends Migration
     public function up()
     {
         Schema::table('businesses', function (Blueprint $table) {
-            $table->foreign('address_id')->references('id')->on('business_addresses')->onDelete('cascade');
+            $table->integer('business_addresses_id')->unsigned();
+            $table->foreign('business_addresses_id')->references('id')->on('business_addresses')->onDelete('cascade');
         });
     }
 
@@ -25,7 +26,8 @@ class UpdateBusinessesTable extends Migration
     public function down()
     {
         Schema::table('businesses', function (Blueprint $table) {
-            $table->dropForeign('address_id');
+            $table->dropForeign('business_addresses_id');
+            $table->dropColumn('business_addresses_id');
         });
     }
 }

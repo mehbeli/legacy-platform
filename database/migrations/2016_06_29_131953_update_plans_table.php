@@ -13,7 +13,8 @@ class UpdatePlansTable extends Migration
     public function up()
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->foreign('permission_id')->references('id')->on('plan_permissions')->onDelete('cascade');
+            $table->integer('plan_permission_id')->unsigned();
+            $table->foreign('plan_permission_id')->references('id')->on('plan_permissions')->onDelete('cascade');
         });
     }
 
@@ -25,7 +26,8 @@ class UpdatePlansTable extends Migration
     public function down()
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->dropForeign('permission_id');
+            $table->dropForeign('plan_permission_id');
+            $table->dropColumn('plan_permission_id');
         });
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersActivationTable extends Migration
+class CreateUserConfigurationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,16 +12,13 @@ class CreateUsersActivationTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_activations', function (Blueprint $table) {
+        Schema::create('user_configurations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('token');
+            $table->integer('plan_id')->unsigned();
+            $table->foreign('plan_id')->references('id')->on('plans');
             $table->timestamps();
-        });
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('active')->default(false);
         });
     }
 
@@ -32,10 +29,6 @@ class CreateUsersActivationTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_activations');
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('active');
-        });
+        Schema::drop('user_configurations');
     }
 }

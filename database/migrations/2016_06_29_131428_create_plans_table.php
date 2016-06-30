@@ -16,7 +16,6 @@ class CreatePlansTable extends Migration
             $table->increments('id');
             $table->string('plan_name');
             $table->float('price');
-            $table->integer('permission_id')->unsigned();
             $table->timestamps();
         });
     }

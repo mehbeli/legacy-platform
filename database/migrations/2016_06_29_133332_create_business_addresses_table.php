@@ -12,7 +12,7 @@ class CreateBusinessAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::table('business_addresses', function (Blueprint $table) {
+        Schema::create('business_addresses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('first_line');
             $table->string('second_line')->nullable();
