@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Theme Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body role="document">
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-new navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Selger</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @include('partials.businesslist')
+                <li class="border-left-solid current-business">
+                    <a href="#">Tudung Fareeda</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @include('partials.notification')
+                <li class="dropdown border-top-solid profile">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hakim Razalan <i class="menu-drop fa fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a></li>
+                        <li><a href="#"><i class="fa fa-fw fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+
+    <!-- top info -->
+
+    <!-- top info end -->
+    <!-- container -->
+    <div class="container-margin {{ (isset($notopbar) && $notopbar == true) ? 'no-top-bar' : null }}" role="main">
+        <div class="col-md-10 col-md-offset-1">
+
+            @yield('content')
+
+        </div>
+    </div> <!-- /container -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="details-modal">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="bootstrap/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/components/bootstrap/js/bootstrap.min.js"></script>
+    <!-- <script src="bootstrap/js/docs.min.js"></script> -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="bootstrap/js/ie10-viewport-bug-workaround.js"></script> -->
+    <script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+    </script>
+</body>
+</html>

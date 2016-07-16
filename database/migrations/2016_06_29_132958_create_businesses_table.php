@@ -16,7 +16,6 @@ class CreateBusinessesTable extends Migration
             $table->increments('id');
             $table->string('business_name');
             $table->string('business_description');
-            $table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -27,4 +27,8 @@ class User extends Authenticatable
     public function business() {
         return $this->hasMany('App\Business');
     }
+
+    public function canAccess($id) {
+        return $this->hasMany('App\Business')->where('id', $id)->first();
+    }
 }

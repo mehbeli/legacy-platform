@@ -18,3 +18,9 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::resource('business', 'BusinessController');
+//Route::resource('business.orders', 'OrderController');
+
+/*Route::get('test', function () {
+    return view('businesses.create')->with('notopbar', true)->with('businesses', []);
+});*/
