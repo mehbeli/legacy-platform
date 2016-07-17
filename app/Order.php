@@ -11,4 +11,8 @@ class Order extends Model
         return $this->belongsTo('App\Business');
     }
 
+    public function buyer() {
+        return $this->hasOne('App\User', 'buyer_id');
+    }
+
 }

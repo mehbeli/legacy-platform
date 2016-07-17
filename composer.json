@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
+        "laravel/framework": "5.2.*",
+        "laravelista/ekko": "~1.2",
+        "yajra/laravel-datatables-oracle": "~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

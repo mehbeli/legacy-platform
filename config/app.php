@@ -156,6 +156,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Vendor's Service Providers
+         */
+        Laravelista\Ekko\EkkoServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class
+
     ],
 
     /*
@@ -201,7 +207,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Ekko' => Laravelista\Ekko\Facades\Ekko::class,
     ],
 
 ];

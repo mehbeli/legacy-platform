@@ -3,7 +3,7 @@
     <ul class="dropdown-menu dropdown-width-change dropdown-menu-sell-list">
         @forelse (Auth::user()->business()->get() as $business)
         <li>
-            <a href="#">
+            <a href="{{ url('/business/'.$business->id) }}">
                 <div class="row">
                     <div class="col-xs-7">
                         <span class="business-name">{{ $business->business_name }}</span>

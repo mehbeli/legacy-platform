@@ -16,6 +16,7 @@
     <link href="/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/components/datatables/css/dataTables.bootstrap.min.css">
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
@@ -43,9 +44,11 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 @include('partials.businesslist')
+                @if (isset($business) && !empty($business))
                 <li class="border-left-solid current-business">
-                    <a href="#">Tudung Fareeda</a>
+                    <a href="#">{{ $business->business_name }}</a>
                 </li>
+                @endif
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @include('partials.notification')
@@ -105,5 +108,10 @@
         $('[data-toggle="tooltip"]').tooltip()
     });
     </script>
+    <script src="/components/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/components/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script src="/components/datatables/js/dataTables.responsive.min.js"></script>
+    <script src="/components/datatables/js/responsive.bootstrap.min.js"></script>
+    @yield('script')
 </body>
 </html>

@@ -18,7 +18,18 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-Route::resource('business', 'BusinessController');
+Route::group([ 'middleware' => 'auth'], function () {
+
+    Route::resource('business', 'BusinessController');
+    Route::resource('business.orders', 'OrderController');
+
+    // Datatables
+    Route::get('/data/orders/pending/{businessId}', 'DatatableController@getPendingOrder');
+
+});
+Route::get('/404', function () {
+    return view('static-page.404');
+});
 //Route::resource('business.orders', 'OrderController');
 
 /*Route::get('test', function () {

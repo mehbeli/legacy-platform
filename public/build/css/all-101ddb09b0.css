@@ -635,4 +635,41 @@
     margin-top: 0;
 }
 
+.fire-404 {
+    text-align:center;
+    margin-top: 50px;
+    font-size: 100px;
+}
+
+.fire-404 p {
+    font-size: 70px;
+    opacity: 0.8;
+}
+
+.fire-404 p.oops {
+    font-size: 30px;
+    opacity: 0.8;
+}
+
+/* Datatables */
+
+.dataTables_filter {
+    float: right;
+    margin-right: 10px;
+}
+
+.dataTables_paginate {
+    margin-right: 10px !important;
+}
+
+.dataTables_length,
+.dataTables_info {
+    margin-left: 10px;
+}
+
+.panel-title {
+    font-weight: bold;
+    font-size: 14px;
+}
+
 /*# sourceMappingURL=all.css.map */

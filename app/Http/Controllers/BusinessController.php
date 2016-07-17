@@ -13,9 +13,8 @@ class BusinessController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth');
         $this->middleware('business',
-            [ 'only' => 'show', 'edit', 'destroy' ]
+            [ 'only' => [ 'show', 'edit', 'destroy' ] ]
         );
     }
 
