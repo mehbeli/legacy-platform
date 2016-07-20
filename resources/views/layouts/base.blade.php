@@ -17,6 +17,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/components/datatables/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/components/bootstrap-select/css/bootstrap-select.min.css">
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
@@ -26,6 +27,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    @yield('inline-css')
 </head>
 
 <body role="document">
@@ -39,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Selger</a>
+            <a class="navbar-brand" href="#">JEJUAL.MY</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -97,8 +99,8 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="bootstrap/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/components/jquery/jquery-1.12.0.min.js"></script>
+<!--     <script>window.jQuery || document.write('<script src="bootstrap/js/vendor/jquery.min.js"><\/script>')</script> -->
     <script src="/components/bootstrap/js/bootstrap.min.js"></script>
     <!-- <script src="bootstrap/js/docs.min.js"></script> -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -112,6 +114,7 @@
     <script src="/components/datatables/js/dataTables.bootstrap.min.js"></script>
     <script src="/components/datatables/js/dataTables.responsive.min.js"></script>
     <script src="/components/datatables/js/responsive.bootstrap.min.js"></script>
+    <script src="/components/bootstrap-select/js/bootstrap-select.min.js"></script>
     @yield('script')
 </body>
 </html>

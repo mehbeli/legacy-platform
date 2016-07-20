@@ -6,7 +6,7 @@
         <div class="col-sm-3 info-details">
             <div class="row">
                 <div class="col-xs-12 title-info">
-                    Pending Orders
+                    Orders
                 </div>
             </div>
             <div class="row">
