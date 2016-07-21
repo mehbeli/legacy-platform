@@ -22,6 +22,7 @@ Route::group([ 'middleware' => 'auth'], function () {
 
     Route::resource('business', 'BusinessController');
     Route::resource('business.orders', 'OrderController');
+    Route::resource('business.invoices', 'InvoiceController');
 
     // Datatables
     Route::get('/data/orders/pending/{businessId}', 'DatatableController@getPendingOrder');

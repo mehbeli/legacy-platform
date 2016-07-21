@@ -16,7 +16,11 @@ class CreateInvoicesTable extends Migration
             $table->increments('id');
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders');
-            $table->string('invoice_number');
+            $table->integer('business_id')->unsigned();
+            $table->foreign('business_id')->references('id')->on('businesses');
+            $table->string('invoice_serial_no')->nullable();
+            $table->boolean('paid')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -27,6 +31,6 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('invoices');
     }
 }

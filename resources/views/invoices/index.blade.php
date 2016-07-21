@@ -5,9 +5,22 @@
 span.check-mark {
     margin-top: 12px !important;
 }
+
+.sp-st1 .btn {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
 .sp-nd2 .btn {
     border-left: none !important;
-    border-radius: 0 !important;
+    border-radius: 0px !important;
+}
+
+.status-filter {
+    padding-right: 10px;
+}
+
+.status-filter .btn {
+    border-radius: 4px !important;
 }
 
 hr {
@@ -29,14 +42,14 @@ hr {
     <div class="col-md-9">
         <div class="panel panel-default from-menu">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Orders</h4>
+                <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Invoices</h4>
                 <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-primary btn-sm">Add Order</a>
+                    <a href="#" class="btn btn-primary btn-sm">Add Invoice</a>
                 </div>
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Bulk Action <span class="caret"></span>
@@ -50,9 +63,17 @@ hr {
                             </ul>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-8">
                         <div class="input-group">
-                            <select class="selectpicker" data-tickIcon="fa fa-check" title="By Month" multiple data-max-options="1" data-width="100%">
+                            <select class="selectpicker status-filter" data-tickIcon="fa fa-check" title="By Status" multiple data-max-options="1" data-width="100%">
+                                <option>
+                                    Unpaid
+                                </option>
+                                <option>
+                                    Paid
+                                </option>
+                            </select>
+                            <select class="selectpicker sp-st1" data-tickIcon="fa fa-check" title="By Month" multiple data-max-options="1" data-width="100%">
                                 <option>
                                     January
                                 </option>
@@ -117,13 +138,16 @@ hr {
                         <th>
                         </th>
                         <th>
-                            Order ID
+                            Invoice ID
                         </th>
                         <th>
-                            Order From
+                            Attn
                         </th>
                         <th>
-                            Order Date
+                            Date
+                        </th>
+                        <th>
+                            Status
                         </th>
                         <th>
 
@@ -144,11 +168,12 @@ $(function() {
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: "{{ url('/data/orders/pending/'.$business->id) }}",
+        ajax: "{{ url('/data/invoices/'.$business->id) }}",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'order_id', name: 'order_id' },
             { data: 'buyer', name: 'buyer' },
+            { data: 'created_at', name: 'created_at' },
             { data: 'created_at', name: 'created_at' },
             { data: 'action', name: 'action', sortable: false, searchable: false }
         ]
