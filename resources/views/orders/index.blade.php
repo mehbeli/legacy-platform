@@ -31,7 +31,7 @@ hr {
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Orders</h4>
                 <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-primary btn-sm">Add Order</a>
+                    <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".add-order-modal-lg">Add Order</a>
                 </div>
             </div>
             <div class="panel-body">
@@ -135,6 +135,25 @@ hr {
 
     </div>
 </div> <!-- /container -->
+
+<!-- modal -->
+<div class="modal fade add-order-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addOrder">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Add Order</h4>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+  </div>
+</div>
 @endsection
 
 @section('script')
@@ -144,7 +163,7 @@ $(function() {
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: "{{ url('/data/orders/pending/'.$business->id) }}",
+        ajax: "{{ url('/data/orders/'.$business->id) }}",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'order_id', name: 'order_id' },

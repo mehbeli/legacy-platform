@@ -62,7 +62,7 @@ class BusinessController extends Controller
             $business->fill($businessinfo);
             $business->save();
 
-            return redirect('/business/create')->with('success', 'Yay berjaya!');
+            return redirect('/business/create')->with('success', 'Successfully add a business!');
         } else {
             return redirect()
             ->back()

@@ -23,9 +23,12 @@ Route::group([ 'middleware' => 'auth'], function () {
     Route::resource('business', 'BusinessController');
     Route::resource('business.orders', 'OrderController');
     Route::resource('business.invoices', 'InvoiceController');
+    Route::resource('business.products', 'ProductController');
 
     // Datatables
-    Route::get('/data/orders/pending/{businessId}', 'DatatableController@getPendingOrder');
+    Route::get('/data/orders/{businessId}', 'DatatableController@getOrders');
+    Route::get('/data/products/{businessId}', 'DatatableController@getProducts');
+    Route::get('/data/invoices/{businessId}', 'DatatableController@getInvoices');
 
 });
 Route::get('/404', function () {
