@@ -14,19 +14,19 @@ class ProductController extends Controller
         $this->middleware('business');
     }
 
-    public function index($business) {
+    public function index($businessId) {
         // show order list belongs to business
-        $business = Business::find($business);
+        $business = Business::find($businessId);
         return view('products.index')->with('business', $business);
     }
 
-    public function create($business) {
-        $business = Business::find($business);
+    public function create($businessId) {
+        $business = Business::find($businessId);
         return view('products.create')->with('business', $business);
     }
 
-    public function store(Request $request, $business) {
-        $business = Business::find($business);
+    public function store(Request $request, $businessId) {
+        $business = Business::find($businessId);
         $product = new Product;
         if ($product->validate($request->all())) {
 
@@ -37,7 +37,7 @@ class ProductController extends Controller
             $product->coupon_enabled = false;
             $product->save();
 
-            return redirect("/business/$business->id/products")->with('success', 'New product added.');
+            return redirect("/business/$businessId/products")->with('success', 'New product added.');
 
         } else {
             return redirect()
@@ -54,7 +54,31 @@ class ProductController extends Controller
     }
 
     public function update(Request $request, $businessId, $productId) {
-        return 'tahi';
+        $business = Business::find($businessId);
+        $product = Product::find($productId);
+
+        if ($product->validate($request->all())) {
+
+            $product->fill($request->all());
+            $product->quantity_in_stock = (isset($request->quantity_in_stock) || !is_null($request->quantity_in_stock)) ? $request->quantity_in_stock : 0;
+            $product->tax = false;
+            $product->coupon_enabled = false;
+            $product->save();
+
+            return redirect("/business/$business->id/products")->with('success', 'Product Information Updated.');
+
+        } else {
+            return redirect()
+            ->back()
+            ->withErrors($product->errors())
+            ->withInput();
+        }
+
+    }
+
+    public function destroy($businessId, $productId) {
+        Product::find($productId)->delete();
+        return redirect("/business/$businessId/products")->with('success', 'Product has been deleted.');
     }
 
 }

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/components/datatables/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="/components/bootstrap-select/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/components/sweetalert/sweetalert.css">
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
@@ -115,6 +116,7 @@
     <script src="/components/datatables/js/dataTables.responsive.min.js"></script>
     <script src="/components/datatables/js/responsive.bootstrap.min.js"></script>
     <script src="/components/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="/components/sweetalert/sweetalert.min.js"></script>
     @yield('script')
 </body>
 </html>

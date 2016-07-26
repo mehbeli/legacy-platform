@@ -58,7 +58,7 @@ hr {
 
             <!-- Table -->
 
-            <table id="pending-table" class="table">
+            <table id="products-table" class="table">
                 <thead>
                     <tr>
                         <th>
@@ -105,7 +105,7 @@ hr {
 @section('script')
 <script>
 $(function() {
-    $('#pending-table').DataTable({
+    $('#products-table').DataTable({
         processing: true,
         serverSide: true,
         responsive: true,
@@ -118,6 +118,22 @@ $(function() {
             { data: 'action', name: 'action', sortable: false, searchable: false }
         ]
     });
+});
+</script>
+<script>
+$('#products-table').on('click', '.btn-delete', function () {
+    var current = $(this);
+    swal({
+        title: "Are you sure?",
+        text: "Your product will be deleted from all your sales & store",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false }, function(){
+            swal("Deleted!", "Your Product has been deleted.", "success");
+            current.parent('form').submit();
+        });
 });
 </script>
 @endsection

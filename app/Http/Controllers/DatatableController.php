@@ -43,7 +43,8 @@ class DatatableController extends Controller
                     return '<input type="checkbox" value="'.$product->id.'">';
                 })
                 ->addColumn('action', function ($product) use ($businessId) {
-                    return '<a href="/business/'.$businessId.'/products/'.$product->id.'" class="btn btn-xs btn-default">Details</a> <button type="button" class="btn btn-xs btn-danger">Delete</button>';
+                    $csrf = csrf_field();
+                    return '<a href="/business/'.$businessId.'/products/'.$product->id.'" class="btn btn-xs btn-default">Details</a> <form action="/business/'.$businessId.'/products/'.$product->id.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger">Delete</button></form>';
                 })
                 ->setRowClass(function ($product) {
                     return ($product->quantity_in_stock <= 0) ? 'danger' : '';
