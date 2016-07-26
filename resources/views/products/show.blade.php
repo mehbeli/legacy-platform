@@ -65,7 +65,8 @@ hr {
                 </div><!-- /.row -->
             </div>
             <div class="panel-footer clearfix">
-                <button type="submit" class="btn btn-primary pull-right">Add Product</button>
+                <a href="/business/{{$business->id}}/products" class="btn btn-default">Back</a>
+                <button type="submit" class="btn btn-primary pull-right">Save Changes</button>
             </div>
             </form>
         </div>

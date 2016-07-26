@@ -67,7 +67,7 @@ hr {
                             Product Name
                         </th>
                         <th>
-                            Price
+                            Price (RM)
                         </th>
                         <th>
                             Quantity
