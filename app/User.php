@@ -29,6 +29,6 @@ class User extends Authenticatable
     }
 
     public function canAccess($id) {
-        return $this->hasMany('App\Business')->where('id', $id)->first();
+        return $this->hasMany('App\Business')->where('unique_id', $id)->first();
     }
 }

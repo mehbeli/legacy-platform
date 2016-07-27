@@ -32,7 +32,7 @@ hr {
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Products / Stocks</h4>
                 <div class="btn-group pull-right">
-                    <a href="{{ action('ProductController@create', [ 'business' => $business->id ]) }}" class="btn btn-primary btn-sm">Add Product</a>
+                    <a href="{{ action('ProductController@create', [ 'business' => $business->unique_id ]) }}" class="btn btn-primary btn-sm">Add Product</a>
                 </div>
             </div>
             {{-- <div class="panel-body">
@@ -109,7 +109,7 @@ $(function() {
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: "{{ url('/data/products/'.$business->id) }}",
+        ajax: "{{ url('/data/products/'.$business->unique_id) }}",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'product_name', name: 'product_name' },

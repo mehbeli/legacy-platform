@@ -19,7 +19,7 @@ class DatatableController extends Controller
     public function getOrders($businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
         if ($isOwner) {
-            return Datatables::eloquent(Business::find($businessId)->orders()->where('confirmed', false))
+            return Datatables::eloquent(Business::findByUniqueId($businessId)->orders()->where('confirmed', false))
                 ->addColumn('checkboxes', function ($order) {
                     return '<input type="checkbox" class="form-control" value="{{$order->id}}">';
                 })
@@ -38,7 +38,7 @@ class DatatableController extends Controller
     public function getProducts($businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
         if ($isOwner) {
-            return Datatables::eloquent(Business::find($businessId)->products())
+            return Datatables::eloquent(Business::findByUniqueId($businessId)->products())
                 ->addColumn('checkboxes', function ($product) {
                     return '<input type="checkbox" value="'.$product->id.'">';
                 })
@@ -61,7 +61,7 @@ class DatatableController extends Controller
     public function getInvoices($businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
         if ($isOwner) {
-            return Datatables::eloquent(Business::find($businessId)->invoices())
+            return Datatables::eloquent(Business::findByUniqueId($businessId)->invoices())
                 ->addColumn('checkboxes', function ($product) {
                     return '<input type="checkbox" class="form-control" value="{{$order->id}}">';
                 })

@@ -57,4 +57,8 @@ class Business extends Model
         return $this->hasOne('App\BusinessConfiguration');
     }
 
+    public function scopeFindByUniqueId($query, $uniqueId) {
+        return $query->where('unique_id', $uniqueId)->first();
+    }
+
 }

@@ -26,4 +26,9 @@ class Product extends Model
     public function business() {
         return $this->belongsTo('App\Business');
     }
+
+    public function scopeFindByUniqueId($query, $uniqueId) {
+        return $query->where('unique_id', $uniqeId)->first();
+    }
+
 }

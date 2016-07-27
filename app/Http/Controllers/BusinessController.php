@@ -60,6 +60,7 @@ class BusinessController extends Controller
             $business->business_address_id = $business_address->id;
             $business->user()->associate(\Auth::user());
             $business->fill($businessinfo);
+            $business->unique_id = uniqid();
             $business->save();
 
             return redirect('/business/create')->with('success', 'Successfully add a business!');
@@ -81,7 +82,7 @@ class BusinessController extends Controller
 
     public function show($id)
     {
-        return view('businesses.show')->with('business', Business::find($id));
+        return view('businesses.show')->with('business', Business::findByUniqueId($id));
     }
 
     private function destroy($id)
