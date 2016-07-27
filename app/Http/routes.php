@@ -24,6 +24,7 @@ Route::group([ 'middleware' => 'auth'], function () {
     Route::resource('business.orders', 'OrderController');
     Route::resource('business.invoices', 'InvoiceController');
     Route::resource('business.products', 'ProductController');
+    Route::resource('business.open-orders', 'OpenOrderController');
 
     // Datatables
     Route::get('/data/orders/{businessId}', 'DatatableController@getOrders');

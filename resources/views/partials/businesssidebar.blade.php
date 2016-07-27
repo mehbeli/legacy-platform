@@ -1,4 +1,4 @@
-<button class="btn btn-success btn-block btn-open-order">Open Order</button>
+<a href="{{ url('/business/'.$business->unique_id.'/open-orders') }}" class="btn btn-success btn-block btn-open-order">Open Order</a>
 <div class="list-group in-menu">
     <a href="{{ url('/business/'.$business->unique_id) }}" class="list-group-item {{ Ekko::isActiveRoute('business.*') }}">
         <i class="fa fa-fw fa-eye"></i> Overview

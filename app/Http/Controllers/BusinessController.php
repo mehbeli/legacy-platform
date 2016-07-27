@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Traits\ValidationTraits;
 
 use App\Business;
+use App\Helpers\UniqueID;
 
 class BusinessController extends Controller
 {
@@ -60,7 +61,7 @@ class BusinessController extends Controller
             $business->business_address_id = $business_address->id;
             $business->user()->associate(\Auth::user());
             $business->fill($businessinfo);
-            $business->unique_id = uniqid();
+            $business->unique_id = UniqueID::generate();
             $business->save();
 
             return redirect('/business/create')->with('success', 'Successfully add a business!');

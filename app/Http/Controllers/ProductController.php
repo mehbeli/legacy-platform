@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Business;
 use App\Product;
+use App\Helpers\UniqueID;
 
 class ProductController extends Controller
 {
@@ -35,7 +36,7 @@ class ProductController extends Controller
             $product->quantity_in_stock = (isset($request->quantity_in_stock) || !is_null($request->quantity_in_stock)) ? $request->quantity_in_stock : 0;
             $product->tax = false;
             $product->coupon_enabled = false;
-            $product->unique_id = uniqid();
+            $product->unique_id = UniqueID::generate();
             $product->save();
 
             return redirect("/business/$businessId/products")->with('success', 'New product added.');
