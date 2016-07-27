@@ -33,7 +33,7 @@ hr {
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px; padding-bottom: 7.5px">Add Product</h4>
             </div>
-            <form class="form" action="{{ action('ProductController@store', [ 'business' => $business->id ]) }}" method="POST">
+            <form class="form" action="{{ action('ProductController@store', [ 'business' => $business->unique_id ]) }}" method="POST">
             {{ csrf_field() }}
             <div class="panel-body">
                 <div class="row">

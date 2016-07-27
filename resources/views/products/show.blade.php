@@ -33,7 +33,7 @@ hr {
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px; padding-bottom: 7.5px">Add Product</h4>
             </div>
-            <form class="form" action="{{ action('ProductController@update', [ 'business' => $business->id, 'products' => $product->id ]) }}" method="POST">
+            <form class="form" action="{{ action('ProductController@update', [ 'business' => $business->unique_id, 'products' => $product->unique_id ]) }}" method="POST">
             <input type="hidden" name="_method" value="PUT">
             {{ csrf_field() }}
             <div class="panel-body">
@@ -65,7 +65,7 @@ hr {
                 </div><!-- /.row -->
             </div>
             <div class="panel-footer clearfix">
-                <a href="/business/{{$business->id}}/products" class="btn btn-default">Back</a>
+                <a href="/business/{{$business->unique_id}}/products" class="btn btn-default">Back</a>
                 <button type="submit" class="btn btn-primary pull-right">Save Changes</button>
             </div>
             </form>

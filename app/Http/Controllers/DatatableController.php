@@ -40,11 +40,11 @@ class DatatableController extends Controller
         if ($isOwner) {
             return Datatables::eloquent(Business::findByUniqueId($businessId)->products())
                 ->addColumn('checkboxes', function ($product) {
-                    return '<input type="checkbox" value="'.$product->id.'">';
+                    return '<input type="checkbox" value="'.$product->unique_id.'">';
                 })
                 ->addColumn('action', function ($product) use ($businessId) {
                     $csrf = csrf_field();
-                    return '<a href="/business/'.$businessId.'/products/'.$product->id.'" class="btn btn-xs btn-default">Details</a> <form action="/business/'.$businessId.'/products/'.$product->id.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger">Delete</button></form>';
+                    return '<form action="/business/'.$businessId.'/products/'.$product->unique_id.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <a href="/business/'.$businessId.'/products/'.$product->unique_id.'" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
                 ->setRowClass(function ($product) {
                     return ($product->quantity_in_stock <= 0) ? 'danger' : '';

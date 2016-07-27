@@ -56,7 +56,7 @@
             <ul class="nav navbar-nav navbar-right">
                 @include('partials.notification')
                 <li class="dropdown border-top-solid profile">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hakim Razalan <i class="menu-drop fa fa-angle-down"></i></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <i class="menu-drop fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-sign-out"></i> Logout</a></li>

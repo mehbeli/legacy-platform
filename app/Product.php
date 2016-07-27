@@ -28,7 +28,7 @@ class Product extends Model
     }
 
     public function scopeFindByUniqueId($query, $uniqueId) {
-        return $query->where('unique_id', $uniqeId)->first();
+        return $query->where('unique_id', $uniqueId)->first();
     }
 
 }

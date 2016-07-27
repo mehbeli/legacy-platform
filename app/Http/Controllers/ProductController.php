@@ -50,7 +50,7 @@ class ProductController extends Controller
 
     public function show($businessId, $productId) {
         $business = Business::findByUniqueId($businessId);
-        $product = $business->products()->where('id', $productId)->first();
+        $product = $business->products()->where('unique_id', $productId)->first();
         return view('products.show')->with('business', $business)->with('product', $product);
     }
 
