@@ -676,4 +676,30 @@
     margin-bottom: 10px;
 }
 
+.table-top {
+    padding-left: 15px;
+    padding-bottom: 15px;
+}
+
+.table-top .title {
+    font-weight: 700;
+}
+
+.table-top .info {
+    font-size: 10px;
+    display: block;
+}
+
+.select-info {
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.select-info .select-item:before {
+    content: '(';
+}
+.select-info .select-item:after {
+    content: ')';
+}
+
 /*# sourceMappingURL=all.css.map */

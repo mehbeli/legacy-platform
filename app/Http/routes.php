@@ -30,6 +30,7 @@ Route::group([ 'middleware' => 'auth'], function () {
     Route::get('/data/orders/{businessId}', 'DatatableController@getOrders');
     Route::get('/data/products/{businessId}', 'DatatableController@getProducts');
     Route::get('/data/invoices/{businessId}', 'DatatableController@getInvoices');
+    Route::get('/data/open-orders/{businessId}', 'DatatableController@getOpenOrders');
 
 });
 Route::get('/404', function () {

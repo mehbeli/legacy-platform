@@ -22,4 +22,9 @@ class OpenOrderController extends Controller
         // implement $salesId
     }
 
+    public function create($businessId) {
+        $business = Business::findByUniqueId($businessId);
+        return view('open-orders.create')->with('business', $business);
+    }
+
 }

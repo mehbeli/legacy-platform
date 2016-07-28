@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/components/datatables/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="/components/bootstrap-select/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="/components/sweetalert/sweetalert.css">
+    @yield('vendor-css')
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
