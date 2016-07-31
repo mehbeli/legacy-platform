@@ -35,8 +35,9 @@ class DatatableController extends Controller
 
     // Products
 
-    public function getProducts($businessId) {
+    public function getProducts(Request $request, $businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
+
         if ($isOwner) {
             return Datatables::eloquent(Business::findByUniqueId($businessId)->products())
                 ->addColumn('checkboxes', function ($product) {
@@ -81,7 +82,7 @@ class DatatableController extends Controller
 
     // Open orders
 
-    public function getOpenOrders($businessId) {
+    public function getOpenOrders(Request $request, $businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
         if ($isOwner) {
             return Datatables::eloquent(Business::findByUniqueId($businessId)->openOrders())

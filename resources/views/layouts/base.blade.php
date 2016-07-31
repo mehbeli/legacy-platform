@@ -118,6 +118,7 @@
     <script src="/components/datatables/js/responsive.bootstrap.min.js"></script>
     <script src="/components/bootstrap-select/js/bootstrap-select.min.js"></script>
     <script src="/components/sweetalert/sweetalert.min.js"></script>
+    <script src="/components/parsleyjs/parsley.min.js"></script>
     @yield('script')
 </body>
 </html>

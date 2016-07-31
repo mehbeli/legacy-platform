@@ -97,9 +97,9 @@ $(function() {
         ajax: "{{ url('/data/open-orders/'.$business->unique_id) }}",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
-            { data: 'order_id', name: 'order_id' },
-            { data: 'buyer', name: 'buyer' },
-            { data: 'buyer', name: 'buyer' },
+            { data: 'title', name: 'title' },
+            { data: 'start_at', name: 'start_at' },
+            { data: 'end_at', name: 'end_at' },
             { data: 'created_at', name: 'created_at' },
             { data: 'action', name: 'action', sortable: false, searchable: false }
         ]

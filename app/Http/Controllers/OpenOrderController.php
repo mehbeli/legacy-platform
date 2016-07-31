@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Business;
+use App\OpenOrder;
 
 class OpenOrderController extends Controller
 {
@@ -25,6 +26,42 @@ class OpenOrderController extends Controller
     public function create($businessId) {
         $business = Business::findByUniqueId($businessId);
         return view('open-orders.create')->with('business', $business);
+    }
+
+    public function store(Request $request, $businessId) {
+        $all = $request->all();
+        $products = [];
+        foreach ($all['products_list'] as $product) {
+            $dom = new \DOMDocument();
+            $dom->loadHTML($product);
+
+            if(!empty($dom)){ //if any html is actually returned
+                $full_dom = $dom->getElementsByTagName("input");
+                foreach ($full_dom as $node_list) {
+                    $products[] = $node_list->getAttribute("value");
+                }
+
+            }
+        }
+
+        $business = Business::findByUniqueId($businessId);
+        $openOrder = new OpenOrder;
+        if ($openOrder->validate($request->all())) {
+            $openOrder->fill($request->all());
+            $openOrder->start_at = \DateTime::createFromFormat('d/m/Y H:i:s A', $request->start_at)->format('Y-m-d H:i:s');
+            $openOrder->products_list = json_encode($products);
+            $openOrder->sale_url = str_slug($request->sale_url, '-');
+            $openOrder->business()->associate($business);
+            $openOrder->save();
+
+            return redirect("/business/$businessId/open-orders")->with('success', 'New sale created.');
+
+        } else {
+            return redirect()
+                        ->back()
+                        ->withErrors($openOrder->errors())
+                        ->withInput();
+        }
     }
 
 }
