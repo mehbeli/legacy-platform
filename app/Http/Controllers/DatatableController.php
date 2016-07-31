@@ -9,6 +9,8 @@ use App\Traits\BusinessTraits;
 use Yajra\Datatables\Facades\Datatables;
 
 use App\Business;
+use App\Product;
+use Carbon\Carbon;
 
 class DatatableController extends Controller
 {
@@ -26,7 +28,6 @@ class DatatableController extends Controller
                 ->editColumn('buyer', function ($order) {
                     return '<a href="#" data-toggle="tooltip" data-placement="bottom" title="{{$order->buyer()->email}}">{{$order->buyer()->name}}</a>';
                 })
-                ->latest('created_at')
                 ->make(true);
         } else {
             return [];
@@ -39,7 +40,8 @@ class DatatableController extends Controller
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
 
         if ($isOwner) {
-            return Datatables::eloquent(Business::findByUniqueId($businessId)->products())
+            $businessTrueId = Business::findByUniqueId($businessId)->id;
+            return Datatables::of(Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price'])->where('business_id', $businessTrueId)->orderBy('created_at', 'asc'))
                 ->addColumn('checkboxes', function ($product) {
                     return '<input type="checkbox" value="'.$product->unique_id.'">';
                 })
@@ -54,7 +56,6 @@ class DatatableController extends Controller
                 ->setRowClass(function ($product) {
                     return ($product->quantity_in_stock <= 0) ? 'danger' : '';
                 })
-                ->latest('created_at')
                 ->make(true);
         } else {
             return [];
@@ -73,7 +74,6 @@ class DatatableController extends Controller
                 ->editColumn('product_id', function ($product) {
                     return '#'.$product->id;
                 })
-                ->latest('created_at')
                 ->make(true);
         } else {
             return [];
@@ -85,14 +85,24 @@ class DatatableController extends Controller
     public function getOpenOrders(Request $request, $businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
         if ($isOwner) {
-            return Datatables::eloquent(Business::findByUniqueId($businessId)->openOrders())
+            return Datatables::eloquent(Business::findByUniqueId($businessId)->openOrders()->orderBy('start_at', 'desc'))
                 ->addColumn('checkboxes', function ($product) {
-                    return '<input type="checkbox" class="form-control" value="{{$order->id}}">';
+                    return '<input type="checkbox" class="form-control" value="{{$product->id}}">';
                 })
-                ->editColumn('product_id', function ($product) {
-                    return '#'.$product->id;
+                ->editColumn('start_at', function ($sale) {
+                    $date = Carbon::createFromFormat("Y-m-d H:i:s", $sale->start_at);
+                    return $date->diffForHumans();
                 })
-                ->latest('created_at')
+                ->editColumn('end_at', function ($sale) {
+                    return !is_null($sale->end_at) ? Carbon::createFromFormat("Y-m-d H:i:s", $sale->end_at)->diffForHumans() : '';
+                })
+                ->editColumn('products_list', function ($sale) {
+                    $lists = json_decode($sale->products_list);
+                    return count($lists);
+                })
+                ->addColumn('action', function ($sale) {
+                    return 'delete';
+                })
                 ->make(true);
         } else {
             return [];

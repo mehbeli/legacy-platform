@@ -49,6 +49,7 @@ class OpenOrderController extends Controller
         if ($openOrder->validate($request->all())) {
             $openOrder->fill($request->all());
             $openOrder->start_at = \DateTime::createFromFormat('d/m/Y H:i:s A', $request->start_at)->format('Y-m-d H:i:s');
+            $openOrder->end_at = \DateTime::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
             $openOrder->products_list = json_encode($products);
             $openOrder->sale_url = str_slug($request->sale_url, '-');
             $openOrder->business()->associate($business);

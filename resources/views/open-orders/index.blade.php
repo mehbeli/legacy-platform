@@ -98,11 +98,12 @@ $(function() {
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'title', name: 'title' },
-            { data: 'start_at', name: 'start_at' },
-            { data: 'end_at', name: 'end_at' },
-            { data: 'created_at', name: 'created_at' },
+            { data: 'start_at', name: 'start_at', sortable: true },
+            { data: 'end_at', name: 'end_at', sortable: true },
+            { data: 'products_list', name: 'products_list' },
             { data: 'action', name: 'action', sortable: false, searchable: false }
-        ]
+        ],
+        order: [[2, 'asc']],
     });
 });
 </script>
