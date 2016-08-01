@@ -18,6 +18,16 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/sale', function () {
+    $products = \App\Product::paginate(8);
+
+    if (Request::ajax()) {
+        return Response::json(View::make('sales.products', array('products' => $products))->render());
+    }
+
+    return view('sales.index')->with(compact('products'));
+});
+
 Route::group([ 'middleware' => 'auth'], function () {
 
     Route::resource('business', 'BusinessController');
