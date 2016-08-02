@@ -23,7 +23,7 @@ class DatatableController extends Controller
         if ($isOwner) {
             return Datatables::eloquent(Business::findByUniqueId($businessId)->orders()->where('confirmed', false))
                 ->addColumn('checkboxes', function ($order) {
-                    return '<input type="checkbox" class="form-control" value="{{$order->id}}">';
+                    return '<input type="checkbox" value="'.$order->id.'">';
                 })
                 ->editColumn('buyer', function ($order) {
                     return '<a href="#" data-toggle="tooltip" data-placement="bottom" title="{{$order->buyer()->email}}">{{$order->buyer()->name}}</a>';
@@ -41,7 +41,7 @@ class DatatableController extends Controller
 
         if ($isOwner) {
             $businessTrueId = Business::findByUniqueId($businessId)->id;
-            return Datatables::of(Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price'])->where('business_id', $businessTrueId)->orderBy('created_at', 'asc'))
+            return Datatables::of(Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price', 'unique_id'])->where('business_id', $businessTrueId)->orderBy('created_at', 'asc'))
                 ->addColumn('checkboxes', function ($product) {
                     return '<input type="checkbox" value="'.$product->unique_id.'">';
                 })
@@ -86,8 +86,8 @@ class DatatableController extends Controller
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
         if ($isOwner) {
             return Datatables::eloquent(Business::findByUniqueId($businessId)->openOrders()->orderBy('start_at', 'desc'))
-                ->addColumn('checkboxes', function ($product) {
-                    return '<input type="checkbox" class="form-control" value="{{$product->id}}">';
+                ->addColumn('checkboxes', function ($sale) {
+                    return '<input type="checkbox" value="'.$sale->unique_id.'">';
                 })
                 ->editColumn('start_at', function ($sale) {
                     $date = Carbon::createFromFormat("Y-m-d H:i:s", $sale->start_at);
