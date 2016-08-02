@@ -2,7 +2,9 @@
 <div class="col-xs-6 col-sm-4 col-md-3 product-test">
     <div class="products">
         <div class="product-image-wrap">
+
             <img src="/images/no-picture.png" class="product-image" />
+
         </div>
 
         <a class="add-to-cart btn round btn-sm btn-primary"><i class="fa fa-plus"></i></a>

@@ -21,7 +21,6 @@ Route::get('/home', 'HomeController@index');
 Route::get('/email', function () {
     return view('mailing.usermail');
 });
-
 Route::get('/sale', function () {
     $products = \App\Product::paginate(8);
 
