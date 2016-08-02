@@ -312,6 +312,11 @@
 
 @section('script')
 <script>
+$('.product-list').on('click', '.add-to-cart', function () {
+    console.log($(this).attr('button-data'));
+});
+</script>
+<script>
     $(document).ready(function() {
         $(document).on('click', '.pagination a', function (e) {
             getPosts($(this).attr('href').split('page=')[1]);
@@ -323,9 +328,9 @@
             url : '?page=' + page,
             dataType: 'json',
         }).done(function (data) {
-            $('.product-list').fadeOut(400, function () {
+            $('.fader').fadeOut(400, function () {
                 $('.product-list').html(data);
-                $('.product-list').fadeIn(400);
+                $('.fader').fadeIn(400);
             })
         }).fail(function () {
             alert('Error loading product list');
