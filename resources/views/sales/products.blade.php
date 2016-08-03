@@ -6,7 +6,7 @@
         <div class="product-image-wrap">
             <img src="/images/no-picture.png" class="product-image" />
         </div>
-        <button type="button" class="add-to-cart btn round btn-sm btn-primary" button-data="{{ $product->unique_id }}"><i class="fa fa-plus"></i></button>
+        <button type="button" class="add-to-cart btn round btn-sm btn-add btn-primary" button-data="{{ $product->unique_id }}"><i class="fa fa-plus"></i></button>
         <div class="product-name-on-box">
             <div class="product-name">
                 {{ $product->product_name }}

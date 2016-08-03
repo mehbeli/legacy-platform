@@ -254,23 +254,40 @@
     <td class="individual-product-name">
     </td>
     <td class="select-quantity">
-        <input type="number" class="form-control" name="quantity" min="1" step="1" value="1">
+        <input type="number" class="form-control product-quantity" name="quantity" min="1" step="1" value="1">
     </td>
     <td class="individual-product-price">
     </td>
     <td class="individual-product-subtotal">
     </td>
     <td class="oo-del">
-        <i class="fa fa-close"></i>
+        <a class="delete-from-cart"><i class="fa fa-close"></i></a>
     </td>
 </tr>
 </script>
 <script>
 var cart = {};
 function checkCart() {
-
+    if (Object.keys(cart).length > 0) {
+        $('#nothing-here').hide();
+    } else {
+        $('#nothing-here').show();
+    }
 }
-$('.product-list').on('click', '.add-to-cart', function () {
+function checkCatalog() {
+    product_list = $('.fader').find('.add-to-cart')
+                            .removeClass('added')
+                            .removeClass('btn-success')
+                            .addClass('btn-primary')
+                            .addClass('btn-add')
+                            .html('<i class="fa fa-plus"></i>');
+
+    $.each(cart, function (index, value) {
+        $('#'+index).find('.add-to-cart').removeClass('btn-primary').removeClass('btn-add').addClass('btn-success').addClass('added').html('<i class="fa fa-check"></i>');
+    });
+}
+// add to cart
+$('.product-list').on('click', '.btn-add', function () {
     product_id = $(this).attr('button-data');
     product_name = $('#' + $(this).attr('button-data')).find('.product-name').text().replace(/^\s+|\s+$/g, "");
     product_price = $('#' + $(this).attr('button-data')).find('.product-price').text().replace(/^\s+|\s+$/g, "");
@@ -280,17 +297,27 @@ $('.product-list').on('click', '.add-to-cart', function () {
     clone.find('td.individual-product-name').html(product_name);
     clone.find('.individual-product-price').html(product_price);
     clone.find('.individual-product-subtotal').html(product_price);
+    clone.find('.delete-from-cart').attr('button-data', product_id);
 
-    //if (typeof(Storage) !== "undefined") {
-    cart[product_id] = [product_name, product_price];
-    console.log(JSON.stringify(cart));
-
-
-    /* } else {
+    cart[product_id] = [product_name, product_price, 1, product_price];
+    /*
+    if (typeof(Storage) !== "undefined") {
+        localStorage.setItem('unique_id', JSON.stringify(cart));
+    } else {
         // Sorry! No Web Storage support..
     }*/
 
     $('#cart').append('<tr>'+clone.html()+'</tr>');
+    checkCatalog();
+    checkCart();
+});
+// delete from cart
+$('#cart').on('click', '.delete-from-cart', function () {
+    product_id = $(this).attr('button-data');
+    delete cart[product_id];
+    $(this).parent().parent('tr').remove();
+    checkCatalog();
+    checkCart();
 });
 </script>
 <script>
@@ -308,6 +335,7 @@ $('.product-list').on('click', '.add-to-cart', function () {
             $('.fader').fadeOut(400, function () {
                 $('.product-list').html(data);
                 $('.fader').fadeIn(400);
+                checkCatalog();
             })
         }).fail(function () {
             alert('Error loading product list');
