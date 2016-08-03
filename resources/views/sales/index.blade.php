@@ -37,7 +37,7 @@
                             <table class="table table-open-order">
                                 <thead>
                                     <tr>
-                                        <th class="checkbox-column">
+                                        <th class="checkbox-column" style="width: 30px;">
 
                                         </th>
                                         <th>
@@ -46,86 +46,21 @@
                                         <th class="quantity-column">
                                             Quantity
                                         </th>
-                                        <th>
-                                            Price
+                                        <th style="width: 120px;">
+                                            Unit Price
+                                        </th>
+                                        <th style="width: 120px;">
+                                            Subtotal (net)
                                         </th>
                                         <th class="oo-del-head">
 
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td>
-                                            Tudung Bawal Bidang 40"
-                                        </td>
-                                        <td class="select-quantity">
-                                            <input type="text" class="form-control input-sm">
-                                        </td>
-                                        <td>
-                                            RM20
-                                        </td>
-                                        <td class="oo-del">
-                                            <i class="fa fa-close"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td>
-                                            Tudung Bawal Bidang 40"
-                                        </td>
-                                        <td class="select-quantity">
-                                            <select name="quantity" class="input-sm form-control">
-                                                <option>
-                                                    1
-                                                </option>
-                                                <option>
-                                                    2
-                                                </option>
-                                                <option>
-                                                    3
-                                                </option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            RM20
-                                        </td>
-                                        <td class="oo-del">
-                                            <i class="fa fa-close"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td>
-                                            Tudung Bawal Bidang 40"
-                                        </td>
-                                        <td class="select-quantity">
-                                            <select name="quantity" class="input-sm form-control">
-                                                <option>
-                                                    1
-                                                </option>
-                                                <option>
-                                                    2
-                                                </option>
-                                                <option>
-                                                    3
-                                                </option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            RM20
-                                        </td>
-                                        <td class="oo-del">
-                                            <i class="fa fa-close"></i>
-                                        </td>
-                                    </tr>
+                                <tbody id="cart">
+                                    <td colspan="5" id="nothing-here">
+                                        Nothing in your cart
+                                    </td>
                                 </tbody>
                             </table>
                         </div>
@@ -311,9 +246,51 @@
 @endsection
 
 @section('script')
+<script id="selectedProduct" type="text/x-custom-template">
+<tr>
+    <td>
+        <input type="checkbox" />
+    </td>
+    <td class="individual-product-name">
+    </td>
+    <td class="select-quantity">
+        <input type="number" class="form-control" name="quantity" min="1" step="1" value="1">
+    </td>
+    <td class="individual-product-price">
+    </td>
+    <td class="individual-product-subtotal">
+    </td>
+    <td class="oo-del">
+        <i class="fa fa-close"></i>
+    </td>
+</tr>
+</script>
 <script>
+var cart = {};
+function checkCart() {
+
+}
 $('.product-list').on('click', '.add-to-cart', function () {
-    console.log($(this).attr('button-data'));
+    product_id = $(this).attr('button-data');
+    product_name = $('#' + $(this).attr('button-data')).find('.product-name').text().replace(/^\s+|\s+$/g, "");
+    product_price = $('#' + $(this).attr('button-data')).find('.product-price').text().replace(/^\s+|\s+$/g, "");
+    clone = $('#selectedProduct').clone().html();
+    clone = $(clone);
+
+    clone.find('td.individual-product-name').html(product_name);
+    clone.find('.individual-product-price').html(product_price);
+    clone.find('.individual-product-subtotal').html(product_price);
+
+    //if (typeof(Storage) !== "undefined") {
+    cart[product_id] = [product_name, product_price];
+    console.log(JSON.stringify(cart));
+
+
+    /* } else {
+        // Sorry! No Web Storage support..
+    }*/
+
+    $('#cart').append('<tr>'+clone.html()+'</tr>');
 });
 </script>
 <script>
