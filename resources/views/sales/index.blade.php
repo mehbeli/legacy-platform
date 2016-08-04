@@ -286,6 +286,7 @@ function calculateTotalSubTotal() {
 
 $('.table-open-order').on('change', '.product-quantity', function () {
 
+    product_id = $(this).parent().parent('tr').find('.oo-del a').attr('button-data');
     cell = formCart.calx('getCell', $(this).attr('data-cell'));
     cell.setValue($(this).val());
 
