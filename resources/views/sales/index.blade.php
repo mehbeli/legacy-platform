@@ -29,7 +29,7 @@
 
                     </div>
                 </div>
-                <form class="form-horizontal">
+                <form id="cart-form" class="form-horizontal">
                     <div class="row">
                         <hr />
                         <div class="col-sm-12">
@@ -85,23 +85,7 @@
                                             Subtotal
                                         </td>
                                         <td>
-                                            RM20
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Discount (%)
-                                        </td>
-                                        <td>
-                                            RM1 (10%)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            VAT / GST (%)
-                                        </td>
-                                        <td>
-                                            RM1.20 (6%)
+                                            RM<span id="sub-total" data-cell="X1">0</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -109,15 +93,15 @@
                                             Shipping / Handling
                                         </td>
                                         <td>
-                                            RM20
+                                            RM<span id="shipping-handling" data-cell="X2">0</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             Grand Total
                                         </td>
-                                        <td class="oo-gt">
-                                            RM20
+                                        <td id="grand-total" class="oo-gt">
+                                            RM<span id="grand-total" data-cell="X3">0</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -246,6 +230,7 @@
 @endsection
 
 @section('script')
+<script src="/components/jquery-calx/jquery-calx-2.2.7.min.js"></script>
 <script id="selectedProduct" type="text/x-custom-template">
 <tr>
     <td>
@@ -254,11 +239,13 @@
     <td class="individual-product-name">
     </td>
     <td class="select-quantity">
-        <input type="number" class="form-control product-quantity" name="quantity" min="1" step="1" value="1">
+        <input type="number" class="form-control product-quantity input-sm" name="quantity" min="1" step="1" value="1">
     </td>
     <td class="individual-product-price">
+        RM<span class="sell-price"></span>
     </td>
     <td class="individual-product-subtotal">
+        RM<span class="subtotal-price"></span>
     </td>
     <td class="oo-del">
         <a class="delete-from-cart"><i class="fa fa-close"></i></a>
@@ -266,7 +253,9 @@
 </tr>
 </script>
 <script>
+var productInc = 0;
 var cart = {};
+var formCart = $('#cart-form').calx();
 function checkCart() {
     if (Object.keys(cart).length > 0) {
         $('#nothing-here').hide();
@@ -286,17 +275,42 @@ function checkCatalog() {
         $('#'+index).find('.add-to-cart').removeClass('btn-primary').removeClass('btn-add').addClass('btn-success').addClass('added').html('<i class="fa fa-check"></i>');
     });
 }
+
+function calculateTotalSubTotal() {
+    var total = 0;
+    for (item in cart) {
+        total += cart[item][3];
+    }
+    $('#sub-total').text(total);
+}
+
+$('.table-open-order').on('change', '.product-quantity', function () {
+
+    cell = formCart.calx('getCell', $(this).attr('data-cell'));
+    cell.setValue($(this).val());
+
+    cart[product_id][2] = $(this).val();
+
+    formCart.calx('update');
+    formCart.calx('calculate');
+    cart[product_id][3] = formCart.calx('getCell', 'S'+($(this).attr('data-cell')).substring(1)).getValue();
+    calculateTotalSubTotal();
+
+});
+
 // add to cart
 $('.product-list').on('click', '.btn-add', function () {
     product_id = $(this).attr('button-data');
     product_name = $('#' + $(this).attr('button-data')).find('.product-name').text().replace(/^\s+|\s+$/g, "");
-    product_price = $('#' + $(this).attr('button-data')).find('.product-price').text().replace(/^\s+|\s+$/g, "");
+    product_price = $('#' + $(this).attr('button-data')).find('.product-price').text().replace(/^\s+|\s+$/g, "").substring(2);
+    product_price = parseFloat(product_price);
     clone = $('#selectedProduct').clone().html();
     clone = $(clone);
 
     clone.find('td.individual-product-name').html(product_name);
-    clone.find('.individual-product-price').html(product_price);
-    clone.find('.individual-product-subtotal').html(product_price);
+    clone.find('.product-quantity').attr('data-cell', 'N'+productInc);
+    clone.find('.sell-price').attr('data-cell', 'P'+productInc).html(product_price);
+    clone.find('.subtotal-price').attr('data-cell', 'S'+productInc).attr('data-formula', '(N'+productInc+'*P'+productInc+')').html(product_price);
     clone.find('.delete-from-cart').attr('button-data', product_id);
 
     cart[product_id] = [product_name, product_price, 1, product_price];
@@ -310,6 +324,10 @@ $('.product-list').on('click', '.btn-add', function () {
     $('#cart').append('<tr>'+clone.html()+'</tr>');
     checkCatalog();
     checkCart();
+    formCart.calx('update');
+    formCart.calx('calculate');
+    productInc++;
+    calculateTotalSubTotal();
 });
 // delete from cart
 $('#cart').on('click', '.delete-from-cart', function () {
@@ -318,6 +336,7 @@ $('#cart').on('click', '.delete-from-cart', function () {
     $(this).parent().parent('tr').remove();
     checkCatalog();
     checkCart();
+    calculateTotalSubTotal();
 });
 </script>
 <script>
