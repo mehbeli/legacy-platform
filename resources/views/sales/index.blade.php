@@ -100,7 +100,7 @@
                                         <td>
                                             Grand Total
                                         </td>
-                                        <td id="grand-total" class="oo-gt">
+                                        <td class="oo-gt">
                                             RM<span id="grand-total" data-cell="X3">0</span>
                                         </td>
                                     </tr>
@@ -277,11 +277,16 @@ function checkCatalog() {
 }
 
 function calculateTotalSubTotal() {
-    var total = 0;
+    var subtotal = 0;
     for (item in cart) {
-        total += cart[item][3];
+        subtotal += cart[item][3];
     }
-    $('#sub-total').text(total);
+    $('#sub-total').text(subtotal);
+
+    grandTotal = parseFloat($('#sub-total').text()) + parseFloat($('#shipping-handling').text());
+
+    $('#grand-total').text(grandTotal);
+
 }
 
 $('.table-open-order').on('change', '.product-quantity', function () {
@@ -294,8 +299,8 @@ $('.table-open-order').on('change', '.product-quantity', function () {
 
     formCart.calx('update');
     formCart.calx('calculate');
-    cart[product_id][3] = formCart.calx('getCell', 'S'+($(this).attr('data-cell')).substring(1)).getValue();
     calculateTotalSubTotal();
+    cart[product_id][3] = formCart.calx('getCell', 'S'+($(this).attr('data-cell')).substring(1)).getValue();
 
 });
 
