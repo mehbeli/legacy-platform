@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <button type="button" class="btn-vd btn btn-block btn-sm btn-default">View Details</button>
+    <button type="button" class="btn-vd btn btn-block btn-sm btn-default" data-toggle="modal" data-target="#details-modal">View Details</button>
 </div>
 @endforeach
 

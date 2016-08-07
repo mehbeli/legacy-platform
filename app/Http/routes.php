@@ -23,11 +23,9 @@ Route::get('/email', function () {
 });
 Route::get('/sale', function () {
     $products = \App\Product::paginate(8);
-
     if (Request::ajax()) {
         return Response::json(View::make('sales.products', array('products' => $products))->render());
     }
-
     return view('sales.index')->with(compact('products'));
 });
 
@@ -44,6 +42,9 @@ Route::group([ 'middleware' => 'auth'], function () {
     Route::get('/data/products/{businessId}', 'DatatableController@getProducts');
     Route::get('/data/invoices/{businessId}', 'DatatableController@getInvoices');
     Route::get('/data/open-orders/{businessId}', 'DatatableController@getOpenOrders');
+
+    // Data Fetch
+    Route::get('/fetch/details/product', 'DataController@getProductDetails');
 
 });
 Route::get('/404', function () {

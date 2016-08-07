@@ -1,13 +1,17 @@
 @extends('layouts.base-sale')
 
+@section('vendor-css')
+<link rel="stylesheet" href="/components/bankMY-payment-webfont/bankmy.css">
+@endsection
+
 @section('content')
 <div class="container container-margin-open-order">
     <div class="col-sm-10 col-sm-offset-1">
         <div class="row">
             <!-- this will be pending features -->
-            <div class="login-button-username">
+            <!-- div class="login-button-username">
                 <span>Hakim Razalan <a href="#">(Logout)</a></span>
-            </div>
+            </div -->
         </div>
 
         <h4>Tudung Fareeda Itik</h4>
@@ -30,8 +34,9 @@
                     </div>
                 </div>
                 <form id="cart-form" class="form-horizontal">
-                    <div class="row">
+                    <div class="row" id="shop-list">
                         <hr />
+
                         <div class="col-sm-12">
                             <h5>Shopping Cart</h5>
                             <table class="table table-open-order">
@@ -77,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-5  table-oo-g-wrap">
+                        <div class="col-sm-5 table-oo-g-wrap">
                             <table class="table table-condensed table-oo-g">
                                 <tbody>
                                     <tr>
@@ -85,7 +90,7 @@
                                             Subtotal
                                         </td>
                                         <td>
-                                            RM<span id="sub-total" data-cell="X1">0</span>
+                                            RM<span id="sub-total" data-cell="X1" data-format="0.00">0.00</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -93,7 +98,7 @@
                                             Shipping / Handling
                                         </td>
                                         <td>
-                                            RM<span id="shipping-handling" data-cell="X2">0</span>
+                                            RM<span id="shipping-handling" data-cell="X2" data-format="0.00">0.00</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -101,7 +106,7 @@
                                             Grand Total
                                         </td>
                                         <td class="oo-gt">
-                                            RM<span id="grand-total" data-cell="X3">0</span>
+                                            RM<span class="grand-total" data-cell="X3" data-format="0.00">0.00</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -110,48 +115,58 @@
                     </div>
                     <div class="row address-row">
                         <hr />
-                        <div class="col-sm-6">
+                        <!-- div class="col-sm-12">
+                            <label for="returning-customer">Returning Customer?</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Enter Email Address">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                            </div>
+                            <hr />
+                        </div -->
+                        <div class="col-sm-6 oo-ba">
                             <h5>Billing Address</h5>
                             <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-3 oo-control-label control-label">Name</label>
+                                <label for="bil-name" class="col-sm-3 oo-control-label control-label">Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="Name">
+                                    <input type="text" class="form-control input-sm" id="bil-name" name="bil-name" placeholder="Name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">Address</label>
+                                <label for="bil-addr1" class="col-sm-3 oo-control-label control-label">Address</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Address">
+                                    <input type="text" class="form-control input-sm" id="bil-addr1" name="bil-addr1" placeholder="Address">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label"></label>
+                                <label for="bill-addr2" class="col-sm-3 oo-control-label control-label"></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="">
+                                    <input type="text" class="form-control input-sm"  id="bil-addr2" name="bill-addr2" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">Postcode</label>
+                                <label for="bil-postcode" class="col-sm-3 oo-control-label control-label">Postcode</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Postcode">
+                                    <input type="text" class="form-control input-sm" name="bil-postcode" id="bil-postcode" placeholder="Postcode">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">City</label>
+                                <label for="bil-city" class="col-sm-3 oo-control-label control-label">City</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="City">
+                                    <input type="text" class="form-control input-sm" name="bil-city" id="bil-city" placeholder="City">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">State</label>
+                                <label for="bil-state" class="col-sm-3 oo-control-label control-label">State</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="State">
+                                    <input type="text" class="form-control input-sm" id="bil-state" name="bil-state" placeholder="State">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">Country</label>
+                                <label for="bil-country" class="col-sm-3 oo-control-label control-label">Country</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Country">
+                                    <input type="text" class="form-control input-sm" id="bil-country" name="bil-country" placeholder="Country">
                                 </div>
                             </div>
 
@@ -166,60 +181,105 @@
                                     <div class="form-group">
                                         <div class="col-sm-9 col-sm-offset-3">
                                             <label>
-                                                <input type="checkbox" /> Same as Billing Address
+                                                <input id="same-as-bil" type="checkbox" /> Same as Billing Address
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-3 oo-control-label control-label">Name</label>
+                                <label for="dil-name" class="col-sm-3 oo-control-label control-label">Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="Name">
+                                    <input type="text" class="form-control input-sm" id="dil-name" name="dil-name" placeholder="Name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">Address</label>
+                                <label for="dil-addr1" class="col-sm-3 oo-control-label control-label">Address</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Address">
+                                    <input type="text" class="form-control input-sm" id="dil-addr1" name="dil-addr1" placeholder="Address">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label"></label>
+                                <label for="dil-addr2" class="col-sm-3 oo-control-label control-label"></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="">
+                                    <input type="text" class="form-control input-sm" name="dil-addr2" id="dil-addr2" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">Postcode</label>
+                                <label for="dil-postcode" class="col-sm-3 oo-control-label control-label">Postcode</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Postcode">
+                                    <input type="text" class="form-control input-sm" name="dil-postcode" id="dil-postcode" placeholder="Postcode">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">City</label>
+                                <label for="dil-city" class="col-sm-3 oo-control-label control-label">City</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="City">
+                                    <input type="text" class="form-control input-sm" name="dil-city" id="dil-city" placeholder="City">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">State</label>
+                                <label for="dil-state" class="col-sm-3 oo-control-label control-label">State</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="State">
+                                    <input type="text" class="form-control input-sm" id="dil-state" name="dil-state" placeholder="State">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 oo-control-label control-label">Country</label>
+                                <label for="dil-country" class="col-sm-3 oo-control-label control-label">Country</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Country">
+                                    <input type="text" class="form-control input-sm" name="dil-country" id="dil-country" placeholder="Country">
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="row oo-dil-pay" style="display: none;">
+                        <hr>
+                        <div class="col-sm-6">
+                            <label>Payment Methods</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="payment-method">Billplz (0% charge)
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="payment-method">Manual Deposit (Internet / CDM)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" id="oo-del-met">
+                            <label>Delivery Methods</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="delivery-method" value="courier" data-amount="6.00">Courier Service
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="delivery-method" value="selfpickup" data-amount="0.00">Self-pickup
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="delivery-method" value="cod" data-amount="6.00">Cash on Delivery
+                                    <div class="delivery-remark">
+                                        Limited to Puchong, Shah Alam, Serdang
+                                    </div>
+                                </label>
+                            </div>
+                            <br>
+                            <div class="grand-total-last well text-success">
+                                <b>Grand Total:</b>
+                                RM<span class="grand-total">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <hr />
-                        <div class="col-sm-12">
-                            <button type="button" class="btn btn-sm btn-primary pull-right">Submit Order</button>
+                        <div class="col-sm-12 btn-field">
+                            <button type="button" id="back" class="btn btn-sm btn-primary back-shop" disabled><i class="fa-chevron-left fa"></i> Back</button>
+                            <button type="button" id="next" class="btn btn-sm btn-primary pull-right next-dil">Next <i class="fa-chevron-right fa"></i></button>
                         </div>
                     </div>
                 </form>
@@ -256,11 +316,15 @@
 var productInc = 0;
 var cart = {};
 var formCart = $('#cart-form').calx();
-function checkCart() {
+function checkCart(btnclick = false) {
     if (Object.keys(cart).length > 0) {
         $('#nothing-here').hide();
     } else {
         $('#nothing-here').show();
+        if (btnclick) {
+            swal("Ooops!", "Your cart is empty. Add item to proceed", "warning");
+            return false;
+        }
     }
 }
 function checkCatalog() {
@@ -281,11 +345,10 @@ function calculateTotalSubTotal() {
     for (item in cart) {
         subtotal += cart[item][3];
     }
-    $('#sub-total').text(subtotal);
+    $('#sub-total').text(subtotal.toFixed(2));
 
     grandTotal = parseFloat($('#sub-total').text()) + parseFloat($('#shipping-handling').text());
-
-    $('#grand-total').text(grandTotal);
+    $('.grand-total').text(grandTotal.toFixed(2));
 
 }
 
@@ -299,13 +362,18 @@ $('.table-open-order').on('change', '.product-quantity', function () {
 
     formCart.calx('update');
     formCart.calx('calculate');
-    calculateTotalSubTotal();
     cart[product_id][3] = formCart.calx('getCell', 'S'+($(this).attr('data-cell')).substring(1)).getValue();
+    calculateTotalSubTotal();
 
 });
 
 // add to cart
 $('.product-list').on('click', '.btn-add', function () {
+
+    if ($('#shop-list').is(':visible') === false) {
+        backToList();
+    }
+
     product_id = $(this).attr('button-data');
     product_name = $('#' + $(this).attr('button-data')).find('.product-name').text().replace(/^\s+|\s+$/g, "");
     product_price = $('#' + $(this).attr('button-data')).find('.product-price').text().replace(/^\s+|\s+$/g, "").substring(2);
@@ -343,6 +411,102 @@ $('#cart').on('click', '.delete-from-cart', function () {
     checkCatalog();
     checkCart();
     calculateTotalSubTotal();
+});
+
+$('.btn-field').on('click', '.next-dil', function () {
+    if (checkCart(true) === false) {
+        return false;
+    }
+
+    $('.back-shop').prop('disabled', false);
+    $('#shop-list').fadeOut(0);
+    $('.address-row').fadeIn(400);
+    $(this).removeClass('next-dil').addClass('next-order-submit');
+});
+
+$('.btn-field').on('click', '.back-shop', function () {
+    $(this).prop('disabled', true);
+    $('.address-row').fadeOut(0);
+    $('#shop-list').fadeIn(400);
+    $('.next-order-submit').removeClass('next-order-submit').addClass('next-dil');
+});
+
+function backToList() {
+    $(this).prop('disabled', true);
+    $('.address-row').hide();
+    $('.oo-dil-pay').hide();
+    $('#shop-list').fadeIn(400);
+    nextbtn = 'Next <i class="fa fa-chevron-right"></i>';
+    $('#next')
+        .removeClass('next-order-submit')
+        .removeClass('btn-success')
+        .addClass('next-dil')
+        .addClass('btn-primary')
+        .html(nextbtn);
+    $('#back')
+        .removeClass('back-dil')
+        .addClass('back-shop')
+        .prop('disabled', true);
+}
+
+$('.btn-field').on('click', '.back-dil', function () {
+    $('.address-row').fadeIn(400);
+    $('.oo-dil-pay').fadeOut(0);
+    nextbtn = 'Next <i class="fa fa-chevron-right"></i>';
+    $('#next').removeClass('btn-success').addClass('btn-primary').html(nextbtn);
+    $(this).removeClass('back-dil').addClass('back-shop');
+});
+
+$('.btn-field').on('click', '.next-order-submit', function () {
+    $('.address-row').fadeOut(0);
+    $('.oo-dil-pay').fadeIn(400);
+    $('.back-shop').addClass('back-dil').removeClass('back-shop');
+    submitbtn = 'Submit Order <i class="fa fa-check"></i>';
+    $(this).html(submitbtn);
+    $(this).removeClass('btn-primary').addClass('btn-success');
+});
+
+$('#oo-del-met').on('change', 'input[name=delivery-method]', function () {
+    shipping = $(this).attr('data-amount');
+    formCart.calx('getCell', 'X2').setValue(parseFloat(shipping));
+    $('#shipping-handling').text(shipping);
+    formCart.calx('update');
+    formCart.calx('calculate');
+    calculateTotalSubTotal();
+});
+
+$('.product-list').on('click', '.btn-vd', function () {
+    $.get(
+        '/fetch/details/product',
+        { product_id: $(this).prev().attr('id') }
+    ).done(function (data) {
+        console.log(data);
+    });
+})
+
+</script>
+<script>
+function copyAddress() {
+    $('#dil-name').val($('#bil-name').val());
+    $('#dil-addr1').val($('#bil-addr1').val());
+    $('#dil-addr2').val($('#bil-addr2').val());
+    $('#dil-postcode').val($('#bil-postcode').val());
+    $('#dil-city').val($('#bil-city').val());
+    $('#dil-state').val($('#bil-state').val());
+    $('#dil-country').val($('#bil-country').val());
+
+}
+$('#same-as-bil').on('change', function () {
+    if ($(this).is(':checked')) {
+        $('.oo-da').find('input').not('#same-as-bil').prop('readonly', true);
+        copyAddress();
+        $('.oo-ba').on('change', 'input', function () {
+            copyAddress();
+        });
+    } else {
+        $('.oo-da').find('input').prop('readonly', false);
+        $('.oo-ba').off();
+    }
 });
 </script>
 <script>

@@ -488,6 +488,7 @@
 
 .table-open-order .oo-del {
     text-align: right;
+    cursor:pointer;
 }
 
 .table-open-order .oo-del-head {
@@ -700,4 +701,13 @@
 }
 .select-info .select-item:after {
     content: ')';
+}
+
+.delivery-remark {
+    font-weight: normal;
+    font-size: 10px;
+}
+
+.grand-total-last {
+    font-size: 16px;
 }

@@ -37,7 +37,7 @@
     @yield('content')
 
     <div class="open-table-footer">
-        &copy; Copyright 2016. Powered by Segler
+        &copy; Copyright 2016. Powered by Jejual
     </div>
 
     <!-- Modal -->
@@ -52,8 +52,8 @@
                     ...
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success">Add to Cart</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
