@@ -12,7 +12,9 @@ class CreateOpenSaleSetting extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('open_order_settings', function (Blueprint $table) {
+            $table->increments('id');
+        });
     }
 
     /**
