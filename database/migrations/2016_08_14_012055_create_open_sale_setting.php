@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateProductStocksTableAddImagePath extends Migration
+class CreateOpenSaleSetting extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,7 @@ class UpdateProductStocksTableAddImagePath extends Migration
      */
     public function up()
     {
-        Schema::table('product_stocks', function (Blueprint $table) {
-            $table->string('image')->nullable();
-        });
+        //
     }
 
     /**
@@ -24,8 +22,6 @@ class UpdateProductStocksTableAddImagePath extends Migration
      */
     public function down()
     {
-        Schema::table('product_stocks', function (Blueprint $table) {
-            $table->dropColumn('image');
-        });
+        //
     }
 }

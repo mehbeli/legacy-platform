@@ -311,7 +311,7 @@ Checkboxes.prototype = {
             }
          });
       }
-      
+
       if(nodes.length){
          // If Select extension is available
          if(DataTable.select){

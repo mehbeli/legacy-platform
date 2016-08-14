@@ -21,13 +21,19 @@ class OpenOrderController extends Controller
         return view('open-orders.index')->with('business', $business);
     }
 
-    public function view($salesId) {
-        // implement $salesId
+    public function show($businessId, $salesId) {
+        $open_order = OpenOrder::where('sale_url', $salesId)->first();
+        $business = Business::findByUniqueId($businessId);
+        return view('open-orders.show')->with('openorder', $open_order)->with('business', $business);
     }
 
     public function create($businessId) {
         $business = Business::findByUniqueId($businessId);
         return view('open-orders.create')->with('business', $business);
+    }
+
+    public function update(Request $request, $businessId) {
+        return $businessId;
     }
 
     public function store(Request $request, $businessId) {

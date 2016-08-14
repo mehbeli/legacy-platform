@@ -48,15 +48,15 @@ hr {
                             Title
                         </th>
                         <th>
-                            Start Date & Time
+                            Start
                         </th>
                         <th>
-                            End Date & Time
+                            End
                         </th>
                         <th>
-                            No. of Products
+                            Product(s)
                         </th>
-                        <th>
+                        <th style="width: 190px;">
 
                         </th>
                     </tr>

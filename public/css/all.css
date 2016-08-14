@@ -712,4 +712,14 @@
     font-size: 16px;
 }
 
+table.dataTable tbody>tr.selected,
+table.dataTable tbody>tr>.selected {
+    background-color: rgba(0, 136, 204, 0.62);
+}
+
+table.dataTable tbody tr.selected a,
+table.dataTable tbody th.selected a, table.dataTable tbody td.selected a {
+    color: #333;
+}
+
 /*# sourceMappingURL=all.css.map */

@@ -10,6 +10,7 @@ use Yajra\Datatables\Facades\Datatables;
 
 use App\Business;
 use App\Product;
+use App\OpenOrder;
 use Carbon\Carbon;
 
 class DatatableController extends Controller
@@ -41,9 +42,16 @@ class DatatableController extends Controller
 
         if ($isOwner) {
             $businessTrueId = Business::findByUniqueId($businessId)->id;
-            return Datatables::of(Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price', 'unique_id'])->where('business_id', $businessTrueId)->orderBy('created_at', 'asc'))
-                ->addColumn('checkboxes', function ($product) {
-                    return '<input type="checkbox" value="'.$product->unique_id.'">';
+            $query = Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price', 'unique_id'])->where('business_id', $businessTrueId)->orderBy('created_at', 'asc');
+            $open_order_products = [];
+            if (isset($request->openorder)) {
+                $open_order_products = OpenOrder::where('sale_url', $request->openorder)->first()->products_list;
+                $open_order_products = json_decode($open_order_products);
+            }
+            return Datatables::of($query)
+                ->addColumn('checkboxes', function ($product) use ($open_order_products) {
+                    $checked = (in_array($product->unique_id, $open_order_products)) ? 'checked' : null;
+                    return '<input type="checkbox" value="'.$product->unique_id.'" '.$checked.'>';
                 })
                 ->addColumn('action', function ($product) use ($businessId) {
                     $csrf = csrf_field();
@@ -100,8 +108,9 @@ class DatatableController extends Controller
                     $lists = json_decode($sale->products_list);
                     return count($lists);
                 })
-                ->addColumn('action', function ($sale) {
-                    return 'delete';
+                ->addColumn('action', function ($sale) use ($businessId) {
+                    $csrf = csrf_field();
+                    return '<form action="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <a href="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" style="margin-left: 5px;" class="btn btn-xs btn-warning pull-right">Deactivate</a> <a href="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
                 ->make(true);
         } else {
