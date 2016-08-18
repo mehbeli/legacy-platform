@@ -49,11 +49,11 @@ class DatatableController extends Controller
                 $open_order_products = json_decode($open_order_products);
             }
             return Datatables::of($query)
-                ->addColumn('checkboxes', function ($product) use ($open_order_products) {
+                ->addColumn('checkboxes', function ($product) {
                     //$checked = (in_array($product->unique_id, $open_order_products)) ? 'checked' : null;
                     return $product->unique_id;
                 })
-                ->addColumn('action', function ($product) use ($businessId) {
+                ->addColumn('actions', function ($product) use ($businessId) {
                     $csrf = csrf_field();
                     return '<form action="/business/'.$businessId.'/products/'.$product->unique_id.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <a href="/business/'.$businessId.'/products/'.$product->unique_id.'" class="btn btn-xs btn-default pull-right">Details</a>';
                 })

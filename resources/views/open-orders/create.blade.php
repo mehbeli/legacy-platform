@@ -91,8 +91,13 @@ hr {
             </div>
             <hr />
             <div class="table-top">
-                <span class="title">Products</span>
-                <span class="info">* Select products to be included in your sale</span>
+                <div class="col-xs-8">
+                    <span class="title">Products</span>
+                    <span class="info">* Select products to be included in your sale</span>
+                </div>
+                <div class="col-xs-4">
+                    ayam
+                </div>
                 <div class="validation-product"></div>
             </div>
             <table id="products-table" class="table">
@@ -168,6 +173,9 @@ hr {
 @endsection
 
 @section('script')
+<script src="/components/datatables-checkbox/js/dataTables.checkboxes.min.js"></script>
+<script src="/components/momentjs/moment.js"></script>
+<script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script>
 $(function() {
 

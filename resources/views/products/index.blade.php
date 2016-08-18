@@ -58,22 +58,22 @@ hr {
 
             <!-- Table -->
 
-            <table id="products-table" class="table">
+            <table id="products-table" class="table" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>
+
                         </th>
                         <th>
                             Product Name
                         </th>
                         <th>
-                            Price (RM)
-                        </th>
-                        <th>
                             Quantity
                         </th>
+                        <th>
+                            Price
+                        </th>
                         <th style="width: 110px;">
-
                         </th>
                     </tr>
                 </thead>
@@ -108,14 +108,14 @@ $(function() {
     $('#products-table').DataTable({
         processing: true,
         serverSide: true,
-        responsive: true,
+        //responsive: true,
         ajax: "{{ url('/data/products/'.$business->unique_id) }}",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'product_name', name: 'product_name' },
             { data: 'selling_price', name: 'selling_price' },
             { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
-            { data: 'action', name: 'action', sortable: false, searchable: false }
+            { data: 'actions', name: 'actions', sortable: false, searchable: false }
         ],
         columnDefs: [
             {

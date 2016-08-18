@@ -15,6 +15,10 @@ span.check-mark {
     border-radius: 0 !important;
 }
 
+.dataTables_info .select-info {
+    display: none;
+}
+
 hr {
     margin-top: 5px;
 }
@@ -91,8 +95,15 @@ hr {
             </div>
             <hr />
             <div class="table-top">
-                <span class="title">Products</span>
-                <span class="info">* Select products to be included in your sale</span>
+                <div class="row">
+                <div class="col-xs-8">
+                    <span class="title">Products</span>
+                    <span class="info">* Select products to be included in your sale</span>
+                </div>
+                <div class="col-xs-4" style="text-align: right; padding-right: 25px">
+                    <span class="no-product label label-primary"></span>
+                </div>
+            </div>
                 <div class="validation-product"></div>
             </div>
             <table id="products-table" class="table">
@@ -181,6 +192,8 @@ $(function() {
 <script>
 $(document).ready(function () {
     var default_selected = {!! json_encode(json_decode($openorder->products_list)) !!};
+    $('.no-product').html(default_selected.length + " Product selected");
+
     var table = $('#products-table').DataTable({
         processing: true,
         serverSide: true,
@@ -225,16 +238,18 @@ $(document).ready(function () {
 
     table.on('select', function (e, dt, type, indexes) {
         var thisVal = dt.data();
-        if (default_selected.indexOf(thisVal[0]['unique_id']) < 0) {
-            default_selected.push(thisVal[0]['unique_id']);
+        if (default_selected.indexOf(thisVal.unique_id) < 0 && thisVal.unique_id !== undefined) {
+            default_selected.push(thisVal.unique_id);
         }
+        $('.no-product').html(default_selected.length + " Product selected");
     });
 
     table.on('deselect', function (e, dt, type, indexes) {
         var thisVal = dt.data();
-        if (default_selected.indexOf(thisVal[0]['unique_id']) > -1) {
-            default_selected.splice(default_selected.indexOf(thisVal[0]['unique_id']), 1);
+        if (default_selected.indexOf(thisVal.unique_id) > -1) {
+            default_selected.splice(default_selected.indexOf(thisVal.unique_id), 1);
         }
+        $('.no-product').html(default_selected.length + " Product selected");
     });
 
     $('#openOrder').on('submit', function(e){
