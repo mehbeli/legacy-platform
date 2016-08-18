@@ -38,19 +38,6 @@ class OpenOrderController extends Controller
 
     public function store(Request $request, $businessId) {
         $all = $request->all();
-        $products = [];
-        foreach ($all['products_list'] as $product) {
-            $dom = new \DOMDocument();
-            $dom->loadHTML($product);
-
-            if(!empty($dom)){ //if any html is actually returned
-                $full_dom = $dom->getElementsByTagName("input");
-                foreach ($full_dom as $node_list) {
-                    $products[] = $node_list->getAttribute("value");
-                }
-
-            }
-        }
 
         $business = Business::findByUniqueId($businessId);
         $openOrder = new OpenOrder;
@@ -60,7 +47,7 @@ class OpenOrderController extends Controller
             if (!empty($request->end_at)) {
                 $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
             }
-            $openOrder->products_list = json_encode($products_list);
+            $openOrder->products_list = json_encode($request->products_list);
             $openOrder->sale_url = str_slug($request->sale_url, '-');
             $openOrder->business()->associate($business);
             $openOrder->save();

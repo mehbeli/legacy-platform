@@ -116,7 +116,24 @@ $(function() {
             { data: 'selling_price', name: 'selling_price' },
             { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
             { data: 'action', name: 'action', sortable: false, searchable: false }
-        ]
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                searchable: false,
+                orderable: false,
+                className: 'dt-body-center',
+                render: function (data, type, full, meta){
+                    return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                },
+                checkboxes: { selectRow: true }
+            }
+        ],
+        select: {
+            style: 'multi',
+            selector: 'td:first-child'
+        },
+        order: [[1, 'asc']],
     });
 });
 </script>

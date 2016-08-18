@@ -50,8 +50,8 @@ class DatatableController extends Controller
             }
             return Datatables::of($query)
                 ->addColumn('checkboxes', function ($product) use ($open_order_products) {
-                    $checked = (in_array($product->unique_id, $open_order_products)) ? 'checked' : null;
-                    return '<input type="checkbox" value="'.$product->unique_id.'" '.$checked.'>';
+                    //$checked = (in_array($product->unique_id, $open_order_products)) ? 'checked' : null;
+                    return $product->unique_id;
                 })
                 ->addColumn('action', function ($product) use ($businessId) {
                     $csrf = csrf_field();

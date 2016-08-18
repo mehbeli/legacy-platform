@@ -121,6 +121,9 @@
     <script src="/components/bootstrap-select/js/bootstrap-select.min.js"></script>
     <script src="/components/sweetalert/sweetalert.min.js"></script>
     <script src="/components/parsleyjs/parsley.min.js"></script>
+    <script src="/components/datatables-checkbox/js/dataTables.checkboxes.min.js"></script>
+    <script src="/components/momentjs/moment.js"></script>
+    <script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
     @yield('script')
 </body>
 </html>

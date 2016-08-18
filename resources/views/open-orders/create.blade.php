@@ -168,9 +168,6 @@ hr {
 @endsection
 
 @section('script')
-<script src="/components/datatables-checkbox/js/dataTables.checkboxes.min.js"></script>
-<script src="/components/momentjs/moment.js"></script>
-<script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script>
 $(function() {
 
