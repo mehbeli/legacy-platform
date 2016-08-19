@@ -96,7 +96,6 @@ hr {
                     <span class="info">* Select products to be included in your sale</span>
                 </div>
                 <div class="col-xs-4">
-                    ayam
                 </div>
                 <div class="validation-product"></div>
             </div>

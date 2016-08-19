@@ -62,4 +62,25 @@ class OpenOrderController extends Controller
         }
     }
 
+    public function postToggle(Request $request, $businessId) {
+        $status = $request->status;
+        $open_order = $request->sale;
+
+        $business = Business::findByUniqueId($businessId);
+        $open_sale = OpenOrder::findByURL($open_order);
+
+        if ($business->id !== $open_sale->business_id) {
+            return 'jubur lu';
+        }
+
+        if ($status == 'deactivate') {
+            $open_sale->update([ 'active' => 0 ]);
+        } else {
+            $open_sale->update([ 'active' => 1 ]);
+        }
+
+        return response()->json([ 'status' => true ]);
+
+    }
+
 }

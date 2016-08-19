@@ -16,6 +16,12 @@ hr {
 .dt-bootstrap {
     padding-top: 15px;
 }
+.product-btn .dropdown-menu>li>a {
+    padding: 5px 10px;
+}
+.product-btn .dropdown-menu>li>a .fa {
+    margin-right: 5px;
+}
 </style>
 @endsection
 
@@ -56,7 +62,7 @@ hr {
                         <th>
                             Product(s)
                         </th>
-                        <th style="width: 190px;">
+                        <th style="width: 50px;">
 
                         </th>
                     </tr>
@@ -89,6 +95,12 @@ hr {
 
 @section('script')
 <script>
+$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+});
+
 $(function() {
     $('#opened-order-table').DataTable({
         processing: true,
@@ -104,6 +116,32 @@ $(function() {
             { data: 'action', name: 'action', sortable: false, searchable: false }
         ],
         order: [[2, 'asc']],
+    });
+});
+
+$('#opened-order-table').on('click', '.btn-active-deactive', function () {
+    var current = $(this);
+    swal({
+        title: "Are you sure?",
+        text: "Your are about to "+ current.find('.text-in').html().toLowerCase() +" your sale",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, " + current.find('.text-in').html().toLowerCase(),
+        closeOnConfirm: false }, function(){
+            swal(current.find('.text-in').html()+'d!', "Your sale have been deactivated", "success");
+            $.post('/business/{{ $business->unique_id }}/open-orders/toggle-status',
+                { sale: current.attr('data-button'), status: current.find('.text-in').html().toLowerCase() })
+                .done(function (data) {
+                    current_status = data['current_status'];
+                });
+            if (current.find('.text-in').html() == 'Deactivate') {
+                current.parent().parent().parent().find('.dropdown-toggle').addClass('btn-warning').removeClass('btn-success');
+                current.find('.text-in').html('Activate');
+            } else {
+                current.parent().parent().parent().find('.dropdown-toggle').addClass('btn-success').removeClass('btn-warning');
+                current.find('.text-in').html('Deactivate');
+            }
     });
 });
 </script>

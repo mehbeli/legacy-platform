@@ -37,6 +37,9 @@ Route::group([ 'middleware' => 'auth'], function () {
     Route::resource('business.products', 'ProductController');
     Route::resource('business.open-orders', 'OpenOrderController');
 
+    // Custom Route
+    Route::post('/business/{business}/open-orders/toggle-status', 'OpenOrderController@postToggle');
+
     // Datatables
     Route::get('/data/orders/{businessId}', 'DatatableController@getOrders');
     Route::get('/data/products/{businessId}', 'DatatableController@getProducts');

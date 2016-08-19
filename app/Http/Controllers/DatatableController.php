@@ -110,7 +110,28 @@ class DatatableController extends Controller
                 })
                 ->addColumn('action', function ($sale) use ($businessId) {
                     $csrf = csrf_field();
-                    return '<form action="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <a href="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" style="margin-left: 5px;" class="btn btn-xs btn-warning pull-right">Deactivate</a> <a href="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" class="btn btn-xs btn-default pull-right">Details</a>';
+                    $btn = [];
+                    if ($sale->active) {
+                        $btn['class'] = 'btn-success';
+                        $btn['html'] = 'Deactivate';
+                    } else {
+                        $btn['class'] = 'btn-warning';
+                        $btn['html'] = 'Activate';
+                    }
+
+                    return '<div class="btn-group product-btn">
+                      <button type="button" class="btn '.$btn['class'].' btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-chevron-down"></i>
+                      </button>
+                      <ul class="dropdown-menu">
+                      <li><a href="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'"><i class="fa fa-eye fa-fw"></i> Details</a></li>
+                      <li role="separator" class="divider"></li>
+                        <li><a href="#"><form action="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><i class="fa fa-minus-circle fa-fw"></i> Delete</form></a></li>
+                        <li><a href="#" class="btn-active-deactive" data-button="'.$sale->sale_url.'"><i class="fa fa-warning fa-fw"></i> <span class="text-in">'.$btn['html'].'</span></a></li>
+                      </ul>
+                    </div>';
+
+                    //return '<form action="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <button style="margin-left: 5px;" data-button="'.$sale->sale_url.'" class="btn btn-xs btn-active-deactive '.$btn['class'].' pull-right">'.$btn['html'].'</button> <a href="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
                 ->make(true);
         } else {
