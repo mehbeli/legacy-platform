@@ -50,6 +50,9 @@ hr {
                     <tr>
                         <th>
                         </th>
+                        <th style="width: 20px;">
+
+                        </th>
                         <th>
                             Title
                         </th>
@@ -109,13 +112,14 @@ $(function() {
         ajax: "{{ url('/data/open-orders/'.$business->unique_id) }}",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
+            { data: 'status', name: 'status', sortable: false, searchable: false },
             { data: 'title', name: 'title' },
             { data: 'start_at', name: 'start_at', sortable: true },
             { data: 'end_at', name: 'end_at', sortable: true },
             { data: 'products_list', name: 'products_list' },
             { data: 'action', name: 'action', sortable: false, searchable: false }
         ],
-        order: [[2, 'asc']],
+        order: [[3, 'asc']],
     });
 });
 
@@ -129,17 +133,25 @@ $('#opened-order-table').on('click', '.btn-active-deactive', function () {
         confirmButtonColor: "#DD6B55",
         confirmButtonText: "Yes, " + current.find('.text-in').html().toLowerCase(),
         closeOnConfirm: false }, function(){
-            swal(current.find('.text-in').html()+'d!', "Your sale have been deactivated", "success");
+            swal({
+                title: current.find('.text-in').html()+'d!',
+                text: "Your sale have been "+current.find('.text-in').html().toLowerCase(),
+                type: "success",
+                timer: 1500,
+                showConfirmButton: false
+            });
             $.post('/business/{{ $business->unique_id }}/open-orders/toggle-status',
                 { sale: current.attr('data-button'), status: current.find('.text-in').html().toLowerCase() })
                 .done(function (data) {
                     current_status = data['current_status'];
                 });
             if (current.find('.text-in').html() == 'Deactivate') {
-                current.parent().parent().parent().find('.dropdown-toggle').addClass('btn-warning').removeClass('btn-success');
+                console.log(current.parent().parent().parent().parent().parent().find('.fa-status'));
+                current.parent().parent().parent().parent().parent().find('.fa-status').addClass('text-danger').removeClass('text-success').removeClass('fa-check-circle').addClass('fa-times-circle');
                 current.find('.text-in').html('Activate');
             } else {
-                current.parent().parent().parent().find('.dropdown-toggle').addClass('btn-success').removeClass('btn-warning');
+                console.log(current.parent().parent().parent().parent().parent().find('.fa-status'));
+                current.parent().parent().parent().parent().parent().find('.fa-status').addClass('text-success').removeClass('text-danger').removeClass('fa-times-circle').addClass('fa-check-circle');
                 current.find('.text-in').html('Deactivate');
             }
     });

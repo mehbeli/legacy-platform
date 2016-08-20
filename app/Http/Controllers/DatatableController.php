@@ -108,19 +108,26 @@ class DatatableController extends Controller
                     $lists = json_decode($sale->products_list);
                     return count($lists);
                 })
+                ->addColumn('status', function ($sale) {
+                    if ($sale->active) {
+                        $status = "fa-check-circle text-success";
+                    } else {
+                        $status = "fa-times-circle text-danger";
+                    }
+
+                    return '<i class="fa-status fa '.$status.'"></i>';
+                })
                 ->addColumn('action', function ($sale) use ($businessId) {
                     $csrf = csrf_field();
                     $btn = [];
                     if ($sale->active) {
-                        $btn['class'] = 'btn-success';
                         $btn['html'] = 'Deactivate';
                     } else {
-                        $btn['class'] = 'btn-warning';
                         $btn['html'] = 'Activate';
                     }
 
                     return '<div class="btn-group product-btn">
-                      <button type="button" class="btn '.$btn['class'].' btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <button type="button" class="btn btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-chevron-down"></i>
                       </button>
                       <ul class="dropdown-menu">
