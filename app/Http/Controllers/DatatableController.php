@@ -130,7 +130,7 @@ class DatatableController extends Controller
                       <button type="button" class="btn btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-chevron-down"></i>
                       </button>
-                      <ul class="dropdown-menu">
+                      <ul class="dropdown-menu dropdown-righter">
                       <li><a href="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'"><i class="fa fa-eye fa-fw"></i> Details</a></li>
                       <li role="separator" class="divider"></li>
                         <li><a href="#"><form action="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><i class="fa fa-minus-circle fa-fw"></i> Delete</form></a></li>

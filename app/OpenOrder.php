@@ -20,7 +20,6 @@ class OpenOrder extends Model
         'products_list' => 'required',
         'start_at' => 'required',
         'sale_url' => 'required',
-        'active' => 'required'
     ];
 
     public function business() {

@@ -60,7 +60,7 @@ hr {
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea name="descriptions" class="form-control" placeholder="Sale Description" rows="5" required>{{ old('description') }}</textarea>
+                            <textarea name="descriptions" class="form-control" placeholder="Sale Description" rows="5" required>{{ old('descriptions') }}</textarea>
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -128,7 +128,7 @@ hr {
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Start Date & Time</label>
-                                    <input type="text" name="start_at" id="start_date" class="form-control" value="{{ old('start_at') }}" placeholder="Sale start date & time">
+                                    <input type="text" name="start_at" id="start_date" class="form-control" value="{{ old('start_at') }}" placeholder="Sale start date & time" required>
                                 </div>
                             </div>
                         </div>

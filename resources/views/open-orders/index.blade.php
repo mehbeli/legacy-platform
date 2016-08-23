@@ -45,7 +45,7 @@ hr {
             </div>
             <!-- Table -->
 
-            <table id="opened-order-table" class="table">
+            <table id="opened-order-table" class="table responsive display nowrap" width="100%">
                 <thead>
                     <tr>
                         <th>
@@ -108,7 +108,9 @@ $(function() {
     $('#opened-order-table').DataTable({
         processing: true,
         serverSide: true,
-        responsive: true,
+        responsive: {
+            details: false
+        },
         ajax: "{{ url('/data/open-orders/'.$business->unique_id) }}",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },

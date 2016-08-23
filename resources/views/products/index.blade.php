@@ -150,7 +150,7 @@ $('#products-table').on('click', '.btn-delete', function () {
         closeOnConfirm: false }, function(){
             swal("Deleted!", "Your Product has been deleted.", "success");
             current.parent('form').submit();
-        });
+    });
 });
 </script>
 @endsection

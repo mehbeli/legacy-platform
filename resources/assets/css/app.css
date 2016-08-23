@@ -250,7 +250,7 @@
         padding-right: 15px;
     }
 
-    /* dropdown menu arrow */
+    /* dropdown menu arrow  */
     .dropdown-menu:before {
         position: absolute;
         top: -7px;
@@ -272,6 +272,19 @@
         border-bottom: 6px solid #ffffff;
         border-left: 6px solid transparent;
         content: '';
+    }
+    
+    .dropdown-righter {
+        left: auto !important;
+        right: 0  !important;
+    }
+
+    .dropdown-righter:before {
+        left: 140px !important;
+    }
+
+    .dropdown-righter:after {
+        left: 141px !important;
     }
 
     .dropdown-menu {
