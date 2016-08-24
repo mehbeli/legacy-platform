@@ -14,6 +14,7 @@ class CreateOpenSaleSetting extends Migration
     {
         Schema::create('open_order_settings', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('options'); // options in array ?
         });
     }
 
@@ -24,6 +25,6 @@ class CreateOpenSaleSetting extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('open_order_settings');
     }
 }

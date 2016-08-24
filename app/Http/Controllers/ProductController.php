@@ -57,7 +57,7 @@ class ProductController extends Controller
 
     public function update(Request $request, $businessId, $productId) {
         $business = Business::findByUniqueId($businessId);
-        $product = Product::findByUniqueId($productId);
+        $product = $business->products()->where('unique_id', $productId)->first();
 
         if ($product->validate($request->all())) {
 

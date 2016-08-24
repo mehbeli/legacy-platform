@@ -41,9 +41,17 @@ hr {
         <div class="panel panel-default from-menu">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px; padding-bottom: 7.5px">Open Sale</h4>
+                <div class="pull-right">
+                    @if ($openorder->active)
+                        <span class="label label-success"><b>ACTIVE</b></span>
+                    @else
+                        <span class="label label-warning"><b>INACTIVE</b></span>
+                    @endif
+                </div>
             </div>
-            <form class="form" id="openOrder" action="{{ action('OpenOrderController@store', [ 'business' => $business->unique_id ]) }}" method="POST">
+            <form class="form" id="openOrder" action="{{ action('OpenOrderController@update', [ 'business' => $business->unique_id, 'sale_url' => $openorder->sale_url ]) }}" method="POST">
             {{ csrf_field() }}
+            <input type="hidden" name="_method" value="PUT">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-12">
@@ -151,7 +159,7 @@ hr {
                 </div>
             </div>
             <div class="panel-footer clearfix">
-                <button type="submit" class="btn btn-primary pull-right">Open Sale Now!</button>
+                <button type="submit" class="btn btn-primary pull-right">Save Update</button>
             </div>
             </form>
         </div>
@@ -199,6 +207,7 @@ $(document).ready(function () {
         serverSide: true,
         responsive: true,
         deferRender: true,
+        select: true,
         ajax: "{{ url('/data/products/'.$business->unique_id) }}?openorder={{ $openorder->sale_url }}",
         drawCallback: function() {
           	var api = this.api();
@@ -225,7 +234,9 @@ $(document).ready(function () {
                 searchable: false,
                 orderable: false,
                 className: 'dt-body-center',
-                checkboxes: { selectRow: true }
+                checkboxes: {
+                    selectRow: true
+                }
             }
         ],
         select: {
@@ -238,19 +249,51 @@ $(document).ready(function () {
 
     table.on('select', function (e, dt, type, indexes) {
         var thisVal = dt.data();
-        if (default_selected.indexOf(thisVal.unique_id) < 0 && thisVal.unique_id !== undefined) {
-            default_selected.push(thisVal.unique_id);
-        }
-        $('.no-product').html(default_selected.length + " Product selected");
+        selectOn(thisVal, indexes)
+    });
+
+    table.on('change', '.dt-body-center input[type=checkbox]', function () {
+        dt = table.rows($(this).closest('tr')).data();
+        if ($(this).is(':checked')) selectOn(dt[0], false);
+        else selectOff(dt[0], false);
     });
 
     table.on('deselect', function (e, dt, type, indexes) {
         var thisVal = dt.data();
-        if (default_selected.indexOf(thisVal.unique_id) > -1) {
-            default_selected.splice(default_selected.indexOf(thisVal.unique_id), 1);
-        }
-        $('.no-product').html(default_selected.length + " Product selected");
+        selectOff(thisVal, indexes);
     });
+
+    function selectOn(thisVal, indexes) {
+        if (indexes && thisVal !== undefined) {
+            for (i in indexes) {
+                if (default_selected.indexOf(thisVal[i].unique_id) < 0 && thisVal[i].unique_id !== undefined) {
+                    default_selected.push(thisVal[i].unique_id);
+                }
+                $('.no-product').html(default_selected.length + " Product selected");
+            }
+        } else if (thisVal !== undefined) {
+            if (default_selected.indexOf(thisVal.unique_id) < 0 && thisVal.unique_id !== undefined) {
+                default_selected.push(thisVal.unique_id);
+            }
+            $('.no-product').html(default_selected.length + " Product selected");
+        }
+    }
+
+    function selectOff(thisVal, indexes) {
+        if (indexes)  {
+            for (i in indexes) {
+                if (default_selected.indexOf(thisVal[i].unique_id) > -1) {
+                    default_selected.splice(default_selected.indexOf(thisVal[i].unique_id), 1);
+                }
+                $('.no-product').html(default_selected.length + " Product selected");
+            }
+        } else if (thisVal !== undefined) {
+            if (default_selected.indexOf(thisVal.unique_id) > -1) {
+                default_selected.splice(default_selected.indexOf(thisVal.unique_id), 1);
+            }
+            $('.no-product').html(default_selected.length + " Product selected");
+        }
+    }
 
     $('#openOrder').on('submit', function(e){
         e.preventDefault();
