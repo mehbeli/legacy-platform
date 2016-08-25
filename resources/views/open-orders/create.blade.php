@@ -60,7 +60,7 @@ hr {
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea name="descriptions" class="form-control" placeholder="Sale Description" rows="5" required>{{ old('descriptions') }}</textarea>
+                            <textarea name="descriptions" class="form-control" placeholder="Sale Description" rows="15" required>{{ old('descriptions') }}</textarea>
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -69,20 +69,50 @@ hr {
                             <div class="validation-delivery-method"></div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="shipping" data-parsley-errors-container=".itik" data-parsley-required {{ (null !== old('shipping')) ? 'checked' : '' }}> Shipping
+                                    <input type="checkbox" name="shipping[]" value="shipping" data-parsley-errors-container=".validation-delivery-method" data-parsley-required {{ (null !== old('shipping')) ? 'checked' : '' }}> Shipping
                                 </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">RM</span>
+                                    <input type="text" name="shipping_price" value="0" placeholder="" class="form-control input-sm">
+                                </div>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" {{ (null !== old('self-pickup')) ? 'checked' : '' }}> Self Pickup
+                                    <input type="checkbox" name="shipping[]" value="self-pickup" {{ (null !== old('shipping')) ? 'checked' : '' }}> Self Pickup
                                 </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">RM</span>
+                                    <input type="text" name="selfpickup_price" value="0" placeholder="" class="form-control input-sm">
+                                </div>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="shipping[]" {{ (null !== old('cod')) ? 'checked' : '' }}> Cash on Delivery
+                                </label>
+                                <div class="row">
+                                    <div class="col-xs-12">
+
+                                        <div class="input-group">
+                                            <span class="input-group-addon">RM</span>
+                                            <input type="text" name="cod_price" value="0" placeholder="" class="form-control input-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12" style="margin-top: 5px;">
+                                        <input type="text" name="cod_remarks" value="" placeholder="Remarks" class="form-control input-sm">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Payment Methods</label>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" value="manual" checked disabled> Manual Bank In / Internet Banking
+                                    <input type="checkbox" name="payment[]" value="manual"> Manual Bank In / Internet Banking
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="payment[]" value="fpx"> FPX (through BillPlz)
                                 </label>
                             </div>
                         </div>

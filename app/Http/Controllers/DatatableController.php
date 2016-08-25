@@ -42,7 +42,7 @@ class DatatableController extends Controller
 
         if ($isOwner) {
             $businessTrueId = Business::findByUniqueId($businessId)->id;
-            $query = Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price', 'unique_id'])->where('business_id', $businessTrueId)->orderBy('created_at', 'asc');
+            $query = Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price', 'unique_id'])->where('business_id', $businessTrueId);
             $open_order_products = [];
             if (isset($request->openorder)) {
                 $open_order_products = OpenOrder::where('sale_url', $request->openorder)->first()->products_list;
@@ -93,7 +93,7 @@ class DatatableController extends Controller
     public function getOpenOrders(Request $request, $businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
         if ($isOwner) {
-            return Datatables::eloquent(Business::findByUniqueId($businessId)->openOrders()->orderBy('start_at', 'desc'))
+            return Datatables::eloquent(Business::findByUniqueId($businessId)->openOrders())
                 ->addColumn('checkboxes', function ($sale) {
                     return '<input type="checkbox" value="'.$sale->unique_id.'">';
                 })

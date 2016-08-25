@@ -81,7 +81,7 @@ hr {
                             <div class="validation-delivery-method"></div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="shipping" data-parsley-errors-container=".itik" data-parsley-required {{-- ($openorder->settings->shipping) ? 'checked' : '' --}}> Shipping
+                                    <input type="checkbox" name="shipping[]" value="shipping" data-parsley-errors-container=".validation-delivery-method" data-parsley-required {{-- ($openorder->settings->shipping) ? 'checked' : '' --}}> Shipping
                                 </label>
                             </div>
                             <div class="checkbox">
@@ -247,40 +247,19 @@ $(document).ready(function () {
         pageLength: 5,
     });
 
-    table.on('select', function (e, dt, type, indexes) {
-        var thisVal = dt.data();
-        selectOn(thisVal, indexes)
-    });
-
-    table.on('change', '.dt-body-center input[type=checkbox]', function () {
-        dt = table.rows($(this).closest('tr')).data();
-        if ($(this).is(':checked')) selectOn(dt[0], false);
-        else selectOff(dt[0], false);
-    });
-
-    table.on('deselect', function (e, dt, type, indexes) {
-        var thisVal = dt.data();
-        selectOff(thisVal, indexes);
-    });
-
     function selectOn(thisVal, indexes) {
-        if (indexes && thisVal !== undefined) {
+        if (indexes.length > 0 && thisVal !== undefined) {
             for (i in indexes) {
                 if (default_selected.indexOf(thisVal[i].unique_id) < 0 && thisVal[i].unique_id !== undefined) {
                     default_selected.push(thisVal[i].unique_id);
                 }
                 $('.no-product').html(default_selected.length + " Product selected");
             }
-        } else if (thisVal !== undefined) {
-            if (default_selected.indexOf(thisVal.unique_id) < 0 && thisVal.unique_id !== undefined) {
-                default_selected.push(thisVal.unique_id);
-            }
-            $('.no-product').html(default_selected.length + " Product selected");
         }
     }
 
     function selectOff(thisVal, indexes) {
-        if (indexes)  {
+        if (indexes.length > 1)  {
             for (i in indexes) {
                 if (default_selected.indexOf(thisVal[i].unique_id) > -1) {
                     default_selected.splice(default_selected.indexOf(thisVal[i].unique_id), 1);
@@ -294,6 +273,16 @@ $(document).ready(function () {
             $('.no-product').html(default_selected.length + " Product selected");
         }
     }
+
+    table.on('select', function (e, dt, type, indexes) {
+        var thisVal = dt.data();
+        selectOn(thisVal, indexes);
+    });
+
+    table.on('deselect', function (e, dt, type, indexes) {
+        var thisVal = dt.data();
+        selectOff(thisVal, indexes);
+    });
 
     $('#openOrder').on('submit', function(e){
         e.preventDefault();

@@ -121,7 +121,7 @@ $(function() {
             { data: 'products_list', name: 'products_list' },
             { data: 'action', name: 'action', sortable: false, searchable: false }
         ],
-        order: [[3, 'asc']],
+        order: [[3, 'desc']],
     });
 });
 

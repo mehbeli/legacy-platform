@@ -113,8 +113,8 @@ $(function() {
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'product_name', name: 'product_name' },
-            { data: 'selling_price', name: 'selling_price' },
             { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
+            { data: 'selling_price', name: 'selling_price' },
             { data: 'actions', name: 'actions', sortable: false, searchable: false }
         ],
         columnDefs: [
@@ -133,7 +133,7 @@ $(function() {
             style: 'multi',
             selector: 'td:first-child'
         },
-        order: [[1, 'asc']],
+        order: [[1, 'desc']],
     });
 });
 </script>
