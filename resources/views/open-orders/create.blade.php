@@ -69,16 +69,16 @@ hr {
                             <div class="validation-delivery-method"></div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="shipping" data-parsley-errors-container=".validation-delivery-method" data-parsley-required {{ (null !== old('shipping')) ? 'checked' : '' }}> Shipping
+                                    <input type="checkbox" name="shipping[]" value="courier" data-parsley-errors-container=".validation-delivery-method" data-parsley-required {{ (null !== old('shipping')) ? 'checked' : '' }}> Courier
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">RM</span>
-                                    <input type="text" name="shipping_price" value="0" placeholder="" class="form-control input-sm">
+                                    <input type="text" name="courier_price" value="0" placeholder="" class="form-control input-sm">
                                 </div>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="self-pickup" {{ (null !== old('shipping')) ? 'checked' : '' }}> Self Pickup
+                                    <input type="checkbox" name="shipping[]" value="selfpickup" {{ (null !== old('shipping')) ? 'checked' : '' }}> Self Pickup
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">RM</span>
@@ -87,18 +87,11 @@ hr {
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" {{ (null !== old('cod')) ? 'checked' : '' }}> Cash on Delivery
+                                    <input type="checkbox" name="shipping[]" value="freeshipping" {{ (null !== old('cod')) ? 'checked' : '' }}> Free Shipping
                                 </label>
                                 <div class="row">
-                                    <div class="col-xs-12">
-
-                                        <div class="input-group">
-                                            <span class="input-group-addon">RM</span>
-                                            <input type="text" name="cod_price" value="0" placeholder="" class="form-control input-sm">
-                                        </div>
-                                    </div>
                                     <div class="col-xs-12" style="margin-top: 5px;">
-                                        <input type="text" name="cod_remarks" value="" placeholder="Remarks" class="form-control input-sm">
+                                        <input type="text" name="freeshipping_remarks" value="" placeholder="Remarks" class="form-control input-sm">
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +167,7 @@ hr {
                 </div>
             </div>
             <div class="panel-footer clearfix">
-                <button type="submit" class="btn btn-primary pull-right">Open Sale Now!</button>
+                <button type="submit" class="btn btn-primary pull-right button-submit">Open Sale Now!</button>
             </div>
             </form>
         </div>
@@ -264,7 +257,7 @@ $(function() {
                     .val(rowId)
                 );
             });
-
+            $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Open Sale Now!');
             setTimeout(function () {
                 form.submit();
             }, 1000);

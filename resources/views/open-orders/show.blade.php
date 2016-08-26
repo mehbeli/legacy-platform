@@ -72,29 +72,53 @@ hr {
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea name="descriptions" class="form-control" placeholder="Sale Description" rows="5" required>{{ $openorder->title }}</textarea>
+                            <textarea name="descriptions" class="form-control" placeholder="Sale Description" rows="15" required>{{ $openorder->descriptions }}</textarea>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label>Delivery Methods</label>
                             <div class="validation-delivery-method"></div>
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="shipping[]" value="courier" data-parsley-errors-container=".validation-delivery-method" data-parsley-required {{ (null !== (isset($shipping->courier) ? $shipping->courier : null)) ? 'checked' : '' }}> Courier
+                                    </label>
+                                    <div class="input-group">
+                                    <span class="input-group-addon">RM</span>
+                                    <input type="text" name="courier_price" value="{{ $shipping->courier->price or null }}" placeholder="" class="form-control input-sm">
+                                </div>
+                                </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="shipping" data-parsley-errors-container=".validation-delivery-method" data-parsley-required {{-- ($openorder->settings->shipping) ? 'checked' : '' --}}> Shipping
+                                    <input type="checkbox" name="shipping[]" value="selfpickup" {{ (null !== (isset($shipping->selfpickup) ? $shipping->selfpickup : null)) ? 'checked' : '' }}> Self Pickup
                                 </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">RM</span>
+                                    <input type="text" name="selfpickup_price" value="{{ $shipping->selfpickup->price or null }}" placeholder="" class="form-control input-sm">
+                                </div>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" {{-- ($openoder->settings->selfpickup) ? 'checked' : '' --}}> Self Pickup
+                                    <input type="checkbox" name="shipping[]" value="freeshipping" {{ (null !== (isset($shipping->freeshipping) ? $shipping->freeshipping : null)) ? 'checked' : '' }}> Free Shipping
                                 </label>
+                                <div class="row">
+                                    <div class="col-xs-12" style="margin-top: 5px;">
+                                        <input type="text" name="freeshipping_remarks" value="{{ $shipping->freeshipping->remarks or null }}" placeholder="Remarks" class="form-control input-sm">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Payment Methods</label>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" value="manual" checked disabled> Manual Bank In / Internet Banking
+                                    <input type="checkbox" name="payment[]" value="manual" {{ in_array('manual', $payment) ? 'checked' : '' }}> Manual Bank In / Internet Banking
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="payment[]" value="fpx" {{ in_array('fpx', $payment) ? 'checked' : '' }}> FPX (through BillPlz)
                                 </label>
                             </div>
                         </div>
@@ -159,7 +183,7 @@ hr {
                 </div>
             </div>
             <div class="panel-footer clearfix">
-                <button type="submit" class="btn btn-primary pull-right">Save Update</button>
+                <button type="submit" class="btn btn-primary pull-right button-submit">Save Update</button>
             </div>
             </form>
         </div>
@@ -259,18 +283,13 @@ $(document).ready(function () {
     }
 
     function selectOff(thisVal, indexes) {
-        if (indexes.length > 1)  {
+        if (indexes.length > 0)  {
             for (i in indexes) {
                 if (default_selected.indexOf(thisVal[i].unique_id) > -1) {
                     default_selected.splice(default_selected.indexOf(thisVal[i].unique_id), 1);
                 }
                 $('.no-product').html(default_selected.length + " Product selected");
             }
-        } else if (thisVal !== undefined) {
-            if (default_selected.indexOf(thisVal.unique_id) > -1) {
-                default_selected.splice(default_selected.indexOf(thisVal.unique_id), 1);
-            }
-            $('.no-product').html(default_selected.length + " Product selected");
         }
     }
 
@@ -295,7 +314,6 @@ $(document).ready(function () {
               $('.validation-product').append('Please select atleast 1 product to be included in this sale');
               return false;
           }
-
           $.each(default_selected, function(index, rowId){
              // Create a hidden element
              $(form).append(
@@ -305,7 +323,7 @@ $(document).ready(function () {
                     .val(rowId)
                 );
             });
-
+            $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Save Update');
             setTimeout(function () {
                 form.submit();
             }, 1000);

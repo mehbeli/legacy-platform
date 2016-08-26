@@ -17,6 +17,7 @@ class CreateOpenSaleSetting extends Migration
             $table->integer('open_order_id')->unsigned();
             $table->foreign('open_order_id')->references('id')->on('open_orders');
             $table->string('options'); // options in array ?
+            $table->timestamps();
         });
 
         Schema::table('open_orders', function (Blueprint $table) {
@@ -33,7 +34,8 @@ class CreateOpenSaleSetting extends Migration
     {
         Schema::drop('open_order_settings');
 
-        Schema::table('open_order', function (Blueprint $table) {
+
+        Schema::table('open_orders', function (Blueprint $table) {
             $table->integer('open_order_setting_id')->unsigned();
         });
     }
