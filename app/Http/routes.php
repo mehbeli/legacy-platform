@@ -48,6 +48,7 @@ Route::group([ 'middleware' => 'auth'], function () {
 
     // Data Fetch
     Route::get('/fetch/details/product', 'DataController@getProductDetails');
+    Route::get('/fetch/sale-url', 'OpenOrderController@checkSaleUrl');
 
 });
 Route::get('/404', function () {

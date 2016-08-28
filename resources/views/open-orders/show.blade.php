@@ -58,8 +58,9 @@ hr {
                         <div class="form-group">
                         <label for="basic-url">Your vanity URL</label>
                         <div class="input-group">
-                            <span class="input-group-addon" id="sale-url">https://jejual.my/sale/</span>
-                            <input type="text" name="sale_url" class="form-control" id="basic-url" aria-describedby="sale-url" value="{{ $openorder->sale_url }}" required>
+                            <span class="input-group-addon" id="sale-url-static">https://jejual.my/sale/</span>
+                            <input type="text" name="sale_url" class="form-control" id="sale-url" aria-describedby="sale-url" value="{{ $openorder->sale_url }}" required>
+                            <input type="hidden" name="ori_sale_url" id="ori-sale-url" value="{{ $openorder->sale_url }}">
                         </div>
                         </div>
                     </div>
@@ -86,25 +87,25 @@ hr {
                                     </label>
                                     <div class="input-group">
                                     <span class="input-group-addon">RM</span>
-                                    <input type="text" name="courier_price" value="{{ $shipping->courier->price or null }}" placeholder="" class="form-control input-sm">
+                                    <input min="0" type="text" name="courier_price" data-parsley-errors-container=".validation-delivery-method" value="{{ $shipping->courier->price or null }}" placeholder="" class="form-control input-sm">
                                 </div>
                                 </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="selfpickup" {{ (null !== (isset($shipping->selfpickup) ? $shipping->selfpickup : null)) ? 'checked' : '' }}> Self Pickup
+                                    <input type="checkbox" name="shipping[]" value="selfpickup" data-parsley-errors-container=".validation-delivery-method" {{ (null !== (isset($shipping->selfpickup) ? $shipping->selfpickup : null)) ? 'checked' : '' }}> Self Pickup
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">RM</span>
-                                    <input type="text" name="selfpickup_price" value="{{ $shipping->selfpickup->price or null }}" placeholder="" class="form-control input-sm">
+                                    <input min="0" type="text" name="selfpickup_price" data-parsley-errors-container=".validation-delivery-method" value="{{ $shipping->selfpickup->price or null }}" placeholder="" class="form-control input-sm">
                                 </div>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="freeshipping" {{ (null !== (isset($shipping->freeshipping) ? $shipping->freeshipping : null)) ? 'checked' : '' }}> Free Shipping
+                                    <input type="checkbox" name="shipping[]" value="freeshipping" data-parsley-errors-container=".validation-delivery-method" {{ (null !== (isset($shipping->freeshipping) ? $shipping->freeshipping : null)) ? 'checked' : '' }}> Free Shipping
                                 </label>
                                 <div class="row">
                                     <div class="col-xs-12" style="margin-top: 5px;">
-                                        <input type="text" name="freeshipping_remarks" value="{{ $shipping->freeshipping->remarks or null }}" placeholder="Remarks" class="form-control input-sm">
+                                        <input type="text" name="freeshipping_remarks" data-parsley-errors-container=".validation-delivery-method" value="{{ $shipping->freeshipping->remarks or null }}" placeholder="Remarks" class="form-control input-sm">
                                     </div>
                                 </div>
                             </div>
@@ -183,6 +184,7 @@ hr {
                 </div>
             </div>
             <div class="panel-footer clearfix">
+                <a href="/business/{{ $business->unique_id }}/open-orders" class="btn btn-default">Back</a>
                 <button type="submit" class="btn btn-primary pull-right button-submit">Save Update</button>
             </div>
             </form>
@@ -225,7 +227,7 @@ $(function() {
 $(document).ready(function () {
     var default_selected = {!! json_encode(json_decode($openorder->products_list)) !!};
     $('.no-product').html(default_selected.length + " Product selected");
-
+    var $found = false;
     var table = $('#products-table').DataTable({
         processing: true,
         serverSide: true,
@@ -303,8 +305,41 @@ $(document).ready(function () {
         selectOff(thisVal, indexes);
     });
 
+    var timer, val;
+    $('#sale-url').on('keyup', function () {
+        clearTimeout(timer);
+        var str = $(this).val();
+        if ((str.length > 2 && val != str) && ($(this).val() != $('input[name=orig_sale_url]').val())) {
+            timer = setTimeout(function () {
+            $found = false;
+            val = str;
+            $.get(
+                '{{ action('OpenOrderController@checkSaleUrl') }}',
+                { url: $('#sale-url').val() }
+            ).done(function (data) {
+                if (data.found) {
+                    $('#sale-url').attr('data-placement', 'top').attr('data-trigger', 'focus').attr('title', 'Error').attr('data-content', "Opps! Someone has already pick this name. Please choose other name");
+                    $('#sale-url').popover('show').focus();
+                    $found = data.found;
+                    $('#sale-url').on('hidden.bs.popover', function () {
+                        $(this).popover('destroy');
+                    });
+                    $found = true;
+                } else {
+                    $found = false;
+                }
+            //return data.found;
+        });
+    }, 500);
+    }
+    });
+
     $('#openOrder').on('submit', function(e){
         e.preventDefault();
+        if ($found) {
+            $('#sale-url').focus();
+            return false;
+        }
 
           var form = this;
           // var rows_selected = table.column(0).checkboxes.selected();
@@ -314,6 +349,7 @@ $(document).ready(function () {
               $('.validation-product').append('Please select atleast 1 product to be included in this sale');
               return false;
           }
+
           $.each(default_selected, function(index, rowId){
              // Create a hidden element
              $(form).append(
@@ -323,10 +359,11 @@ $(document).ready(function () {
                     .val(rowId)
                 );
             });
+
             $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Save Update');
             setTimeout(function () {
                 form.submit();
-            }, 1000);
+            }, 2000);
 
         });
     });

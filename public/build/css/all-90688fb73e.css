@@ -273,7 +273,7 @@
         border-left: 6px solid transparent;
         content: '';
     }
-
+    
     .dropdown-righter {
         left: auto !important;
         right: 0  !important;

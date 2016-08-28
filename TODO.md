@@ -2,66 +2,34 @@
 2. open sale settings - set fix setting first -> payment methods, delivery methods - pending validation (create, update)
 3. open sale time end must be after open sale start
 
---
+open sale
+1. update save settings
+2. remove delete button on product list for open order
+3. validation -> delivery methods (/), payment methods, others should be working like charms
+4. product detail view on modal?
+5. open sale url validation - stupid async
 
-$(document).ready(function() {
-   var table = $('#example').DataTable({
-      'ajax': 'https://api.myjson.com/bins/1us28',
-      'columnDefs': [
-         {
-            'targets': 0,
-            'checkboxes': {
-               'selectRow': true
-            }
-         }
-      ],
-      'select': {
-         'style': 'multi'
-      },
-      'order': [[1, 'asc']]
-   });
+product & stocks
+1. product validation -> realtime validation (parsleyjs)
+2. add 1 image for products
+3. VAT / GST?
 
-   $('#example').on('select.dt', function(e, api, type, indexes){
-      console.log('Row selected');
-      itik(api);
-   });
+sale page
+1. product picture
+2. add order
+3. auto confirm or need moderation from business owner
 
-   function itik(dt) {
-   		console.log(dt);
-   }
+orders
+1. order listing
+2. order add, update, delete
+3. order tracking page
 
-   // Handle form submission event
-   $('#frm-example').on('submit', function(e){
-      var form = this;
+invoices / quotation
+1. invoices, quotation listing
+2. add, update, delete
 
-      var rows_selected = table.column(0).checkboxes.selected();
-
-      // Iterate over all selected checkboxes
-      $.each(rows_selected, function(index, rowId){
-         // Create a hidden element
-         $(form).append(
-             $('<input>')
-                .attr('type', 'hidden')
-                .attr('name', 'id[]')
-                .val(rowId)
-         );
-      });
-
-      // FOR DEMONSTRATION ONLY
-      // The code below is not needed in production
-
-      // Output form data to a console     
-      $('#example-console-rows').text(rows_selected.join(","));
-
-      // Output form data to a console     
-      $('#example-console-form').text($(form).serialize());
-
-      // Remove added elements
-      $('input[name="id\[\]"]', form).remove();
-
-      // Prevent actual form submission
-      e.preventDefault();
-   });   
-});
-
---
+overview (c3js)
+1. popular product
+2. monthly graph revenue
+3. daily graph revenue
+4. order graph

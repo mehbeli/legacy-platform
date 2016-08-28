@@ -14,7 +14,7 @@ use Carbon\Carbon;
 class OpenOrderController extends Controller
 {
     public function __construct() {
-        $this->middleware('business');
+        $this->middleware('business')->except([ 'checkSaleUrl' ]);
     }
 
     public function index($businessId) {
@@ -39,8 +39,15 @@ class OpenOrderController extends Controller
 
         $business = Business::findByUniqueId($businessId);
         $openOrder = $business->openOrders()->where('sale_url', $saleId)->first();
-        if ($openOrder->validate($request->all())) {
-            $openOrder->fill($request->all());
+        $inputs = $request->all();
+        if ($openOrder->validate($inputs, [
+                'title' => 'required',
+                'descriptions' => 'required',
+                'products_list' => 'required',
+                'start_at' => 'required',
+                'sale_url' => 'unique:open_orders,sale_url,'.$openOrder->id.'|required',
+            ])) {
+            $openOrder->fill($inputs);
             $openOrder->start_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->start_at)->format('Y-m-d H:i:s');
             if (!empty($request->end_at)) {
                 $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
@@ -50,7 +57,39 @@ class OpenOrderController extends Controller
             $openOrder->business()->associate($business);
             $openOrder->save();
 
-            return redirect()->back()->with('success', 'Sale Information Updated');
+            $settings = array();
+            // Shipping
+            foreach ($inputs['shipping'] as $shipping) {
+                switch ($shipping) {
+                    case 'courier':
+                        $settings['shipping'][$shipping] = [ 'price' => $inputs[$shipping.'_price'] ];
+                        break;
+                    case 'selfpickup':
+                        $settings['shipping'][$shipping] = [ 'price' => $inputs[$shipping.'_price'] ];
+                        break;
+                    case 'freeshipping':
+                        $settings['shipping'][$shipping] = [ 'price' => 0, 'remarks' => $inputs['freeshipping_remarks'] ];
+                        break;
+                }
+            }
+
+            // Payment
+            foreach ($inputs['payment'] as $payment) {
+                switch ($payment) {
+                    case 'fpx':
+                        $settings['payment'][] = 'fpx';
+                        break;
+                    case 'manual':
+                        $settings['payment'][] = 'manual';
+                        break;
+                }
+            }
+
+            $setting = OpenOrderSetting::where('open_order_id', $openOrder->id)->first();
+            $setting->options = json_encode($settings);
+            $setting->save();
+
+            return redirect('/business/'.$businessId.'/open-orders/'.$openOrder->sale_url)->with('success', 'Sale Information Updated');
 
         } else {
             return redirect()
@@ -138,6 +177,15 @@ class OpenOrderController extends Controller
 
         return response()->json([ 'status' => true ]);
 
+    }
+
+    public function checkSaleUrl(Request $request) {
+        $openOrder = OpenOrder::where('sale_url', $request->url)->first();
+        if (!is_null($openOrder)) {
+            return response()->json([ 'found' => true ]);
+        } else {
+            return response()->json([ 'found' => false ]);
+        }
     }
 
 }

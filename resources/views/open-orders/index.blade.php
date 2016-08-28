@@ -36,6 +36,7 @@ hr {
         @include('partials.businesssidebar')
     </div>
     <div class="col-md-9">
+        @include('partials.flashmessage')
         <div class="panel panel-default from-menu">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Current Sales</h4>

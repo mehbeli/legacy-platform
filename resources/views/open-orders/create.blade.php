@@ -46,8 +46,8 @@ hr {
                         <div class="form-group">
                         <label for="basic-url">Your vanity URL</label>
                         <div class="input-group">
-                            <span class="input-group-addon" id="sale-url">https://jejual.my/sale/</span>
-                            <input type="text" name="sale_url" class="form-control" id="basic-url" aria-describedby="sale-url" value="{{ UniqueID::generate() }}" required>
+                            <span class="input-group-addon" id="sale-url-static">https://jejual.my/sale/</span>
+                            <input type="text" name="sale_url" class="form-control" id="sale-url" aria-describedby="sale-url" value="{{ UniqueID::generate() }}" required>
                         </div>
                         </div>
                     </div>
@@ -73,25 +73,25 @@ hr {
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">RM</span>
-                                    <input type="text" name="courier_price" value="0" placeholder="" class="form-control input-sm">
+                                    <input min="0" type="text" name="courier_price" data-parsley-errors-container=".validation-delivery-method" value="0" placeholder="" class="form-control input-sm">
                                 </div>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="selfpickup" {{ (null !== old('shipping')) ? 'checked' : '' }}> Self Pickup
+                                    <input type="checkbox" name="shipping[]" data-parsley-errors-container=".validation-delivery-method" value="selfpickup" {{ (null !== old('shipping')) ? 'checked' : '' }}> Self Pickup
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">RM</span>
-                                    <input type="text" name="selfpickup_price" value="0" placeholder="" class="form-control input-sm">
+                                    <input min="0" type="text" name="selfpickup_price" data-parsley-errors-container=".validation-delivery-method" value="0" placeholder="" class="form-control input-sm">
                                 </div>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="shipping[]" value="freeshipping" {{ (null !== old('cod')) ? 'checked' : '' }}> Free Shipping
+                                    <input type="checkbox" name="shipping[]" value="freeshipping" data-parsley-errors-container=".validation-delivery-method" {{ (null !== old('cod')) ? 'checked' : '' }}> Free Shipping
                                 </label>
                                 <div class="row">
                                     <div class="col-xs-12" style="margin-top: 5px;">
-                                        <input type="text" name="freeshipping_remarks" value="" placeholder="Remarks" class="form-control input-sm">
+                                        <input type="text" name="freeshipping_remarks" data-parsley-errors-container=".validation-delivery-method" value="" placeholder="Remarks" class="form-control input-sm">
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +200,7 @@ hr {
 <script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script>
 $(function() {
-
+    var $found = false;
     $('#openOrder').parsley();
 
     var table = $('#products-table').DataTable({
@@ -235,16 +235,48 @@ $(function() {
         lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
         pageLength: 5
     });
+    var timer, val;
+    $('#sale-url').on('keyup', function () {
+        clearTimeout(timer);
+        var str = $(this).val();
+        if (str.length > 2 && val != str) {
+            timer = setTimeout(function () {
+            $found = false;
+            val = str;
+            $.get(
+                '{{ action('OpenOrderController@checkSaleUrl') }}',
+                { url: $('#sale-url').val() }
+            ).done(function (data) {
+                if (data.found) {
+                    $('#sale-url').attr('data-placement', 'top').attr('data-trigger', 'focus').attr('title', 'Error').attr('data-content', "Opps! Someone has already pick this url. Please choose other name");
+                    $('#sale-url').popover('show').focus();
+                    $found = data.found;
+                    $('#sale-url').on('hidden.bs.popover', function () {
+                        $(this).popover('destroy');
+                    });
+                    $found = true;
+                } else {
+                    $found = false;
+                }
+            //return data.found;
+        });
+    }, 500);
+    }
+    });
 
     $('#openOrder').on('submit', function(e){
         e.preventDefault();
+        if ($found) {
+            $('#sale-url').focus();
+            return false;
+        }
 
           var form = this;
           var rows_selected = table.column(0).checkboxes.selected();
           // Iterate over all selected checkboxes
 
           if (rows_selected.length === 0) {
-              $('.validation-product').append('Pilih satu woi');
+              $('.validation-product').append('Please choose one product to be include in your sale.');
               return false;
           }
 
