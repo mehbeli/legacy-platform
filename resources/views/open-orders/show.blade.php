@@ -112,9 +112,10 @@ hr {
                         </div>
                         <div class="form-group">
                             <label>Payment Methods</label>
+                            <div class="validation-delivery-method-payment"></div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="payment[]" value="manual" {{ in_array('manual', $payment) ? 'checked' : '' }}> Manual Bank In / Internet Banking
+                                    <input type="checkbox" name="payment[]" data-parsley-errors-container=".validation-delivery-method-payment" data-parsley-required value="manual" {{ in_array('manual', $payment) ? 'checked' : '' }}> Manual Bank In / Internet Banking
                                 </label>
                             </div>
                             <div class="checkbox">
