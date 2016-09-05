@@ -97,6 +97,23 @@ class DatatableController extends Controller
                 ->addColumn('checkboxes', function ($sale) {
                     return '<input type="checkbox" value="'.$sale->unique_id.'">';
                 })
+                ->addColumn('duration', function ($sale) {
+                    $start_date = Carbon::createFromFormat("Y-m-d H:i:s", $sale->start_at);
+                    $end_date = !is_null($sale->end_at) ? Carbon::createFromFormat("Y-m-d H:i:s", $sale->end_at) : '&infin;';
+
+                    if (Carbon::now() > $start_date) {
+                        if ($sale->end_at) {
+                            if (Carbon::now() > $sale->end_at) {
+                                return '<b class="text-danger">End '.$end_date->diffForHumans().'</b>';
+                            }
+                            return $end_date->diffForHumans()." to end";
+                        } else {
+                            return 'No ending';
+                        }
+                    } else {
+                        return '<b class="text-success">'.$start_date->diffForHumans()." to start</b>";
+                    }
+                })
                 ->editColumn('start_at', function ($sale) {
                     $date = Carbon::createFromFormat("Y-m-d H:i:s", $sale->start_at);
                     return $date->diffForHumans();

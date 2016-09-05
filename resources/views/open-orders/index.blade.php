@@ -61,7 +61,7 @@ hr {
                             Start
                         </th>
                         <th>
-                            End
+                            Status
                         </th>
                         <th>
                             Product(s)
@@ -117,8 +117,8 @@ $(function() {
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'status', name: 'status', sortable: false, searchable: false },
             { data: 'title', name: 'title' },
-            { data: 'start_at', name: 'start_at', sortable: true },
-            { data: 'end_at', name: 'end_at', sortable: true },
+            { data: 'start_at', name: 'start_at', sortable: true, visible: false },
+            { data: 'duration', name: 'duration', searchable: false, sortable: false },
             { data: 'products_list', name: 'products_list' },
             { data: 'action', name: 'action', sortable: false, searchable: false }
         ],
