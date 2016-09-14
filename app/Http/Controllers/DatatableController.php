@@ -21,8 +21,10 @@ class DatatableController extends Controller
 
     public function getOrders($businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
+
         if ($isOwner) {
-            return Datatables::eloquent(Business::findByUniqueId($businessId)->orders()->where('confirmed', false))
+            $query = Business::findByUniqueId($businessId)->orders()->where('confirmed', false);
+            return Datatables::of($query)
                 ->addColumn('checkboxes', function ($order) {
                     return '<input type="checkbox" value="'.$order->id.'">';
                 })
@@ -111,7 +113,7 @@ class DatatableController extends Controller
                             return 'No ending';
                         }
                     } else {
-                        return '<b class="text-success">'.$start_date->diffForHumans()." to start</b>";
+                        return '<b class="text-success">Start '.$start_date->diffForHumans()."</b>";
                     }
                 })
                 ->editColumn('start_at', function ($sale) {
@@ -149,6 +151,8 @@ class DatatableController extends Controller
                       </button>
                       <ul class="dropdown-menu dropdown-righter">
                       <li><a href="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'"><i class="fa fa-eye fa-fw"></i> Details</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li><a href="/sale/'.$sale->sale_url.'" target="_blank"><i class="fa fa-home fa-fw"></i> View Sale Page</a></li>
                       <li role="separator" class="divider"></li>
                         <li><a href="#"><form action="/business/'.$businessId.'/open-orders/'.$sale->sale_url.'" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><i class="fa fa-minus-circle fa-fw"></i> Delete</form></a></li>
                         <li><a href="#" class="btn-active-deactive" data-button="'.$sale->sale_url.'"><i class="fa fa-warning fa-fw"></i> <span class="text-in">'.$btn['html'].'</span></a></li>

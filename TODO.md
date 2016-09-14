@@ -3,15 +3,15 @@
 3. open sale time end must be after open sale start
 
 open sale
-1. update save settings
-2. remove delete button on product list for open order
+1. update save settings (done)
+2. remove delete button on product list for open order (done)
 3. validation -> delivery methods (/), payment methods, others should be working like charms
 4. product detail view on modal?
-5. open sale url validation - stupid async
+5. open sale url validation - stupid async (done)
 
 product & stocks
 1. product validation -> realtime validation (parsleyjs)
-2. add 1 image for products
+2. add 1 image for products (DONE)
 3. VAT / GST?
 
 sale page

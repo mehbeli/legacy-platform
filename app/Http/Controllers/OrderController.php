@@ -22,6 +22,11 @@ class OrderController extends Controller
 
     }
 
+    public function create($business) {
+        $business = Business::findByUniqueId($business);
+        return view('orders.create')->with('business', $business);
+    }
+
     public function show($business, $orderId) {
         // show specific order based on business
         $order = Order::findByUniqueId($orderId);

@@ -161,7 +161,8 @@ return [
          * Vendor's Service Providers
          */
         Laravelista\Ekko\EkkoServiceProvider::class,
-        Yajra\Datatables\DatatablesServiceProvider::class
+        Yajra\Datatables\DatatablesServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -210,6 +211,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Ekko' => Laravelista\Ekko\Facades\Ekko::class,
         'UniqueID' => App\Helpers\UniqueID::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];
