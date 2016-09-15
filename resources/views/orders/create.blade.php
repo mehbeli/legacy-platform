@@ -52,18 +52,22 @@ hr {
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Name</label>
-                                        <input type="text" name="billing_name" class="form-control" placeholder="Biling Name">
+                                        <input type="text" name="billing_name" class="form-control input-sm" placeholder="Biling Name">
                                     </div>
                                     <div class="form-group">
                                         <label>Email Address</label>
-                                        <input type="text" name="email_address" class="form-control" placeholder="Email Address">
+                                        <input type="text" name="email_address" class="form-control input-sm" placeholder="Email Address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input type="text" name="email_address" class="form-control input-sm" placeholder="Phone Number">
                                     </div>
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <input type="text" name="address_one" class="form-control" placeholder="">
+                                        <input type="text" name="address_one" class="form-control input-sm" placeholder="">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="address_two" class="form-control" placeholder="">
+                                        <input type="text" name="address_two" class="form-control input-sm" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -71,13 +75,13 @@ hr {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Post Code</label>
-                                        <input type="text" name="address_two" class="form-control" placeholder="Post Code">
+                                        <input type="text" name="post_code" class="form-control input-sm" placeholder="Post Code">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>City</label>
-                                        <input type="text" name="address_two" class="form-control" placeholder="City">
+                                        <input type="text" name="city" class="form-control input-sm" placeholder="City">
                                     </div>
                                 </div>
                             </div>
@@ -85,35 +89,52 @@ hr {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>State</label>
-                                        <input type="text" name="address_two" class="form-control" placeholder="State">
+                                        <input type="text" name="state" class="form-control input-sm" placeholder="State">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Country</label>
-                                        <input type="text" name="address_two" class="form-control" placeholder="Country" value="Malaysia" readonly>
+                                        <input type="text" name="country" class="form-control input-sm" placeholder="Country" value="Malaysia" readonly>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6" style="border-left: 1px #EEE solid">
-                                <h4>Delivery Information</h4>
+                                <div class="row">
+                                    <div class="col-xs-7">
+                                        <h4>
+                                            Delivery information
+                                        </h4>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <div class="checkbox same-as-billing pull-right">
+                                        <label>
+                                          <input type="checkbox"> Same as billing
+                                        </label>
+                                      </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Name</label>
-                                            <input type="text" name="billing_name" class="form-control" placeholder="Biling Name">
+                                            <input type="text" name="delivery_name" class="form-control input-sm" placeholder="Delivery Name">
                                         </div>
                                         <div class="form-group">
                                             <label>Email Address</label>
-                                            <input type="text" name="email_address" class="form-control" placeholder="Email Address">
+                                            <input type="text" name="email_address" class="form-control input-sm" placeholder="Email Address">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            <input type="text" name="email_address" class="form-control input-sm" placeholder="Phone Number">
                                         </div>
                                         <div class="form-group">
                                             <label>Address</label>
-                                            <input type="text" name="address_one" class="form-control" placeholder="">
+                                            <input type="text" name="delivery_address_one" class="form-control input-sm" placeholder="">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" name="address_two" class="form-control" placeholder="">
+                                            <input type="text" name="delivery_address_two" class="form-control input-sm" placeholder="">
                                         </div>
                                     </div>
                                 </div>
@@ -121,13 +142,13 @@ hr {
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Post Code</label>
-                                            <input type="text" name="address_two" class="form-control" placeholder="Post Code">
+                                            <input type="text" name="delivery_post_code" class="form-control input-sm" placeholder="Post Code">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>City</label>
-                                            <input type="text" name="address_two" class="form-control" placeholder="City">
+                                            <input type="text" name="delivery_city" class="form-control input-sm" placeholder="City">
                                         </div>
                                     </div>
                                 </div>
@@ -135,13 +156,13 @@ hr {
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>State</label>
-                                            <input type="text" name="address_two" class="form-control" placeholder="State">
+                                            <input type="text" name="delivery_state" class="form-control input-sm" placeholder="State">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Country</label>
-                                            <input type="text" name="address_two" class="form-control" placeholder="Country" value="Malaysia" readonly>
+                                            <input type="text" name="delivery_country" class="form-control input-sm" placeholder="Country" value="Malaysia" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +171,7 @@ hr {
                 </div>
                 <hr>
                 <h4 style="padding-left: 8px;">Products</h4>
-                <table id="products-table" class="table">
+                <table id="products-table" class="table table-condensed">
                     <thead>
                         <tr>
                             <th>
@@ -173,7 +194,84 @@ hr {
                 </table>
                 <hr>
                 <div class="panel-body">
-                    testing
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Assign to which opened sale (optional)</label>
+                                <select class="form-control input-sm">
+                                    <option value="testing">
+                                        Testing
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Delivery Option</label>
+                                <select class="form-control input-sm">
+                                    <option value="testing">
+                                        Testing
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label>Delivery Charge</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">RM</div>
+                                            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="checkbox same-as-billing">
+                                    <label>
+                                      <input type="checkbox"> Confirm order
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="checkbox same-as-billing">
+                                    <label>
+                                      <input type="checkbox"> Paid
+                                    </label>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Subtotal</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">RM</div>
+                                    <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Discount (RM/%)</label>
+                                <input type="text" class="form-control" name="name" value="" placeholder="RM / %">
+                                <span class="small-note">Eg. 12 (lump sum discount) / 12% (% discount)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-6">
+                            <div class="form-group">
+                                <label>Grand Total</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">RM</div>
+                                    <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer clearfix">
                     <button type="submit" class="btn btn-primary pull-right">Add Order</button>

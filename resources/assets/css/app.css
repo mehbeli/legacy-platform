@@ -835,3 +835,11 @@ input[type=range]:focus::-ms-fill-upper {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.same-as-billing {
+    font-weight: bold;
+}
+
+.small-note {
+    font-size: 9px;
+}
