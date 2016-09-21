@@ -52,6 +52,8 @@ class OpenOrderController extends Controller
             if (!empty($request->end_at)) {
                 $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
             }
+
+            // need refactor
             $openOrder->products_list = json_encode($request->products_list);
             $openOrder->sale_url = str_slug($request->sale_url, '-');
             $openOrder->business()->associate($business);
@@ -111,6 +113,8 @@ class OpenOrderController extends Controller
                 $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
             }
             $openOrder->products_list = json_encode($request->products_list);
+            // need refactor
+
             $openOrder->sale_url = str_slug($request->sale_url, '-');
             $openOrder->business()->associate($business);
             $openOrder->save();
