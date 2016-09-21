@@ -60,8 +60,7 @@ class DatatableController extends Controller
                     return '<form action="/business/'.$businessId.'/products/'.$product->unique_id.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <a href="/business/'.$businessId.'/products/'.$product->unique_id.'" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
                 ->addColumn('actionnodelete', function ($product) use ($businessId) {
-                    $csrf = csrf_field();
-                    return '<a href="/business/'.$businessId.'/products/'.$product->unique_id.'" class="btn btn-xs btn-default pull-right">Details</a>';
+                    return '<a href="#" data-product="'.$product->unique_id.'" data-toggle="modal" data-target="#productDetail" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
                 ->setRowClass(function ($product) {
                     return ($product->quantity_in_stock <= 0) ? 'danger' : '';

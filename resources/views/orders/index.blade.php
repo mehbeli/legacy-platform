@@ -31,7 +31,7 @@ hr {
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Orders</h4>
                 <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".add-order-modal-lg">Add Order</a>
+                    <a href="{{ action('OrderController@create', $business->unique_id) }}" class="btn btn-primary btn-sm">Add Order</a>
                 </div>
             </div>
             <div class="panel-body">

@@ -8,11 +8,13 @@ open sale
 3. validation -> delivery methods (/), payment methods, others should be working like charms
 4. product detail view on modal?
 5. open sale url validation - stupid async (done)
+6. product selection table - change from json to list (inaccurate when product deleted but in the sale not update)
 
 product & stocks
 1. product validation -> realtime validation (parsleyjs)
 2. add 1 image for products (DONE)
 3. VAT / GST?
+4. active / deactive product (cannot delete if got orders with products)
 
 sale page
 1. product picture

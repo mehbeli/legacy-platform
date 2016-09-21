@@ -73,6 +73,14 @@
     background: #DCEDC8;
 }
 
+.v-divider{
+    margin-left:5px;
+    margin-right:5px;
+    width:1px;
+    height:100%;
+    border-left:1px solid gray;
+}
+
 /* .progress-bar and its relative */
 
 .progress-bar-info {
@@ -842,4 +850,20 @@ input[type=range]:focus::-ms-fill-upper {
 
 .small-note {
     font-size: 9px;
+}
+
+/* Product details */
+.product-image-details {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.product-details-info .input-label {
+    text-align: right;
+    padding-top: 5px;
+}
+
+.product-details-info .margin-top-fix {
+    margin-top: 10px;
 }

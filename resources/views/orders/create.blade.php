@@ -1,6 +1,7 @@
 @extends('layouts.base')
 
 @section('inline-css')
+<link rel="stylesheet" href="/components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" media="screen">
 <style>
 span.check-mark {
     margin-top: 12px !important;
@@ -45,6 +46,25 @@ hr {
             <form class="form" id="add-product" action="{{ action('ProductController@store', [ 'business' => $business->unique_id ]) }}" method="POST">
                 {{ csrf_field() }}
                 <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="checkbox checkbox-success">
+                                <input type="checkbox" id="confirm-order" class="checkbox-success">
+                                <label for="confirm-order">
+                                    Confirm Order
+                                </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="checkbox checkbox-success">
+                                <input type="checkbox" id="paid-order">
+                                <label for="paid-order">
+                                    Paid
+                                </label>
+                          </div>
+                        </div>
+                    </div>
+                    <hr />
                     <div class="row">
                         <div class="col-sm-6">
                             <h4>Billing Information</h4>
@@ -109,9 +129,10 @@ hr {
                                     </div>
                                     <div class="col-xs-5">
                                         <div class="checkbox same-as-billing pull-right">
-                                        <label>
-                                          <input type="checkbox"> Same as billing
-                                        </label>
+                                            <input type="checkbox" id="same-as-billing">
+                                            <label for="same-as-billing">
+                                                Same as billing
+                                            </label>
                                       </div>
                                     </div>
                                 </div>
@@ -229,22 +250,6 @@ hr {
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="checkbox same-as-billing">
-                                    <label>
-                                      <input type="checkbox"> Confirm order
-                                    </label>
-                                  </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="checkbox same-as-billing">
-                                    <label>
-                                      <input type="checkbox"> Paid
-                                    </label>
-                                  </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -274,6 +279,7 @@ hr {
                     </div>
                 </div>
                 <div class="panel-footer clearfix">
+                    <button type="button" class="btn btn-info">View Invoice</button>
                     <button type="submit" class="btn btn-primary pull-right">Add Order</button>
                 </div>
             </form>
@@ -284,15 +290,61 @@ hr {
 </div> <!-- /container -->
 
 <!-- modal -->
-<div class="modal fade add-product-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addProduct">
-    <div class="modal-dialog modal-lg">
+<div id="productDetail" class="modal fade add-product-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Product Details</h4>
             </div>
             <div class="modal-body">
-                ...
+                <div class="row">
+                    <div class="col-sm-9 product-details-info">
+                        <div class="row">
+                            <div class="col-sm-4 input-label">
+                                Product Name
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm" name="name" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="row margin-top-fix">
+                            <div class="col-sm-4 input-label">
+                                Description
+                            </div>
+                            <div class="col-sm-8">
+                                <textarea name="name" class="form-control" rows="8" cols="100%" readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="row margin-top-fix">
+                            <div class="col-sm-4 input-label">
+                                In Stock
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm" name="name" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="row margin-top-fix">
+                            <div class="col-sm-4 input-label">
+                                Price
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm" name="name" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="row margin-top-fix">
+                            <div class="col-sm-4 input-label">
+                                Selling Price
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm" name="name" value="" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="/images/no-picture.png" class="product-image-details" />
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
