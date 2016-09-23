@@ -226,7 +226,7 @@ $(function() {
 
 <script>
 $(document).ready(function () {
-    var default_selected = {!! json_encode(json_decode($openorder->products_list)) !!};
+    var default_selected = {!! json_encode($product_list) !!};
     $('.no-product').html(default_selected.length + " Product selected");
     var $found = false;
     var table = $('#products-table').DataTable({

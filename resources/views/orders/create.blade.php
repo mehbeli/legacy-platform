@@ -216,42 +216,45 @@ hr {
                 <hr>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Assign to which opened sale (optional)</label>
-                                <select class="form-control input-sm">
-                                    <option value="testing">
-                                        Testing
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Delivery Option</label>
-                                <select class="form-control input-sm">
-                                    <option value="testing">
-                                        Testing
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="form-group">
-                                        <label>Delivery Charge</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">RM</div>
-                                            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
-                                        </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="has-marker">Assign to open sale</label>
+                                    <div class="optional-marker">
+                                        <i>Optional</i>
                                     </div>
+                                    <select class="form-control input-sm">
+                                        <option value="testing">
+                                            Testing
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Delivery options</label>
+                                    <select class="form-control input-sm">
+                                        <option value="testing">
+                                            Testing
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Payment options</label>
+                                    <select class="form-control input-sm">
+                                        <option value="testing">
+                                            Testing
+                                        </option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="col-sm-6">
+
+                            <div class="form-group">
+                                <label>Delivery Charge</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">RM</div>
+                                    <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
+
                             <div class="form-group">
                                 <label>Subtotal</label>
                                 <div class="input-group">
@@ -264,10 +267,6 @@ hr {
                                 <input type="text" class="form-control" name="name" value="" placeholder="RM / %">
                                 <span class="small-note">Eg. 12 (lump sum discount) / 12% (% discount)</span>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-6">
                             <div class="form-group">
                                 <label>Grand Total</label>
                                 <div class="input-group">
@@ -355,6 +354,7 @@ hr {
 @endsection
 
 @section('script')
+<script src="/components/datatables-checkbox/js/dataTables.checkboxes.js"></script>
 <script>
 var table = $('#products-table').DataTable({
     processing: true,

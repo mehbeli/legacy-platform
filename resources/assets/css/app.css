@@ -867,3 +867,12 @@ input[type=range]:focus::-ms-fill-upper {
 .product-details-info .margin-top-fix {
     margin-top: 10px;
 }
+
+.has-marker {
+    margin-bottom: 0;
+}
+
+.optional-marker {
+    font-size: 12px;
+    color: #616161;
+}

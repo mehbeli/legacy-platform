@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Business;
+use App\Product;
 use App\OpenOrder;
 use App\OpenOrderSetting;
 
@@ -24,10 +25,11 @@ class OpenOrderController extends Controller
 
     public function show($businessId, $salesId) {
         $open_order = OpenOrder::where('sale_url', $salesId)->first();
+        $product_list = $open_order->productStocks()->pluck('unique_id')->all();
         $business = Business::findByUniqueId($businessId);
         $open_order_setting = OpenOrderSetting::where('open_order_id', $open_order->id)->first();
         $settings = json_decode($open_order_setting->options);
-        return view('open-orders.show')->with('openorder', $open_order)->with('business', $business)->with('shipping', $settings->shipping)->with('payment', $settings->payment);
+        return view('open-orders.show')->with('openorder', $open_order)->with('business', $business)->with('shipping', $settings->shipping)->with('payment', $settings->payment)->with('product_list', $product_list);
     }
 
     public function create($businessId) {
@@ -53,11 +55,14 @@ class OpenOrderController extends Controller
                 $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
             }
 
-            // need refactor
-            $openOrder->products_list = json_encode($request->products_list);
+            $openOrder->products_list = json_encode($request->products_list); // to be remove
             $openOrder->sale_url = str_slug($request->sale_url, '-');
             $openOrder->business()->associate($business);
             $openOrder->save();
+
+            /* Get product id from product_stocks table */
+            $product_list = Product::select('id')->where('business_id', $business->id)->whereIn('unique_id', $request->products_list)->pluck('id')->all();
+            $openOrder->productStocks()->sync($product_list);
 
             $settings = array();
             // Shipping
@@ -112,12 +117,15 @@ class OpenOrderController extends Controller
             if (!empty($request->end_at)) {
                 $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
             }
-            $openOrder->products_list = json_encode($request->products_list);
-            // need refactor
 
+            $openOrder->products_list = json_encode($request->products_list);  // to be remove
             $openOrder->sale_url = str_slug($request->sale_url, '-');
             $openOrder->business()->associate($business);
             $openOrder->save();
+
+            /* Get product id from product_stocks table */
+            $product_list = Product::select('id')->where('business_id', $business->id)->whereIn('unique_id', $request->products_list)->pluck('id')->all();
+            $openOrder->productStocks()->attach($product_list);
 
             $settings = array();
             // Shipping
