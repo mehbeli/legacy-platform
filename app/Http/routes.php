@@ -34,8 +34,11 @@ Route::group([ 'middleware' => 'auth'], function () {
     Route::resource('business', 'BusinessController');
     Route::resource('business.orders', 'OrderController');
     Route::resource('business.invoices', 'InvoiceController');
-    Route::resource('business.products', 'ProductController');
     Route::resource('business.open-orders', 'OpenOrderController');
+
+    // Products
+    Route::post('/business/{business}/products/{product}/toggle', 'ProductController@toggle');
+    Route::resource('business.products', 'ProductController');
 
     // Custom Route
     Route::post('/business/{business}/open-orders/toggle-status', 'OpenOrderController@postToggle');

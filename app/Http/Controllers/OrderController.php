@@ -12,7 +12,7 @@ use App\Order;
 class OrderController extends Controller
 {
     public function __construct() {
-        $this->middleware('business', [ 'only' => [ 'show', 'edit', 'destroy' ] ]);
+        $this->middleware('business');
     }
 
     public function index($business) {
@@ -36,5 +36,9 @@ class OrderController extends Controller
         $business = Business::findByUniqueId($business);
 
         return view('orders.show')->with('business', $business)->with('order', $order);
+    }
+
+    public function store(Request $request, $businessId) {
+        dd($request->all());
     }
 }

@@ -13,7 +13,7 @@ class Product extends Model
     protected $table = 'product_stocks';
 
     protected $fillable = [
-        'product_name', 'product_description', 'quantity_in_stock', 'cost', 'selling_price', 'image'
+        'product_name', 'product_description', 'quantity_in_stock', 'cost', 'selling_price', 'image', 'active'
     ];
 
     private $rules = [

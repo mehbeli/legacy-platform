@@ -3,7 +3,10 @@
 
 * {
     /* font-family: 'Open Sans', sans-serif; */
-    font-family: 'Montserrat', sans-serif;
+    /* font-family: 'Montserrat', sans-serif; */
+    /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    font-family: Lato, Arial, sans-serif;
+
 }
 
 /* .btn and its relative */
@@ -875,6 +878,14 @@ input[type=range]:focus::-ms-fill-upper {
 .optional-marker {
     font-size: 12px;
     color: #616161;
+}
+
+ul.nav-tabs-custom li:first-child {
+    margin-left: 10px;
+}
+
+.width-fix {
+    width: 180px !important;
 }
 
 /*# sourceMappingURL=all.css.map */

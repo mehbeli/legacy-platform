@@ -44,7 +44,19 @@ class DatatableController extends Controller
 
         if ($isOwner) {
             $businessTrueId = Business::findByUniqueId($businessId)->id;
-            $query = Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price', 'unique_id'])->where('business_id', $businessTrueId);
+            $status = null;
+
+            $query = Product::select(['product_name', 'product_description', 'quantity_in_stock', 'selling_price', 'unique_id', 'active'])->where('business_id', $businessTrueId);
+            if (!isset($request->showAll)) {
+                if (!isset($request->active)) {
+                    $status = true;
+                    $query->where('active', $status);
+                } else {
+                    $status = $request->active;
+                    $query->where('active', $status);
+                }
+            }
+
             $open_order_products = [];
             if (isset($request->openorder)) {
                 $open_order_products = OpenOrder::where('sale_url', $request->openorder)->first()->products_list;
@@ -57,13 +69,25 @@ class DatatableController extends Controller
                 })
                 ->addColumn('actions', function ($product) use ($businessId) {
                     $csrf = csrf_field();
-                    return '<form action="/business/'.$businessId.'/products/'.$product->unique_id.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <a href="/business/'.$businessId.'/products/'.$product->unique_id.'" class="btn btn-xs btn-default pull-right">Details</a>';
+                    $style = null;
+                    $echo_text = null;
+                    if ($product->active) {
+                        $style = 'btn-warning';
+                        $echo_text = 'Deactivate';
+                    } else {
+                        $style = 'btn-success';
+                        $echo_text = 'Activate';
+                    }
+                    return '<form action="/business/'.$businessId.'/products/'.$product->unique_id.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <form action="/business/'.$businessId.'/products/'.$product->unique_id.'/toggle" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="status" value="'.$product->active.'" /><button type="button" class="btn toggle-product btn-xs '.$style.'" style="margin-left: 5px;">'.$echo_text.'</button></form> <a href="/business/'.$businessId.'/products/'.$product->unique_id.'" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
                 ->addColumn('actionnodelete', function ($product) use ($businessId) {
                     return '<a href="#" data-product="'.$product->unique_id.'" data-toggle="modal" data-target="#productDetail" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
                 ->setRowClass(function ($product) {
                     return ($product->quantity_in_stock <= 0) ? 'danger' : '';
+                })
+                ->setRowClass(function ($product) {
+                    return ($product->active) ? '' : 'danger';
                 })
                 ->make(true);
         } else {

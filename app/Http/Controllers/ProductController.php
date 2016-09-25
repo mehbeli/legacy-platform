@@ -92,4 +92,20 @@ class ProductController extends Controller
         return redirect("/business/$businessId/products")->with('success', 'Product has been deleted.');
     }
 
+    public function toggle($businessId, $productId) {
+
+        $product = Product::findByUniqueId($productId);
+        $status = null;
+        if ($product->active) {
+            $product->update([ 'active' => false ]);
+            $status = 'deactivated';
+        } else {
+            $product->update([ 'active' => true ]);
+            $status = 'activated';
+        }
+
+        return redirect("/business/$businessId/products")->with('success', 'Your product have been '.$status)->with('tab', $status);
+
+    }
+
 }

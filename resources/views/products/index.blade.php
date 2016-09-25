@@ -35,49 +35,72 @@ hr {
                     <a href="{{ action('ProductController@create', [ 'business' => $business->unique_id ]) }}" class="btn btn-primary btn-sm">Add Product</a>
                 </div>
             </div>
-            {{-- <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Bulk Action <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div><!-- /.row -->
+            <div class="panel-body">
+                <!-- Nav tabs --><div class="row">
+                <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+                <?php
+                    $inactive = null;
+                    $active = null;
+                ?>
+                @if (Session::has('tab') && Session::get('tab') == 'activated')
 
-            </div>  --}}
-            <hr>
+                    <?php $inactive = 'active'; ?>
+                @else
+                    <?php $active = 'active'; ?>
+                @endif
+                  <li role="presentation" class="{{$active}}"><a href="#active" aria-controls="home" role="tab" data-toggle="tab">Active Product</a></li>
+                  <li role="presentation" class="{{$inactive}}"><a href="#inactive" aria-controls="profile" role="tab" data-toggle="tab">Inactive Product</a></li>
+                </ul>
+                </div>
 
+            </div>
             <!-- Table -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane {{$active}}" id="active">
+                        <table id="products-table-active" class="table" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>
 
-            <table id="products-table" class="table" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>
+                                    </th>
+                                    <th>
+                                        Product Name
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
+                                    <th class="width-fix">
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                </div>
+                <div role="tabpanel" class="tab-pane {{$inactive}}" id="inactive">
+                    <table id="products-table-inactive" class="table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>
 
-                        </th>
-                        <th>
-                            Product Name
-                        </th>
-                        <th>
-                            Quantity
-                        </th>
-                        <th>
-                            Price
-                        </th>
-                        <th style="width: 110px;">
-                        </th>
-                    </tr>
-                </thead>
-            </table>
+                                </th>
+                                <th>
+                                    Product Name
+                                </th>
+                                <th>
+                                    Quantity
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th class="width-fix">
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+              </div>
         </div>
 
     </div>
@@ -105,11 +128,44 @@ hr {
 @section('script')
 <script>
 $(function() {
-    $('#products-table').DataTable({
+    $('#products-table-active').DataTable({
         processing: true,
         serverSide: true,
         //responsive: true,
-        ajax: "{{ url('/data/products/'.$business->unique_id) }}",
+        ajax: "{{ url('/data/products/'.$business->unique_id) }}?active=1",
+        columns: [
+            { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
+            { data: 'product_name', name: 'product_name' },
+            { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
+            { data: 'selling_price', name: 'selling_price' },
+            { data: 'actions', name: 'actions', sortable: false, searchable: false }
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                searchable: false,
+                orderable: false,
+                className: 'dt-body-center',
+                render: function (data, type, full, meta){
+                    return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                },
+                checkboxes: { selectRow: true }
+            }
+        ],
+        select: {
+            style: 'multi',
+            selector: 'td:first-child'
+        },
+        order: [[1, 'desc']],
+    });
+});
+
+$(function() {
+    $('#products-table-inactive').DataTable({
+        processing: true,
+        serverSide: true,
+        //responsive: true,
+        ajax: "{{ url('/data/products/'.$business->unique_id) }}?active=0",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'product_name', name: 'product_name' },
@@ -138,7 +194,7 @@ $(function() {
 });
 </script>
 <script>
-$('#products-table').on('click', '.btn-delete', function () {
+$('#products-table-active').on('click', '.btn-delete', function () {
     var current = $(this);
     swal({
         title: "Are you sure?",
@@ -148,8 +204,53 @@ $('#products-table').on('click', '.btn-delete', function () {
         confirmButtonColor: "#DD6B55",
         confirmButtonText: "Yes, delete it!",
         closeOnConfirm: false }, function(){
-            swal("Deleted!", "Your Product has been deleted.", "success");
-            current.parent('form').submit();
+            swal({
+                title: "Deleted!",
+                text: "Your Product has been deleted.",
+                type: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+            setTimeout(function () {
+                current.parent('form').submit();
+            }, 1000);
+    });
+});
+
+$('.table').on('click', '.toggle-product', function () {
+    var current = $(this);
+    var $stats = current.parent('form').find('input[name=status]').val();
+    var $extra = '';
+    console.log($stats);
+    if ($stats == '1') {
+        console.log('masuk sini');
+        $stats = 'deactivate';
+        $extra = 'and will be excluded from your sale.'
+    } else if ($stats == '0') {
+        console.log('masuk sina');
+        $stats = 'activate';
+    }
+
+    swal({
+        title: "Are you sure?",
+        text: "This product will be "+ $stats +"d "+$extra,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, "+ $stats +"!",
+        closeOnConfirm: false
+    }, function() {
+            swal({
+                title: '<span style="text-transform:capitalize;">'+$stats+'d</span>!',
+                text: "Your Product has been "+$stats+"d.",
+                html: true,
+                type: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+            setTimeout(function () {
+                current.parent('form').submit();
+            }, 1000);
     });
 });
 </script>

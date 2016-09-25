@@ -73,7 +73,7 @@ hr {
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">RM</span>
-                                    <input min="0" type="text" name="courier_price" data-parsley-errors-container=".validation-delivery-method" value="0" placeholder="" class="form-control input-sm">
+                                    <input min="0" step="0.01" type="number" name="courier_price" data-parsley-errors-container=".validation-delivery-method" value="0" placeholder="" class="form-control input-sm">
                                 </div>
                             </div>
                             <div class="checkbox">
@@ -82,7 +82,7 @@ hr {
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">RM</span>
-                                    <input min="0" type="text" name="selfpickup_price" data-parsley-errors-container=".validation-delivery-method" value="0" placeholder="" class="form-control input-sm">
+                                    <input min="0" step="0.01" type="number" name="selfpickup_price" data-parsley-errors-container=".validation-delivery-method" value="0" placeholder="" class="form-control input-sm">
                                 </div>
                             </div>
                             <div class="checkbox">
