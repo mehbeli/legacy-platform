@@ -421,10 +421,10 @@ $('#order').on('submit', function(e){
     $('#same-as-billing').on('click', function () {
         if ($(this).is(':checked')) {
             var billing = $('[name^=billing_]');
+            var delivery = $('[name^=delivery_]').not('[name=delivery_charge]');
             $.each( billing , function (i, val) {
-                console.log($(val).val());
-            })
-            $('[name^=delivery_]').not('[name=delivery_charge]');
+                $(delivery[i]).val($(val).val()).prop('readonly', true);
+            });
         } else {
             $('[name^=delivery_]').not('[name=delivery_charge]').not('[name=delivery_country]').prop('readonly', false)
         }
