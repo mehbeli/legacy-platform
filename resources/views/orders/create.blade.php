@@ -224,24 +224,35 @@ hr {
                                         <i>Optional</i>
                                     </div>
                                     <select name="sale" class="form-control selectpicker" multiple data-max-options="1" title="Select Sale...">
-                                        <option value="testing">
-                                            Testing
-                                        </option>
+                                        @foreach ($openSales as $sale)
+                                            <option value="{{ $sale->sale_url }}">
+                                                {{ str_limit($sale->title, 256) }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Delivery options</label>
                                     <select name="delivery" class="form-control selectpicker" multiple data-max-options="1" title="Select Delivery Option...">
-                                        <option value="testing">
-                                            Testing
+                                        <option value="courier">
+                                            Courier / Delivery
+                                        </option>
+                                        <option value="self-pickup">
+                                            Self Pickup
                                         </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Payment options</label>
                                     <select name="payment" class="form-control selectpicker" multiple data-max-options="1" title="Select Payment Option...">
-                                        <option value="testing">
-                                            Testing
+                                        <option value="fpx">
+                                            FPX
+                                        </option>
+                                        <option value="non-fpx">
+                                            Cash Deposit / Internet Banking (non-FPX)
+                                        </option>
+                                        <option value="cash">
+                                            Cash
                                         </option>
                                     </select>
                                 </div>
