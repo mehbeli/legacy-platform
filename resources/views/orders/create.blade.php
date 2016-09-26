@@ -433,11 +433,25 @@ $('#order').on('submit', function(e){
         if ($(this).is(':checked')) {
             var billing = $('[name^=billing_]');
             var delivery = $('[name^=delivery_]').not('[name=delivery_charge]');
+
             $.each( billing , function (i, val) {
                 $(delivery[i]).val($(val).val()).prop('readonly', true);
             });
+
+            $('[name^=billing_]').on('keyup', function () {
+
+                var billing = $('[name^=billing_]');
+                var delivery = $('[name^=delivery_]').not('[name=delivery_charge]');
+
+                $.each( billing , function (i, val) {
+                    $(delivery[i]).val($(val).val()).prop('readonly', true);
+                });
+
+            });
+
         } else {
             $('[name^=delivery_]').not('[name=delivery_charge]').not('[name=delivery_country]').prop('readonly', false)
+            $('[name^=billing_]').unbind();
         }
     });
 </script>
