@@ -2,10 +2,11 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Coming Soon</title>
+        <title>Coming Soon - jejual.my</title>
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <style media="screen">
             html {
-                font-family: Lato;
+                font-family: 'Lato', sans-serif;
                 background: #EEE;
             }
             .jejual {
