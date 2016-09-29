@@ -147,8 +147,8 @@ class DatatableController extends Controller
                     return !is_null($sale->end_at) ? Carbon::createFromFormat("Y-m-d H:i:s", $sale->end_at)->diffForHumans() : '';
                 })
                 ->editColumn('products_list', function ($sale) {
-                    $lists = json_decode($sale->products_list);
-                    return count($lists);
+                    $count = $sale->productStocks()->pluck('unique_id')->count();
+                    return $count;
                 })
                 ->addColumn('status', function ($sale) {
                     if ($sale->active) {

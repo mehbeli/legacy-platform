@@ -24,7 +24,8 @@ class OrderController extends Controller
 
     public function create($business) {
         $business = Business::findByUniqueId($business);
-        return view('orders.create')->with('business', $business);
+        $openSales = $business->openOrders()->get();
+        return view('orders.create')->with('business', $business)->with('openSales', $openSales);
     }
 
     public function show($business, $orderId) {

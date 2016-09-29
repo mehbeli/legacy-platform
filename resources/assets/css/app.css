@@ -5,7 +5,8 @@
     /* font-family: 'Open Sans', sans-serif; */
     /* font-family: 'Montserrat', sans-serif; */
     /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-    font-family: Lato, Arial, sans-serif;
+    /* font-family: Lato, Arial, sans-serif; */
+    font-family: 'Karla', sans-serif;
 
 }
 
@@ -324,14 +325,14 @@
 }
 
 .top-info {
-    margin-top: 70px;
+    margin-top: 45px;
     background: #263238;
     color: #FFF;
 }
 
 @media (max-width: 992px) {
     .top-info {
-        margin-top: 50px;
+        margin-top: 45px;
     }
 
     .top-info .info-details {
@@ -878,6 +879,7 @@ input[type=range]:focus::-ms-fill-upper {
 .optional-marker {
     font-size: 12px;
     color: #616161;
+    padding-top: 3px;
 }
 
 ul.nav-tabs-custom li:first-child {

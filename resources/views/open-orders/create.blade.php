@@ -208,7 +208,7 @@ $(function() {
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: "{{ url('/data/products/'.$business->unique_id) }}",
+        ajax: "{{ url('/data/products/'.$business->unique_id) }}?showAll=1",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'product_name', name: 'product_name' },
@@ -300,13 +300,33 @@ $(function() {
 </script>
 <script type="text/javascript">
 $(function () {
+    firstOpen=true;
     $('#start_date').datetimepicker({
-        format: 'DD/MM/Y HH:mm:ss A',
-        useCurrent: true
+        format: 'DD/MM/Y h:mm:ss A',
+        useCurrent: true,
+    }).on("dp.show", function(){
+
+        if (firstOpen==true){
+            $(this).data('DateTimePicker').date(new Date());
+            firstOpen=false;
+        }
     });
+
     $('#end_date').datetimepicker({
-        format: 'DD/MM/Y HH:mm:ss A'
+        format: 'DD/MM/Y h:mm:ss A',
     });
+
+    $('#start_date').on('dp.change', function (e) {
+        if ($('#end_date').val() != '') {
+            $('#end_date').data('DateTimePicker').minDate(e.date);
+        }
+    });
+
+    $('#end_date').on('dp.change', function (e) {
+            $('#end_date').data('DateTimePicker').minDate($('#start_date').data('DateTimePicker').date());
+    });
+
+
 });
 </script>
 @endsection
