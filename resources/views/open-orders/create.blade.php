@@ -208,7 +208,7 @@ $(function() {
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: "{{ url('/data/products/'.$business->unique_id) }}",
+        ajax: "{{ url('/data/products/'.$business->unique_id) }}?showAll=1",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'product_name', name: 'product_name' },

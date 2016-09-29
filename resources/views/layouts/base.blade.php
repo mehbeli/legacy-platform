@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/components/datatables-select/css/select.bootstrap.min.css">
     <link rel="stylesheet" href="/components/bootstrap-select/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="/components/sweetalert/sweetalert.css">
+    <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
     @yield('vendor-css')
 
     <!-- Custom styles for this template -->

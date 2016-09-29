@@ -5,8 +5,7 @@
     /* font-family: 'Open Sans', sans-serif; */
     /* font-family: 'Montserrat', sans-serif; */
     /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-    /* font-family: Lato, Arial, sans-serif; */
-    font-family: 'Karla', sans-serif;
+    font-family: Lato, Arial, sans-serif;
 
 }
 
@@ -879,7 +878,6 @@ input[type=range]:focus::-ms-fill-upper {
 .optional-marker {
     font-size: 12px;
     color: #616161;
-    padding-top: 3px;
 }
 
 ul.nav-tabs-custom li:first-child {
@@ -891,5 +889,7 @@ ul.nav-tabs-custom li:first-child {
 }
 
 .table .danger.selected td {
-    background-color: #fd9494 !important;
+    background-color: #fe6a6a !important;
 }
+
+/*# sourceMappingURL=all.css.map */

@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 
 Route::auth();
-
+Route::get('nyo', function () {
+    return view('static-page.not-yet-open');
+});
 Route::get('/home', 'HomeController@index');
 Route::get('/email', function () {
     return view('mailing.usermail');
