@@ -878,6 +878,7 @@ input[type=range]:focus::-ms-fill-upper {
 .optional-marker {
     font-size: 12px;
     color: #616161;
+    padding-top: 5px;
 }
 
 ul.nav-tabs-custom li:first-child {

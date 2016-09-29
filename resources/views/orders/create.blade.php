@@ -219,8 +219,8 @@ hr {
                     <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="has-marker">Assign to open sale</label>
-                                    <div class="optional-marker">
+                                    <label>Assign to open sale</label>
+                                    <div class="optional-marker pull-right">
                                         <i>Optional</i>
                                     </div>
                                     <select name="sale" class="form-control selectpicker" multiple data-max-options="1" title="Select Sale...">
@@ -248,14 +248,24 @@ hr {
                                         <option value="fpx">
                                             FPX
                                         </option>
-                                        <option value="non-fpx">
-                                            Cash Deposit / Internet Banking (non-FPX)
+                                        <option value="manual">
+                                            Cash Deposit / Internet Banking (Manual)
                                         </option>
                                         <option value="cash">
                                             Cash
                                         </option>
                                     </select>
                                 </div>
+                                <div class="well">
+                                    <div class="form-group">
+                                        <label>Upload Reference</label>
+                                        <div class="optional-marker pull-right">
+                                            <i>Optional</i>
+                                        </div>
+                                        <input type="file" name="name" value="" class="form-control">
+                                    </div>
+                                </div>
+
                         </div>
                         <div class="col-sm-6">
 
