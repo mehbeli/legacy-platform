@@ -144,6 +144,9 @@ hr {
                         <th>
                             Price
                         </th>
+                        <th style="width: 80px;">
+                            Sale Price
+                        </th>
                         <th style="width: 70px;">
 
                         </th>
@@ -206,7 +209,17 @@ hr {
 <script src="/components/momentjs/moment.js"></script>
 <script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script>
-$(function() {
+
+$(document).ready(function () {
+
+    window.sale_price = Array();
+
+    $('.table').on('keyup', '.sale-price', function () {
+        $data_id = $(this).attr('data-id');
+        window.sale_price[$data_id] = $(this).val();
+        console.log(window.sale_price);
+    });
+
     var $found = false;
     $('#openOrder').parsley();
 
@@ -220,6 +233,7 @@ $(function() {
             { data: 'product_name', name: 'product_name' },
             { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
             { data: 'selling_price', name: 'selling_price' },
+            { data: 'sale_price', name: 'sale_price', sortable: false, searchable: false },
             { data: 'actionnodelete', name: 'actionnodelete', sortable: false, searchable: false }
         ],
         columnDefs: [
@@ -232,6 +246,20 @@ $(function() {
                     return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                 },
                 checkboxes: { selectRow: true }
+            },
+            {
+                targets: 4,
+                searchable: false,
+                orderable: false,
+                render: function (data, type, full, meta){
+                    sale_price = window.sale_price;
+                    console.log(sale_price.indexOf(full.unique_id));
+                    if (sale_price.indexOf(full.unique_id) >= 0) {
+                        return '<input type="text" class="form-control input-sm sale-price" data-id="'+full.unique_id+'" value="'+selling_price[full.unique_id]+'"/>';
+                    } else {
+                        return data;
+                    }
+                },
             }
         ],
         select: {
@@ -242,6 +270,7 @@ $(function() {
         lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
         pageLength: 5
     });
+
     var timer, val;
     $('#sale-url').on('keyup', function () {
         clearTimeout(timer);

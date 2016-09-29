@@ -83,6 +83,9 @@ class DatatableController extends Controller
                 ->addColumn('actionnodelete', function ($product) use ($businessId) {
                     return '<a href="#" data-product="'.$product->unique_id.'" data-toggle="modal" data-target="#productDetail" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
+                ->addColumn('sale_price', function ($product) use ($businessId) {
+                    return '<input type="text" class="form-control input-sm sale-price" data-id="'.$product->unique_id.'" value="'.$product->selling_price.'"/>';
+                })
                 ->setRowClass(function ($product) {
                     return ($product->quantity_in_stock <= 0) ? 'danger' : '';
                 })

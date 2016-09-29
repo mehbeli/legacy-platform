@@ -393,7 +393,6 @@ $(document).ready(function () {
 
 });
 
-
 $('#start_date').on('dp.change', function (e) {
     if ($('#end_date').val() != '') {
         $('#end_date').data('DateTimePicker').minDate(e.date);

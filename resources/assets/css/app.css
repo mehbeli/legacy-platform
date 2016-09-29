@@ -893,3 +893,7 @@ ul.nav-tabs-custom li:first-child {
 .table .danger.selected td {
     background-color: #fd9494 !important;
 }
+
+.sale-price {
+    height: 20px !important;
+}

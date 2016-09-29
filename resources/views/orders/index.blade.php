@@ -101,7 +101,14 @@ $(function() {
             { data: 'created_at', name: 'created_at' },
             { data: 'created_at', name: 'created_at' },
             { data: 'action', name: 'action', sortable: false, searchable: false }
-        ]
+        ],
+        language: {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "No order found",
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "infoEmpty": "No order available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
     });
 });
 </script>
