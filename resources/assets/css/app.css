@@ -325,14 +325,14 @@
 }
 
 .top-info {
-    margin-top: 70px;
+    margin-top: 45px;
     background: #263238;
     color: #FFF;
 }
 
 @media (max-width: 992px) {
     .top-info {
-        margin-top: 50px;
+        margin-top: 45px;
     }
 
     .top-info .info-details {

@@ -38,7 +38,6 @@ class OpenOrderController extends Controller
     }
 
     public function update(Request $request, $businessId, $saleId) {
-
         $business = Business::findByUniqueId($businessId);
         $openOrder = $business->openOrders()->where('sale_url', $saleId)->first();
         $inputs = $request->all();
@@ -50,9 +49,9 @@ class OpenOrderController extends Controller
                 'sale_url' => 'unique:open_orders,sale_url,'.$openOrder->id.'|required',
             ])) {
             $openOrder->fill($inputs);
-            $openOrder->start_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->start_at)->format('Y-m-d H:i:s');
+            $openOrder->start_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->start_at)->toDateTimeString();
             if (!empty($request->end_at)) {
-                $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
+                $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->toDateTimeString();
             }
 
             $openOrder->products_list = json_encode($request->products_list); // to be remove

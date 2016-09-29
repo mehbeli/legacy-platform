@@ -215,8 +215,6 @@ hr {
 
 @section('script')
 <script src="/components/datatables-checkbox/js/dataTables.checkboxes.js"></script>
-<script src="/components/momentjs/moment.js"></script>
-<script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script>
 $(function() {
 
@@ -276,7 +274,7 @@ $(document).ready(function () {
     });
 
     function selectOn(thisVal, indexes) {
-        
+
         if ((thisVal[0] === undefined))
             thisVal = [ thisVal ];
 
@@ -386,12 +384,24 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#start_date').datetimepicker({
         defaultDate: $('#start_date_at').attr('data-date-default'),
-        format: 'DD/MM/Y HH:mm:ss A',
+        format: 'DD/MM/Y h:mm:ss A',
     });
     $('#end_date').datetimepicker({
         defaultDate: $('#end_date_at').attr('data-date-default'),
-        format: 'DD/MM/Y HH:mm:ss A'
+        format: 'DD/MM/Y h:mm:ss A'
     });
+
+});
+
+
+$('#start_date').on('dp.change', function (e) {
+    if ($('#end_date').val() != '') {
+        $('#end_date').data('DateTimePicker').minDate(e.date);
+    }
+});
+
+$('#end_date').on('dp.change', function (e) {
+        $('#end_date').data('DateTimePicker').minDate($('#start_date').data('DateTimePicker').date());
 });
 </script>
 @endsection
