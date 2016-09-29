@@ -96,17 +96,23 @@ hr {
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div class="form-group">
                             <label>Payment Methods</label>
                             <div class="validation-delivery-method-payment"></div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="payment[]" data-parsley-errors-container=".validation-delivery-method-payment" data-parsley-required value="manual"> Manual Bank In / Internet Banking
+                                    <input type="checkbox" name="payment[]" value="fpx" data-parsley-errors-container=".validation-delivery-method-payment" data-parsley-required> FPX (through BillPlz)
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="payment[]" value="fpx"> FPX (through BillPlz)
+                                    <input type="checkbox" name="payment[]" value="manual"> Manual Bank In / Internet Banking
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="payment[]" value="cash"> Cash
                                 </label>
                             </div>
                         </div>
