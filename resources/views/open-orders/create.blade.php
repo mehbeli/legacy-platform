@@ -129,7 +129,7 @@ hr {
                 </div>
                 <div class="validation-product"></div>
             </div>
-            <table id="products-table" class="table">
+            <table id="products-table" class="table" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>
@@ -209,74 +209,67 @@ hr {
 <script src="/components/momentjs/moment.js"></script>
 <script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script>
+var sale_price = {};
+$('.table').on('keyup', '.sale-price', function () {
+    data_id = $(this).attr('data-id');
+    sale_price[data_id] = parseInt($(this).val());
+});
 
-$(document).ready(function () {
+var $found = false;
+$('#openOrder').parsley();
 
-    window.sale_price = Array();
-
-    $('.table').on('keyup', '.sale-price', function () {
-        $data_id = $(this).attr('data-id');
-        window.sale_price[$data_id] = $(this).val();
-        console.log(window.sale_price);
-    });
-
-    var $found = false;
-    $('#openOrder').parsley();
-
-    var table = $('#products-table').DataTable({
-        processing: true,
-        serverSide: true,
-        responsive: true,
-        ajax: "{{ url('/data/products/'.$business->unique_id) }}?showAll=1",
-        columns: [
-            { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
-            { data: 'product_name', name: 'product_name' },
-            { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
-            { data: 'selling_price', name: 'selling_price' },
-            { data: 'sale_price', name: 'sale_price', sortable: false, searchable: false },
-            { data: 'actionnodelete', name: 'actionnodelete', sortable: false, searchable: false }
-        ],
-        columnDefs: [
-            {
-                targets: 0,
-                searchable: false,
-                orderable: false,
-                className: 'dt-body-center',
-                render: function (data, type, full, meta){
-                    return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-                },
-                checkboxes: { selectRow: true }
+var table = $('#products-table').DataTable({
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: "{{ url('/data/products/'.$business->unique_id) }}?showAll=1",
+    columns: [
+        { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
+        { data: 'product_name', name: 'product_name' },
+        { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
+        { data: 'selling_price', name: 'selling_price' },
+        { data: 'sale_price', name: 'sale_price', sortable: false, searchable: false },
+        { data: 'actionnodelete', name: 'actionnodelete', sortable: false, searchable: false }
+    ],
+    columnDefs: [
+        {
+            targets: 0,
+            searchable: false,
+            orderable: false,
+            className: 'dt-body-center',
+            render: function (data, type, full, meta){
+                return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
             },
-            {
-                targets: 4,
-                searchable: false,
-                orderable: false,
-                render: function (data, type, full, meta){
-                    sale_price = window.sale_price;
-                    console.log(sale_price.indexOf(full.unique_id));
-                    if (sale_price.indexOf(full.unique_id) >= 0) {
-                        return '<input type="text" class="form-control input-sm sale-price" data-id="'+full.unique_id+'" value="'+selling_price[full.unique_id]+'"/>';
-                    } else {
-                        return data;
-                    }
-                },
-            }
-        ],
-        select: {
-            style: 'multi',
-            selector: 'td:first-child'
+            checkboxes: { selectRow: true }
         },
-        order: [[1, 'asc']],
-        lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
-        pageLength: 5
-    });
+        {
+            targets: 4,
+            searchable: false,
+            orderable: false,
+            render: function (data, type, full, meta) {
+                if (full.unique_id in sale_price) {
+                    return '<input type="text" class="form-control input-sm sale-price" data-id="'+full.unique_id+'" value="'+sale_price[full.unique_id]+'"/>';
+                } else {
+                    return data;
+                }
+            },
+        }
+    ],
+    select: {
+        style: 'multi',
+        selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
+    pageLength: 5
+});
 
-    var timer, val;
-    $('#sale-url').on('keyup', function () {
-        clearTimeout(timer);
-        var str = $(this).val();
-        if (str.length > 2 && val != str) {
-            timer = setTimeout(function () {
+var timer, val;
+$('#sale-url').on('keyup', function () {
+    clearTimeout(timer);
+    var str = $(this).val();
+    if (str.length > 2 && val != str) {
+        timer = setTimeout(function () {
             $found = false;
             val = str;
             $.get(
@@ -294,44 +287,43 @@ $(document).ready(function () {
                 } else {
                     $found = false;
                 }
-            //return data.found;
-        });
-    }, 500);
-    }
-    });
-
-    $('#openOrder').on('submit', function(e){
-        e.preventDefault();
-        if ($found) {
-            $('#sale-url').focus();
-            return false;
-        }
-
-          var form = this;
-          var rows_selected = table.column(0).checkboxes.selected();
-          // Iterate over all selected checkboxes
-
-          if (rows_selected.length === 0) {
-              $('.validation-product').append('Please choose one product to be include in your sale.');
-              return false;
-          }
-
-          $.each(rows_selected, function(index, rowId){
-             // Create a hidden element
-             $(form).append(
-                 $('<input>')
-                    .attr('type', 'hidden')
-                    .attr('name', 'products_list[]')
-                    .val(rowId)
-                );
+                //return data.found;
             });
-            $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Open Sale Now!');
-            setTimeout(function () {
-                form.submit();
-            }, 1000);
+        }, 500);
+    }
+});
 
-        });
+$('#openOrder').on('submit', function(e){
+    e.preventDefault();
+    if ($found) {
+        $('#sale-url').focus();
+        return false;
+    }
+
+    var form = this;
+    var rows_selected = table.column(0).checkboxes.selected();
+    // Iterate over all selected checkboxes
+
+    if (rows_selected.length === 0) {
+        $('.validation-product').append('Please choose one product to be include in your sale.');
+        return false;
+    }
+
+    $.each(rows_selected, function(index, rowId){
+        // Create a hidden element
+        $(form).append(
+            $('<input>')
+            .attr('type', 'hidden')
+            .attr('name', 'products_list[]')
+            .val(rowId)
+        );
     });
+    $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Open Sale Now!');
+    setTimeout(function () {
+        form.submit();
+    }, 1000);
+
+});
 </script>
 <script type="text/javascript">
 $(function () {
