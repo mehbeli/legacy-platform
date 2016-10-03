@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/components/datatables-select/css/select.bootstrap.min.css">
     <link rel="stylesheet" href="/components/bootstrap-select/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="/components/sweetalert/sweetalert.css">
-    <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+    <!-- link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet" -->
     @yield('vendor-css')
 
     <!-- Custom styles for this template -->
@@ -58,7 +58,7 @@
                 @endif
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                @include('partials.notification')
+                {{-- include('partials.notification') --}}
                 <li class="dropdown border-top-solid profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <i class="menu-drop fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu">

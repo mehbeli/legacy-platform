@@ -40,6 +40,11 @@ class OrderController extends Controller
     }
 
     public function store(Request $request, $businessId) {
+        $business = Business::findByUniqueId($businessId);
+
+        $order = new Order;
+        $inputs = $request->all();
+        //$
         dd($request->all());
     }
 }

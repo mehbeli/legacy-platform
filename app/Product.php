@@ -3,12 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\ValidationTraits;
 
 class Product extends Model
 {
 
     use ValidationTraits;
+    use SoftDeletes;
 
     protected $table = 'product_stocks';
 

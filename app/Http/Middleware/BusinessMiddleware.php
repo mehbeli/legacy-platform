@@ -16,7 +16,7 @@ class BusinessMiddleware
     public function handle($request, Closure $next)
     {
         if (!$request->user()->canAccess($request->business)) {
-            return 'jubur lu';
+            return response(401);
         }
 
         return $next($request);

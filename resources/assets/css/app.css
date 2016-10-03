@@ -894,6 +894,11 @@ ul.nav-tabs-custom li:first-child {
     background-color: #fd9494 !important;
 }
 
-.sale-price {
+.sale-price, .quantity_buy {
     height: 20px !important;
+}
+
+.checkbox-custom {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }

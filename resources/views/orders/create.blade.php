@@ -47,7 +47,7 @@ hr {
             <form class="form" id="order" action="{{ action('OrderController@store', [ 'business' => $business->unique_id ]) }}" method="POST">
                 {{ csrf_field() }}
                 <div class="panel-body">
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-sm-6">
                             <div class="checkbox checkbox-success">
                                 <input type="checkbox" id="confirm-order" class="checkbox-success">
@@ -55,17 +55,32 @@ hr {
                                     Confirm Order
                                 </label>
                           </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="checkbox checkbox-success">
-                                <input type="checkbox" id="paid-order">
-                                <label for="paid-order">
-                                    Paid
-                                </label>
-                          </div>
+                      </div>
+                        <div class="col-sm-2 col-sm-offset-10">
+                            <div class="well">
+                                <div class="checkbox checkbox-success">
+                                    <input type="checkbox" id="paid-order">
+                                    <label for="paid-order">
+                                        Paid
+                                    </label>
+                              </div>
+                            </div>
+
                         </div>
                     </div>
                     <hr />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Load Customer Data</label>
+                            <div class="input-group">
+                                <input type="text" name="search" placeholder="Name / Email Address" class="form-control">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Load</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>--}}
                     <div class="row">
                         <div class="col-sm-6">
                             <h4>Billing Information</h4>
@@ -73,19 +88,19 @@ hr {
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Name</label>
-                                        <input type="text" name="billing_name" class="form-control input-sm" placeholder="Biling Name">
+                                        <input type="text" name="billing_name" class="form-control input-sm" placeholder="Biling Name" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Email Address</label>
-                                        <input type="text" name="billing_email_address" class="form-control input-sm" placeholder="Email Address">
+                                        <input type="text" name="billing_email_address" class="form-control input-sm" placeholder="Email Address" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input type="text" name="billing_phone_no" class="form-control input-sm" placeholder="Phone Number">
+                                        <input type="text" name="billing_phone_no" class="form-control input-sm" placeholder="Phone Number" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <input type="text" name="billing_address_one" class="form-control input-sm" placeholder="">
+                                        <input type="text" name="billing_address_one" class="form-control input-sm" placeholder="" required>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" name="billing_address_two" class="form-control input-sm" placeholder="">
@@ -96,13 +111,13 @@ hr {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Post Code</label>
-                                        <input type="text" name="billing_post_code" class="form-control input-sm" placeholder="Post Code">
+                                        <input type="text" name="billing_post_code" class="form-control input-sm" placeholder="Post Code" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>City</label>
-                                        <input type="text" name="billing_city" class="form-control input-sm" placeholder="City">
+                                        <input type="text" name="billing_city" class="form-control input-sm" placeholder="City" required>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +125,7 @@ hr {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>State</label>
-                                        <input type="text" name="billing_state" class="form-control input-sm" placeholder="State">
+                                        <input type="text" name="billing_state" class="form-control input-sm" placeholder="State" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -141,7 +156,7 @@ hr {
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Name</label>
-                                            <input type="text" name="delivery_name" class="form-control input-sm" placeholder="Delivery Name">
+                                            <input type="text" name="delivery_name" class="form-control input-sm" placeholder="Delivery Name" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Email Address</label>
@@ -149,11 +164,11 @@ hr {
                                         </div>
                                         <div class="form-group">
                                             <label>Phone Number</label>
-                                            <input type="text" name="delivery_phone_no" class="form-control input-sm" placeholder="Phone Number">
+                                            <input type="text" name="delivery_phone_no" class="form-control input-sm" placeholder="Phone Number" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Address</label>
-                                            <input type="text" name="delivery_address_one" class="form-control input-sm" placeholder="">
+                                            <input type="text" name="delivery_address_one" class="form-control input-sm" placeholder="" required>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" name="delivery_address_two" class="form-control input-sm" placeholder="">
@@ -164,13 +179,13 @@ hr {
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Post Code</label>
-                                            <input type="text" name="delivery_post_code" class="form-control input-sm" placeholder="Post Code">
+                                            <input type="text" name="delivery_post_code" class="form-control input-sm" placeholder="Post Code" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>City</label>
-                                            <input type="text" name="delivery_city" class="form-control input-sm" placeholder="City">
+                                            <input type="text" name="delivery_city" class="form-control input-sm" placeholder="City" required>
                                         </div>
                                     </div>
                                 </div>
@@ -178,7 +193,7 @@ hr {
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>State</label>
-                                            <input type="text" name="delivery_state" class="form-control input-sm" placeholder="State">
+                                            <input type="text" name="delivery_state" class="form-control input-sm" placeholder="State" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -193,6 +208,26 @@ hr {
                 </div>
                 <hr>
                 <h4 style="padding-left: 8px;">Products</h4>
+                <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-6">
+                            <div class="col-md-2" style="padding-top: 7px; margin-left: -5px;">
+                                View
+                            </div>
+                            <div class="col-md-7">
+                                <select class="form-control selectpicker" name="product_view">
+                                    <option value="active">
+                                        Active products
+                                    </option>
+                                    <option value="inactive">
+                                        Inactice products
+                                    </option>
+                                    <option value="all">
+                                        All products (Active & Inactive)
+                                    </option>
+                                </select>
+                            </div>
+                    </div>
+                </div>
                 <table id="products-table" class="table table-condensed">
                     <thead>
                         <tr>
@@ -203,10 +238,13 @@ hr {
                                 Product Name
                             </th>
                             <th>
-                                Quantity
+                                In Stock
                             </th>
                             <th>
                                 Price
+                            </th>
+                            <th style="width: 80px;">
+                                Quantity
                             </th>
                             <th style="width: 70px;">
 
@@ -262,39 +300,46 @@ hr {
                                         <div class="optional-marker pull-right">
                                             <i>Optional</i>
                                         </div>
-                                        <input type="file" name="name" value="" class="form-control">
+                                        <input type="file" name="references" value="" class="form-control">
                                     </div>
                                 </div>
 
                         </div>
-                        <div class="col-sm-6">
-
-                            <div class="form-group">
-                                <label>Delivery Charge</label>
-                                <div class="input-group">
-                                    <div class="input-group-addon">RM</div>
-                                    <input name="delivery_charge" step="0.01" type="number" class="form-control" id="exampleInputAmount" placeholder="Amount">
-                                </div>
-                            </div>
-
+                        <div class="col-sm-6" id="calc">
                             <div class="form-group">
                                 <label>Subtotal</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">RM</div>
-                                    <input name="subtotal" step="0.01" type="number" class="form-control" id="exampleInputAmount" placeholder="Amount">
+                                    <input name="subtotal" step="0.01" type="number" class="form-control" id="subtotal" data-cell="A1" placeholder="Amount" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Delivery Charge</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">RM</div>
+                                    <input name="delivery_charge" step="0.01" type="number" class="form-control" id="delivery" data-cell="A2" placeholder="Amount">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Discount (RM/%)</label>
-                                <input name="discount" step="0.01" type="number" type="text" class="form-control" name="name" value="" placeholder="RM / %">
+                                <input name="discount" step="0.01" type="text" class="form-control" value="" id="discount" data-cell="A3" placeholder="RM / %">
+                                <input name="discount-hid" type="hidden" data-cell="A5" data-format="0[.]00">
                                 <span class="small-note">Eg. 12 (lump sum discount) / 12% (% discount)</span>
                             </div>
                             <div class="form-group">
                                 <label>Grand Total</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">RM</div>
-                                    <input name="grand_total" step="0.01" type="number" class="form-control" id="exampleInputAmount" placeholder="Amount">
+                                    <input name="grand_total" type="text" class="form-control" id="grand_total" data-cell="A4" placeholder="Amount" data-formula="A1+A2+A5" data-format="0[.]00" readonly>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox checkbox-custom checkbox-success">
+                                    <input type="checkbox" id="paid-order">
+                                    <label for="paid-order">
+                                        Paid
+                                    </label>
+                              </div>
                             </div>
                         </div>
                     </div>
@@ -310,7 +355,6 @@ hr {
     </div>
 </div> <!-- /container -->
 
-<!-- modal -->
 <div id="productDetail" class="modal fade add-product-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addProduct">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -319,53 +363,6 @@ hr {
                 <h4 class="modal-title" id="myModalLabel">Product Details</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-9 product-details-info">
-                        <div class="row">
-                            <div class="col-sm-4 input-label">
-                                Product Name
-                            </div>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm" name="name" value="" readonly>
-                            </div>
-                        </div>
-                        <div class="row margin-top-fix">
-                            <div class="col-sm-4 input-label">
-                                Description
-                            </div>
-                            <div class="col-sm-8">
-                                <textarea name="name" class="form-control" rows="8" cols="100%" readonly></textarea>
-                            </div>
-                        </div>
-                        <div class="row margin-top-fix">
-                            <div class="col-sm-4 input-label">
-                                In Stock
-                            </div>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm" name="name" value="" readonly>
-                            </div>
-                        </div>
-                        <div class="row margin-top-fix">
-                            <div class="col-sm-4 input-label">
-                                Price
-                            </div>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm" name="name" value="" readonly>
-                            </div>
-                        </div>
-                        <div class="row margin-top-fix">
-                            <div class="col-sm-4 input-label">
-                                Selling Price
-                            </div>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm" name="name" value="" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <img src="/images/no-picture.png" class="product-image-details" />
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -376,19 +373,114 @@ hr {
 @endsection
 
 @section('script')
+<script id="modal-loader" type="text/template">
+    <div class="row">
+        <div class="col-sm-12">
+            <i class="fa fa-spin fa-spinner"></i> Loading Product Data...
+        </div>
+    </div>
+</script>
+<script id="modal-details-content" type="text/template">
+    <div class="row">
+        <div class="col-sm-9 product-details-info">
+            <div class="row">
+                <div class="col-sm-4 input-label">
+                    Product Name
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-sm" id="modal-product-name" name="modal-product-name" value="" readonly>
+                </div>
+            </div>
+            <div class="row margin-top-fix">
+                <div class="col-sm-4 input-label">
+                    Description
+                </div>
+                <div class="col-sm-8">
+                    <textarea name="modal-product-description" id="modal-product-description" class="form-control" rows="8" cols="100%" readonly></textarea>
+                </div>
+            </div>
+            <div class="row margin-top-fix">
+                <div class="col-sm-4 input-label">
+                    In Stock
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-sm" id="modal-in-stock" name="modal-in-stock" value="" readonly>
+                </div>
+            </div>
+            <div class="row margin-top-fix">
+                <div class="col-sm-4 input-label">
+                    Price
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-sm" id="modal-price" name="modal-price" value="" readonly>
+                </div>
+            </div>
+            <div class="row margin-top-fix">
+                <div class="col-sm-4 input-label">
+                    Selling Price
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-sm" id="modal-selling-price" name="modal-selling-price" value="" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <img src="/images/no-picture.png" class="product-image-details" id="modal-product-image" />
+        </div>
+    </div>
+</script>
 <script src="/components/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script src="/components/datatables-checkbox/js/dataTables.checkboxes.js"></script>
+<script src="/components/numeraljs/numeral.js"></script>
+<script src="/components/jquery-calx/jquery-calx-2.2.7.min.js"></script>
 <script>
+
+$('#calc').calx({
+    checkCircularReference : true,
+    autoCalculate: true
+});
+
+var quantity = {};
+$('.table').on('keyup', '.quantity_buy', function () {
+    $input = $(this);
+    $data_id = $(this).attr('data-id');
+    old_data = 1;
+    if ($data_id in quantity) {
+        old_data = quantity[$data_id];
+        console.log('masuk');
+    }
+    quantity[$data_id] = $(this).val();
+
+    rows = table.column(0).checkboxes.selected();
+    if (rows.indexOf($data_id) >= 0) {
+        quantity_ = quantity[$data_id];
+        console.log($input.attr('data-price'));
+
+        total = parseFloat($('#subtotal').val());
+        total = total - (parseFloat($input.attr('data-price')) * parseInt(old_data)) + (parseFloat($input.attr('data-price')) * parseInt(quantity_));
+
+        $('#subtotal').val(parseFloat(total).toFixed(2));
+        $('#calc').calx('getCell', 'A1').setValue(parseFloat(total).toFixed(2));
+        $('#calc').calx('getCell', 'A4').setFormat('0[.]00').calculate();
+    }
+});
+
 var table = $('#products-table').DataTable({
     processing: true,
     serverSide: true,
     responsive: true,
-    ajax: "{{ url('/data/products/'.$business->unique_id) }}?showAll=1",
+    ajax: {
+        url: "{{ url('/data/products/'.$business->unique_id) }}?showAll=1",
+        data: function (d) {
+            d.view = $('select[name=product_view]').val();
+        }
+    },
     columns: [
         { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
         { data: 'product_name', name: 'product_name' },
         { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
         { data: 'selling_price', name: 'selling_price' },
+        { data: 'quantity', name: 'quantity' },
         { data: 'actionnodelete', name: 'actionnodelete', sortable: false, searchable: false }
     ],
     columnDefs: [
@@ -401,6 +493,18 @@ var table = $('#products-table').DataTable({
                 return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
             },
             checkboxes: { selectRow: true }
+        },
+        {
+            targets: 4,
+            searchable: false,
+            orderable: false,
+            render: function (data, type, full, meta) {
+                if (full.unique_id in quantity) {
+                    return '<input type="text" class="form-control input-sm quantity_buy" data-id="'+full.unique_id+'" data-price="'+full.selling_price+'" value="'+quantity[full.unique_id]+'"/>';
+                } else {
+                    return data;
+                }
+            },
         }
     ],
     select: {
@@ -412,57 +516,144 @@ var table = $('#products-table').DataTable({
     pageLength: 5
 });
 
+$('select[name=product_view]').on('change', function (e) {
+    table.draw();
+    e.preventDefault();
+})
+
 $('#order').on('submit', function(e){
     e.preventDefault();
-      var form = this;
-      var rows_selected = table.column(0).checkboxes.selected();
-      // Iterate over all selected checkboxes
+    var form = this;
+    var rows_selected = table.column(0).checkboxes.selected();
+    // Iterate over all selected checkboxes
 
-      if (rows_selected.length === 0) {
-          $('.validation-product').append('Please choose one product to be include in this order.');
-          return false;
-      }
+    if (rows_selected.length === 0) {
+        $('.validation-product').append('Please choose one product to be include in this order.');
+        return false;
+    }
 
-      $.each(rows_selected, function(index, rowId){
-         // Create a hidden element
-         $(form).append(
-             $('<input>')
-                .attr('type', 'hidden')
-                .attr('name', 'products_list[]')
-                .val(rowId)
-            );
-        });
-        $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Add Order');
-        setTimeout(function () {
-            form.submit();
-        }, 1000);
-
+    $.each(rows_selected, function(index, rowId){
+        // Create a hidden element
+        $(form).append(
+            $('<input>')
+            .attr('type', 'hidden')
+            .attr('name', 'products_list[]')
+            .val(rowId)
+        );
     });
+    $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Add Order');
+    setTimeout(function () {
+        form.submit();
+    }, 1000);
+});
 
-    $('#same-as-billing').on('click', function () {
-        if ($(this).is(':checked')) {
+$('#same-as-billing').on('click', function () {
+    if ($(this).is(':checked')) {
+        var billing = $('[name^=billing_]');
+        var delivery = $('[name^=delivery_]').not('[name=delivery_charge]');
+        $.each( billing , function (i, val) {
+            $(delivery[i]).val($(val).val()).prop('readonly', true);
+        });
+        $('[name^=billing_]').on('keyup', function () {
             var billing = $('[name^=billing_]');
             var delivery = $('[name^=delivery_]').not('[name=delivery_charge]');
-
             $.each( billing , function (i, val) {
                 $(delivery[i]).val($(val).val()).prop('readonly', true);
             });
+        });
+    } else {
+        $('[name^=delivery_]').not('[name=delivery_charge]').not('[name=delivery_country]').prop('readonly', false)
+        $('[name^=billing_]').unbind();
+    }
+});
 
-            $('[name^=billing_]').on('keyup', function () {
+/* Calculation */
+var total = 0;
+var selectedrow = [];
+table.on('select', function (e, dt, type, indexes) {
+    for (i in indexes) {
+        if (selectedrow.indexOf(table.rows(indexes[i]).data().pluck('unique_id')[0]) < 0) {
+            selectedrow.push(table.rows(indexes[i]).data().pluck('unique_id')[0]);
+            quantity_ = 1;
+            if (typeof(quantity[table.rows(indexes[i]).data().pluck('unique_id')[0]]) !== 'undefined') {
+                quantity_ = quantity[table.rows(indexes[i]).data().pluck('unique_id')[0]];
+            }
+            total = total + (parseFloat(table.rows(indexes[i]).data().pluck('selling_price')[0]) * quantity_);
+        }
+    }
+    $('#subtotal').val(parseFloat(total).toFixed(2));
+    $('#calc').calx('getCell', 'A1').setValue(parseFloat(total).toFixed(2));
+    $('#calc').calx('getCell', 'A4').setFormat('0[.]00').calculate();
+});
 
-                var billing = $('[name^=billing_]');
-                var delivery = $('[name^=delivery_]').not('[name=delivery_charge]');
+table.on('deselect', function (e, dt, type, indexes) {
+    for (i in indexes) {
+            if (selectedrow.indexOf(table.rows(indexes[i]).data().pluck('unique_id')[0]) >= 0) {
+                selectedrow.splice(selectedrow.indexOf(table.rows(indexes[i]).data().pluck('unique_id')[0]), 1);
+                quantity_ = 1;
+                if (typeof(quantity[table.rows(indexes[i]).data().pluck('unique_id')[0]]) !== 'undefined') {
+                    quantity_ = quantity[table.rows(indexes[i]).data().pluck('unique_id')[0]];
+                }
+                total = total - (table.rows(indexes[i]).data().pluck('selling_price')[0] * quantity_);
+            }
+    }
+    $('#subtotal').val(parseFloat(total).toFixed(2));
+    $('#calc').calx('getCell', 'A1').setValue(parseFloat(total).toFixed(2));
+    $('#calc').calx('getCell', 'A4').setFormat('0[.]00').calculate();
+});
 
-                $.each( billing , function (i, val) {
-                    $(delivery[i]).val($(val).val()).prop('readonly', true);
-                });
-
-            });
+$('#discount').on('keyup', function () {
+    val = $(this).val();
+    end = (val.split('')).pop();
+    val = (val.split('')).join('');
+    if (end == '%') {
+        if (!isNaN(parseFloat(val))) {
+            $('#discount').parent('.form-group').removeClass('has-error');
+            subtotal = $('#calc').calx('getCell', 'A1').getValue();
+            $('#calc').calx('getCell', 'A5').setValue(((parseFloat(val) * subtotal) / 100));
 
         } else {
-            $('[name^=delivery_]').not('[name=delivery_charge]').not('[name=delivery_country]').prop('readonly', false)
-            $('[name^=billing_]').unbind();
+            $('#discount').parent('.form-group').addClass('has-error');
         }
-    });
+    } else {
+        value = isNaN(parseFloat(val));
+        if (!value) {
+            $('#discount').parent('.form-group').removeClass('has-error');
+            $('#calc').calx('getCell', 'A5').setValue(parseFloat(val));
+        } else {
+            $('#discount').parent('.form-group').addClass('has-error');
+        }
+    }
+    $('#calc').calx('getCell', 'A4').calculate().setFormat('0[.]00');
+});
+
+$('.table').on('click', '.view-details', function () {
+    $modal = $('#productDetail').find('.modal-body');
+    $modal.empty();
+    modalLoader = $($('#modal-loader').html()).appendTo($modal);
+    $.get({
+        url: '{{ action('DataController@fetchDetails', [ 'business' => $business->unique_id ]) }}',
+        data: { productId: $(this).attr('data-product') }
+    }).done(function (product) {
+        content = $($('#modal-details-content').html());
+        /* load data to form */
+        content.find('#modal-product-name').val(product.product_name);
+        content.find('#modal-product-description').val(product.product_description);
+        content.find('#modal-in-stock').val(product.quantity_in_stock);
+        content.find('#modal-price').val(product.cost);
+        content.find('#modal-selling-price').val(product.selling_price);
+        if (product.image === '' || product.image === null) {
+            console.log(product.image);
+            content.find('#modal-product-image').attr('src', '/images/no-picture.png');
+        } else {
+            content.find('#modal-product-image').attr('src', product.image);
+        }
+
+        setTimeout(function () {
+            $modal.empty();
+            $modal.append(content);
+        }, 1300);
+    })
+})
 </script>
 @endsection

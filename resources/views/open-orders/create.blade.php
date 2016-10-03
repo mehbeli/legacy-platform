@@ -48,6 +48,9 @@ hr {
                         <div class="input-group">
                             <span class="input-group-addon" id="sale-url-static">https://jejual.my/sale/</span>
                             <input type="text" name="sale_url" class="form-control" id="sale-url" aria-describedby="sale-url" value="{{ UniqueID::generate() }}" required>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Regenerate</button>
+                            </span>
                         </div>
                         </div>
                     </div>
@@ -121,12 +124,15 @@ hr {
             </div>
             <hr />
             <div class="table-top">
-                <div class="col-xs-8">
-                    <span class="title">Products</span>
-                    <span class="info">* Select products to be included in your sale</span>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <span class="title">Products</span>
+                        <span class="info">* Select products to be included in your sale</span>
+                    </div>
+                    <div class="col-xs-4">
+                    </div>
                 </div>
-                <div class="col-xs-4">
-                </div>
+
                 <div class="validation-product"></div>
             </div>
             <table id="products-table" class="table" style="width: 100%;">
@@ -167,9 +173,15 @@ hr {
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label>End Date & Time</label>
-                                    <input type="text" name="end_at" id="end_date" class="form-control" value="{{ old('end_at') }}" placeholder="Sale end date & time">
+                                <label>End Date & Time</label>
+                                <div class="optional-marker pull-right">
+                                    <i>Optional</i>
+                                </div>
+                                <div class="input-group" id="end_date_at">
+                                    <input type="text" name="end_at" id="end_date" class="form-control" placeholder="Sale end date & time">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="clear-end-date"><i class="fa fa-remove"></i></button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -324,15 +336,12 @@ $('#openOrder').on('submit', function(e){
     }, 1000);
 
 });
-</script>
-<script type="text/javascript">
 $(function () {
     firstOpen=true;
     $('#start_date').datetimepicker({
         format: 'DD/MM/Y h:mm:ss A',
         useCurrent: true,
     }).on("dp.show", function(){
-
         if (firstOpen==true){
             $(this).data('DateTimePicker').date(new Date());
             firstOpen=false;
@@ -353,7 +362,9 @@ $(function () {
             $('#end_date').data('DateTimePicker').minDate($('#start_date').data('DateTimePicker').date());
     });
 
-
+    $('#clear-end-date').on('click', function () {
+        $('#end_date').val('');
+    });
 });
 </script>
 @endsection

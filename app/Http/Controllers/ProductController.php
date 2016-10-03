@@ -93,7 +93,6 @@ class ProductController extends Controller
     }
 
     public function toggle($businessId, $productId) {
-
         $product = Product::findByUniqueId($productId);
         $status = null;
         if ($product->active) {
@@ -103,9 +102,7 @@ class ProductController extends Controller
             $product->update([ 'active' => true ]);
             $status = 'activated';
         }
-
         return redirect("/business/$businessId/products")->with('success', 'Your product have been '.$status)->with('tab', $status);
-
     }
 
 }

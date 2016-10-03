@@ -175,9 +175,12 @@ hr {
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group" id="end_date_at" data-date-default="{{ $openorder->end_at }}">
+                                <div class="input-group" id="end_date_at" data-date-default="{{ $openorder->end_at }}">
                                     <label>End Date & Time</label>
                                     <input type="text" name="end_at" id="end_date" class="form-control" placeholder="Sale end date & time">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>

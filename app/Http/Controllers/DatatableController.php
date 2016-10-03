@@ -19,17 +19,29 @@ class DatatableController extends Controller
 
     // Orders
 
-    public function getOrders($businessId) {
+    public function getOrders(Request $request, $businessId) {
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
 
         if ($isOwner) {
-            $query = Business::findByUniqueId($businessId)->orders()->where('confirmed', false);
+            $query = Business::findByUniqueId($businessId)->orders();
+
+            if ($request->status == 'confirmed') {
+                $query = $query->where('status', 'confirmed');
+            } elseif ($request->status == 'pending') {
+                $query = $query->where('status', 'pending');
+            } elseif ($request->status == 'completed') {
+                $query = $query->where('status', 'completed');
+            }
+
             return Datatables::of($query)
                 ->addColumn('checkboxes', function ($order) {
                     return '<input type="checkbox" value="'.$order->id.'">';
                 })
                 ->editColumn('buyer', function ($order) {
                     return '<a href="#" data-toggle="tooltip" data-placement="bottom" title="{{$order->buyer()->email}}">{{$order->buyer()->name}}</a>';
+                })
+                ->editColumn('paid', function ($order) {
+                    return ($order->paid) ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-remove text-danger"></i>';
                 })
                 ->make(true);
         } else {
@@ -62,7 +74,7 @@ class DatatableController extends Controller
                 $open_order_products = OpenOrder::where('sale_url', $request->openorder)->first()->products_list;
                 $open_order_products = json_decode($open_order_products);
             }
-            return Datatables::of($query)
+            $datatable = Datatables::of($query)
                 ->addColumn('checkboxes', function ($product) {
                     //$checked = (in_array($product->unique_id, $open_order_products)) ? 'checked' : null;
                     return $product->unique_id;
@@ -81,18 +93,35 @@ class DatatableController extends Controller
                     return '<form action="/business/'.$businessId.'/products/'.$product->unique_id.'" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="_method" value="DELETE" /><button type="button" class="btn btn-delete btn-xs btn-danger" style="margin-left: 5px;">Delete</button></form> <form action="/business/'.$businessId.'/products/'.$product->unique_id.'/toggle" class="pull-right" method="POST">'.$csrf.'<input type="hidden" name="status" value="'.$product->active.'" /><button type="button" class="btn toggle-product btn-xs '.$style.'" style="margin-left: 5px;">'.$echo_text.'</button></form> <a href="/business/'.$businessId.'/products/'.$product->unique_id.'" class="btn btn-xs btn-default pull-right">Details</a>';
                 })
                 ->addColumn('actionnodelete', function ($product) use ($businessId) {
-                    return '<a href="#" data-product="'.$product->unique_id.'" data-toggle="modal" data-target="#productDetail" class="btn btn-xs btn-default pull-right">Details</a>';
+                    return '<a href="#" data-product="'.$product->unique_id.'" data-toggle="modal" data-target="#productDetail" class="btn btn-xs btn-default pull-right view-details">Details</a>';
+                })
+                ->editColumn('selling_price', function ($product) {
+                    return number_format($product->selling_price, 2);
                 })
                 ->addColumn('sale_price', function ($product) use ($businessId) {
                     return '<input type="text" class="form-control input-sm sale-price" data-id="'.$product->unique_id.'" value="'.$product->selling_price.'"/>';
+                })
+                ->addColumn('quantity', function ($product) use ($businessId) {
+                    return '<input type="text" class="form-control input-sm quantity_buy" data-id="'.$product->unique_id.'" data-price="'.$product->selling_price.'" value="1"/>';
                 })
                 ->setRowClass(function ($product) {
                     return ($product->quantity_in_stock <= 0) ? 'danger' : '';
                 })
                 ->setRowClass(function ($product) {
                     return ($product->active) ? '' : 'danger';
-                })
-                ->make(true);
+                });
+
+                if ($view = $datatable->request->get('view')) {
+                    if ($view == 'active') {
+                        $datatable->where('active', true);
+                    } elseif ($view == 'inactive') {
+                        $datatable->where('active', false);
+                    } elseif ($view == 'deleted') {
+                        $datatable->onlyTrashed();
+                    }
+                }
+
+                return $datatable->make(true);
         } else {
             return [];
         }

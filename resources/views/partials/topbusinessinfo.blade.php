@@ -7,7 +7,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12 number-info">
-                {{ $business->orders()->where('confirmed', false)->count() }}
+                {{ $business->orders()->where('status', 'pending')->count() }}
             </div>
         </div>
     </div>

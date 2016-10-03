@@ -47,13 +47,19 @@ hr {
                             Order ID
                         </th>
                         <th>
+                            Order Date
+                        </th>
+                        <th>
                             Name
                         </th>
                         <th>
-                            Sale
+                            Items
                         </th>
                         <th>
-                            Order Date
+                            Paid
+                        </th>
+                        <th>
+                            Status
                         </th>
                         <th>
 
@@ -93,13 +99,15 @@ $(function() {
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: "{{ url('/data/orders/'.$business->unique_id) }}",
+        ajax: "{{ url('/data/orders/'.$business->unique_id) }}?status=pending",
         columns: [
             { data: 'checkboxes', name: 'checkboxes', sortable: false, searchable: false },
             { data: 'order_id', name: 'order_id' },
+            { data: 'created_at', name: 'created_at' },
             { data: 'buyer', name: 'buyer' },
-            { data: 'created_at', name: 'created_at' },
-            { data: 'created_at', name: 'created_at' },
+            { data: 'purchase_list', name: 'purchase_list' },
+            { data: 'paid', name: 'paid' },
+            { data: 'status', name: 'status' },
             { data: 'action', name: 'action', sortable: false, searchable: false }
         ],
         language: {

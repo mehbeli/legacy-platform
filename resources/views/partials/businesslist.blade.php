@@ -14,7 +14,7 @@
                 </div>
                 <div class="row quick-info">
                     <div class="col-xs-12">
-                        Pending Order(s): {{ $business->orders()->where('confirmed', false)->count() }}
+                        Pending Order(s): {{ $business->orders()->where('status', 'pending')->count() }}
                     </div>
                 </div>
             </a>
