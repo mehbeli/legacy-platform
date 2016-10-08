@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Theme Template for Bootstrap</title>
+    <title>Jejual.my</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">

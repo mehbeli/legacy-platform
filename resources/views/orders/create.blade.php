@@ -330,7 +330,7 @@ hr {
                                 <label>Grand Total</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">RM</div>
-                                    <input name="grand_total" type="text" class="form-control" id="grand_total" data-cell="A4" placeholder="Amount" data-formula="A1+A2+A5" data-format="0[.]00" readonly>
+                                    <input name="grand_total" type="text" class="form-control" id="grand_total" data-cell="A4" placeholder="Amount" data-formula="A1+A2-A5" data-format="0[.]00" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -347,6 +347,14 @@ hr {
                 <div class="panel-footer clearfix">
                     <button type="button" class="btn btn-info">View Invoice</button>
                     <button type="submit" class="btn btn-primary pull-right">Add Order</button>
+                    <div class="form-group form-group-aoa pull-right">
+                        <div class="checkbox checkbox-aoa checkbox-info">
+                            <input type="checkbox" id="aoa" name="aoa">
+                            <label for="aoa">
+                                Add another order
+                            </label>
+                      </div>
+                    </div>
                 </div>
             </form>
 

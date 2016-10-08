@@ -20,6 +20,9 @@ Route::get('/coming-soon', function () {
 });
 
 Route::auth();
+Route::get('/ri', function () {
+    return view('static-page.register-interest');
+});
 Route::get('nyo', function () {
     return view('static-page.not-yet-open');
 });
