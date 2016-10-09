@@ -175,11 +175,14 @@ hr {
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
+                                <label>End Date & Time</label>
+                                <div class="optional-marker pull-right">
+                                    <i>Optional</i>
+                                </div>
                                 <div class="input-group" id="end_date_at" data-date-default="{{ $openorder->end_at }}">
-                                    <label>End Date & Time</label>
                                     <input type="text" name="end_at" id="end_date" class="form-control" placeholder="Sale end date & time">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">Go!</button>
+                                        <button class="btn btn-default" type="button" id="clear-end-date"><i class="fa fa-remove"></i></button>
                                     </span>
                                 </div>
                             </div>

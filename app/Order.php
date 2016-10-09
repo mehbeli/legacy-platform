@@ -8,10 +8,10 @@ class Order extends Model
 {
 
     protected $fillable = [
-        'grand_total', 'paid', 'status', 'purchase_list', 'open_order_id'
+        'discount', 'shipping', 'grand_total', 'paid', 'status', 'purchase_list', 'open_order_id', 'delivery_option_id', 'payment_option_id', 'business_id',
     ];
 
-    private $rules = [
+    public static $rules = [
         'grand_total' => 'required',
         'status' => 'required',
     ];

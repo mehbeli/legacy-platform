@@ -47,29 +47,27 @@ hr {
             <form class="form" id="order" action="{{ action('OrderController@store', [ 'business' => $business->unique_id ]) }}" method="POST">
                 {{ csrf_field() }}
                 <div class="panel-body">
-                    {{-- <div class="row">
+                    <div class="row">
                         <div class="col-sm-6">
                             <div class="checkbox checkbox-success">
-                                <input type="checkbox" id="confirm-order" class="checkbox-success">
+                                <input type="checkbox" name="cpo" id="confirm-order" class="checkbox-success">
                                 <label for="confirm-order">
-                                    Confirm Order
+                                    Confirm & Process Order
                                 </label>
                           </div>
                       </div>
-                        <div class="col-sm-2 col-sm-offset-10">
-                            <div class="well">
+                        <div class="col-sm-6">
                                 <div class="checkbox checkbox-success">
-                                    <input type="checkbox" id="paid-order">
+                                    <input type="checkbox" id="paid-order" name="paid">
                                     <label for="paid-order">
                                         Paid
                                     </label>
                               </div>
-                            </div>
 
                         </div>
                     </div>
                     <hr />
-                    <div class="row">
+                    {{--<div class="row">
                         <div class="col-sm-12">
                             <label>Load Customer Data</label>
                             <div class="input-group">
@@ -272,26 +270,21 @@ hr {
                                 <div class="form-group">
                                     <label>Delivery options</label>
                                     <select name="delivery" class="form-control selectpicker" multiple data-max-options="1" title="Select Delivery Option...">
-                                        <option value="courier">
-                                            Courier / Delivery
+                                        @foreach ($deliveries as $delivery)
+                                        <option value="{{ $delivery->id }}">
+                                            {{ $delivery->delivery }}
                                         </option>
-                                        <option value="self-pickup">
-                                            Self Pickup
-                                        </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Payment options</label>
                                     <select name="payment" class="form-control selectpicker" multiple data-max-options="1" title="Select Payment Option...">
-                                        <option value="fpx">
-                                            FPX
+                                        @foreach ($payments as $payment)
+                                        <option value="{{ $payment->id }}">
+                                            {{ $payment->payment }}
                                         </option>
-                                        <option value="manual">
-                                            Cash Deposit / Internet Banking (Manual)
-                                        </option>
-                                        <option value="cash">
-                                            Cash
-                                        </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="well">
@@ -332,14 +325,6 @@ hr {
                                     <div class="input-group-addon">RM</div>
                                     <input name="grand_total" type="text" class="form-control" id="grand_total" data-cell="A4" placeholder="Amount" data-formula="A1+A2-A5" data-format="0[.]00" readonly>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="checkbox checkbox-custom checkbox-success">
-                                    <input type="checkbox" id="paid-order">
-                                    <label for="paid-order">
-                                        Paid
-                                    </label>
-                              </div>
                             </div>
                         </div>
                     </div>
@@ -542,11 +527,12 @@ $('#order').on('submit', function(e){
 
     $.each(rows_selected, function(index, rowId){
         // Create a hidden element
+        $quantity = $('input[data-id='+rowId+']').val();
         $(form).append(
             $('<input>')
             .attr('type', 'hidden')
-            .attr('name', 'products_list[]')
-            .val(rowId)
+            .attr('name', 'products['+rowId+']')
+            .val($quantity)
         );
     });
     $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Add Order');
@@ -618,17 +604,23 @@ $('#discount').on('keyup', function () {
         if (!isNaN(parseFloat(val))) {
             $('#discount').parent('.form-group').removeClass('has-error');
             subtotal = $('#calc').calx('getCell', 'A1').getValue();
-            $('#calc').calx('getCell', 'A5').setValue(((parseFloat(val) * subtotal) / 100));
+            discountVal = ((parseFloat(val) * subtotal) / 100);
+            $('#calc').calx('getCell', 'A5').setValue(discountVal);
+            $('input[name=discount-hid]').val(discountVal);
 
         } else {
+            $('#calc').calx('getCell', 'A5').setValue(0);
             $('#discount').parent('.form-group').addClass('has-error');
         }
     } else {
         value = isNaN(parseFloat(val));
         if (!value) {
             $('#discount').parent('.form-group').removeClass('has-error');
-            $('#calc').calx('getCell', 'A5').setValue(parseFloat(val));
+            discountVal = parseFloat(val);
+            $('#calc').calx('getCell', 'A5').setValue(discountVal);
+            $('input[name=discount-hid]').val(discountVal);
         } else {
+            $('#calc').calx('getCell', 'A5').setValue(0);
             $('#discount').parent('.form-group').addClass('has-error');
         }
     }
