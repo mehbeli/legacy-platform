@@ -23,7 +23,7 @@
     @yield('vendor-css')
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
+    <link rel="stylesheet" href="/css/sale.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
         &copy; Copyright 2016. Powered by Jejual
     </div>
 
-    <!-- Modal -->
+    <!-- Details Modal -->
     <div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="details-modal">
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
@@ -54,6 +54,90 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success">Add to Cart</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="cart-modal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Shopping Cart</h4>
+                </div>
+                <table class="table selected-product">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th style="width: 50px;">Quantity</th>
+                                <th>Nett Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td>
+                                    <input type="text" class="form-control input-sm">
+                                </td>
+                                <td>RM1234</td>
+                            </tr>
+                            <tr>
+                                <td>Kokkokkk dfgsdgf fdg sdfgd  sddg sdg sgsd gsdgsdg </td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr>
+                            <tr>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr>
+                            <tr>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr>
+                            <tr>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr>
+                             <tr>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr>
+                             <tr>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr>
+                             <tr>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr>
+                            <tr class="last-column">
+                                <td></td>
+                                <td></td>
+                                <td class="total-text">Total</td>
+                                <td class="total-amount">RM1234</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"><i class="fa fa-check"></i> Checkout</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>

@@ -387,17 +387,19 @@ $(document).ready(function () {
 </script>
 
 <script type="text/javascript">
+var _default_end = null;
 $(document).ready(function () {
     $('#start_date').datetimepicker({
         defaultDate: $('#start_date_at').attr('data-date-default'),
-        format: 'DD/MM/Y h:mm:ss A',
+        format: 'DD/MM/Y h:mm:ss',
     });
-    $('#end_date').datetimepicker({
-        defaultDate: $('#end_date_at').attr('data-date-default'),
-        format: 'DD/MM/Y h:mm:ss A'
-    });
-
-});
+    if ($('#end_date_at').attr('data-date-default') !== null) {
+        _default_end = $('#end_date_at').attr('data-date-default');
+        $('#end_date').datetimepicker({
+            defaultDate: $('#end_date_at').attr('data-date-default'),
+            format: 'DD/MM/Y h:mm:ss'
+        });
+    }
 
 $('#start_date').on('dp.change', function (e) {
     if ($('#end_date').val() != '') {
@@ -406,7 +408,16 @@ $('#start_date').on('dp.change', function (e) {
 });
 
 $('#end_date').on('dp.change', function (e) {
-        $('#end_date').data('DateTimePicker').minDate($('#start_date').data('DateTimePicker').date());
+    if (_default_end === null) {
+        $('#end_date').datetimepicker({
+            format: 'DD/MM/Y h:mm:ss'
+        });
+    }
+    $('#end_date').data('DateTimePicker').minDate($('#start_date').data('DateTimePicker').date());
 });
+
+});
+
+
 </script>
 @endsection

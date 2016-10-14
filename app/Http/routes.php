@@ -30,6 +30,18 @@ Route::get('/home', 'HomeController@index');
 Route::get('/email', function () {
     return view('mailing.usermail');
 });
+
+Route::get('/sale2', function () {
+    $business = \App\Business::findByUniqueId('84ayb1EJN');
+    $products = $business->products()->paginate(8);
+
+    if (request()->ajax()) {
+        return response()->json(view('sales.product_list')->with('products', $products)->render());
+    }
+
+    return view('sales.new')->with('products', $products);
+});
+
 Route::get('/sale', function () {
     $products = \App\Product::paginate(8);
     if (Request::ajax()) {
