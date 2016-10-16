@@ -18,8 +18,8 @@
             Hakim Razalan Sdn Bhd
         </span>
         <span class="cart">
-            <a href="#">
-                <i class="fa fa-shopping-cart"></i> 20
+            <a href="#" data-toggle="modal" data-target="#cart-modal">
+                <i class="fa fa-shopping-cart"></i> <span class="price-cart">0</span>
             </a>
         </span>
     </div>
@@ -27,8 +27,8 @@
 <div class="container-fluid">
     <div class="col-sm-10 col-sm-offset-1">
         <div class="row verifier">
-            <span class="verify" data-toggle="tooltip" data-placement="bottom" title="Verified (Identification Card & SSM)">
-                <i class="fa fa-check-circle text-success "></i> Verified Seller
+            <span class="verify-pending" data-toggle="tooltip" data-placement="bottom" title="Verified (Identification Card & SSM)">
+                <i class="fa fa-exclamation-circle"></i> Pending Verification
             </span>
             <span class="pull-right shopping-total">
                 <a class="links" href="#"><i class="fa fa-facebook"></i></a>
@@ -185,6 +185,26 @@
 @endsection
 
 @section('script')
+<script id="selected-product-template" type="text/template">
+    <tr>
+        <td><i class="fa fa-remove remove-from-cart" data-id=""></i></td>
+        <td class="product_name">Kokkokkk</td>
+        <td class="product_price">RM21</td>
+        <td>
+            <input type="text" class="form-control input-sm product_quantity">
+        </td>
+        <td class="product_nett">RM1234</td>
+    </tr>
+</script>
+<script id="selected-product-total-template" type="text/template">
+    <tr class="last-column">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="total-text">Total</td>
+        <td class="total-amount"></td>
+    </tr>
+</script>
 <script src="/components/jquery-calx/jquery-calx-2.2.7.min.js"></script>
 <script type="text/javascript">
     $(function () {
@@ -207,11 +227,60 @@
             $('.p-list').fadeOut(400, function () {
                 $('.product-list').html(data);
                 $('.p-list').fadeIn(400);
-//                checkCatalog();
+                catalogCheck();
             })
         }).fail(function () {
             alert('Error loading product list');
         });
     }
+    function catalogCheck() {
+        for (var key in cart) {
+            product = $('.product-list').find('#'+key);
+            product.find('.btn-add-to-cart').prop('disabled', true).html('<i class="fa fa-check"></i> Added');
+        }        
+    }
+</script>
+<script>
+    var cart = {};
+    $('.product-list').on('click', '.btn-add-to-cart', function () {
+        // Disable button
+        $(this).prop('disabled', true);
+        $(this).html('<i class="fa fa-check"></i> Added');
+        // Add to Cart
+        cart[$(this).attr('data-id')] = {
+            name: $('#'+$(this).attr('data-id')).find('[data-product-name]').attr('data-product-name'),
+            price: parseFloat($('#'+$(this).attr('data-id')).find('[data-price]').attr('data-price')),
+            quantity: 1
+        }
+    });
+
+    $('#cart-modal').on('show.bs.modal', function () {
+        pic = $(this).find('.product-in-cart');
+        pic.empty();
+        grossTotal = 0;
+        for (var prodct in cart) {
+            $template = $($('#selected-product-template').html());
+            $template.find('.product_name').html(cart[prodct].name);
+            $template.find('.product_price').html('RM'+cart[prodct].price);
+            $template.find('.product_quantity').val(cart[prodct].quantity);
+            nettTotal = cart[prodct].price * cart[prodct].quantity;
+            grossTotal = grossTotal + nettTotal;
+            $template.find('.product_nett').html(nettTotal);
+            pic.append($template);
+        }
+        if (!$.isEmptyObject(prodct)) {
+            $totalTemplate = $($('#selected-product-total-template').html());
+            $totalTemplate.find('.total-amount').html('RM'+grossTotal);
+            pic.append($totalTemplate);            
+        } else {
+            $colspan = '<td colspan="5" class="your-cart-empty">Your cart is empty</td>';
+            pic.append($colspan);
+        }
+
+    });
+
+    $('.product-in-cart').on('click', '.remove-from-cart', function () {
+
+    })
 </script>
 @endsection

@@ -71,14 +71,16 @@
                 <table class="table selected-product">
                         <thead>
                             <tr>
+                                <th style="width: 20px;"></th>
                                 <th>Product</th>
-                                <th>Price</th>
+                                <th style="width: 100px;">Price</th>
                                 <th style="width: 50px;">Quantity</th>
-                                <th>Nett Total</th>
+                                <th style="width: 150px;">Nett Total</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
+                        <tbody class="product-in-cart">
+                            {{-- <tr>
+                                <td><i class="fa fa-remove remove-from-cart"></i></td>
                                 <td>Kokkokkk</td>
                                 <td>RM21</td>
                                 <td>
@@ -87,53 +89,20 @@
                                 <td>RM1234</td>
                             </tr>
                             <tr>
+                                <td><i class="fa fa-remove"></i></td>
                                 <td>Kokkokkk dfgsdgf fdg sdfgd  sddg sdg sgsd gsdgsdg </td>
                                 <td>RM21</td>
                                 <td><input type="text" class="form-control input-sm"></td>
                                 <td>RM1234</td>
                             </tr>
                             <tr>
+                                <td><i class="fa fa-remove"></i></td>
                                 <td>Kokkokkk</td>
                                 <td>RM21</td>
                                 <td><input type="text" class="form-control input-sm"></td>
                                 <td>RM1234</td>
-                            </tr>
-                            <tr>
-                                <td>Kokkokkk</td>
-                                <td>RM21</td>
-                                <td><input type="text" class="form-control input-sm"></td>
-                                <td>RM1234</td>
-                            </tr>
-                            <tr>
-                                <td>Kokkokkk</td>
-                                <td>RM21</td>
-                                <td><input type="text" class="form-control input-sm"></td>
-                                <td>RM1234</td>
-                            </tr>
-                             <tr>
-                                <td>Kokkokkk</td>
-                                <td>RM21</td>
-                                <td><input type="text" class="form-control input-sm"></td>
-                                <td>RM1234</td>
-                            </tr>
-                             <tr>
-                                <td>Kokkokkk</td>
-                                <td>RM21</td>
-                                <td><input type="text" class="form-control input-sm"></td>
-                                <td>RM1234</td>
-                            </tr>
-                             <tr>
-                                <td>Kokkokkk</td>
-                                <td>RM21</td>
-                                <td><input type="text" class="form-control input-sm"></td>
-                                <td>RM1234</td>
-                            </tr>
-                            <tr class="last-column">
-                                <td></td>
-                                <td></td>
-                                <td class="total-text">Total</td>
-                                <td class="total-amount">RM1234</td>
-                            </tr>
+                            </tr> --}}
+                            
                         </tbody>
                     </table>
                 <div class="modal-footer">
