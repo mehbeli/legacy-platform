@@ -31,16 +31,7 @@ Route::get('/email', function () {
     return view('mailing.usermail');
 });
 
-Route::get('/sale2', function () {
-    $business = \App\Business::findByUniqueId('84ayb1EJN');
-    $products = $business->products()->paginate(8);
-
-    if (request()->ajax()) {
-        return response()->json(view('sales.product_list')->with('products', $products)->render());
-    }
-
-    return view('sales.new')->with('products', $products);
-});
+Route::get('/sale/{sale_url}', 'SaleController@getSalePage');
 
 Route::get('/sale', function () {
     $products = \App\Product::paginate(8);
@@ -48,6 +39,10 @@ Route::get('/sale', function () {
         return Response::json(View::make('sales.products', array('products' => $products))->render());
     }
     return view('sales.index')->with(compact('products'));
+});
+
+Route::group([ 'prefix' => 'api' ], function () {
+    Route::get('/{business}/get/product', 'DataController@saleDetailsProduct');
 });
 
 Route::group([ 'middleware' => 'auth'], function () {

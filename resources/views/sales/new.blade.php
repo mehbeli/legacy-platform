@@ -205,6 +205,8 @@
         <td class="total-amount"></td>
     </tr>
 </script>
+<script id="checkout-template" type="text/template">
+</script>
 <script src="/components/jquery-calx/jquery-calx-2.2.7.min.js"></script>
 <script type="text/javascript">
     $(function () {
@@ -218,6 +220,7 @@
             e.preventDefault();
         });
     });
+
     function getPosts(page) {
         $.ajax({
             url : '?page=' + page,
@@ -232,6 +235,7 @@
             alert('Error loading product list');
         });
     }
+
     function catalogCheck() {
         for (var key in cart) {
             product = $('.product-list').find('#'+key);
@@ -239,6 +243,7 @@
         }
     }
 
+    // Add product to cart
     var cart = {};
     $('.product-list').on('click', '.btn-add-to-cart', function () {
         // Disable button
@@ -258,11 +263,40 @@
         $('.price-cart').html('RM'+grossTotal+' ('+Object.keys(cart).length+' items)')
     });
 
+    $('#details-modal').on('click', '.add-to-cart-details', function () {
+
+        $data_id = $(this).attr('data-id');
+        $catalogList = $('#'+$data_id).find('.btn-add-to-cart');
+        $catalogList.prop('disabled', true);
+        $catalogList.html('<i class="fa fa-check"></i> Added');
+
+        cart[$data_id] = {
+            name: $('#'+$data_id).find('[data-product-name]').attr('data-product-name'),
+            price: parseFloat($('#'+$data_id).find('[data-price]').attr('data-price')),
+            quantity: 1
+        }
+        grossTotal = 0;
+        for (var prodct in cart) {
+            nettTotal = cart[prodct].price * cart[prodct].quantity;
+            grossTotal = grossTotal + nettTotal;
+        }
+        $('.price-cart').html('RM'+grossTotal+' ('+Object.keys(cart).length+' items)');
+        $('#details-modal').find('.add-to-cart-details').prop('disabled', true).attr('data-id', $product_id).html('<i class="fa fa-check"></i> Added');
+
+    });
+
+    // Show modal for cart
     $('#cart-modal').on('show.bs.modal', function () {
         pic = $(this).find('.product-in-cart');
+        if (Object.keys(cart).length <= 0) {
+            $(this).find('.btn-checkout').prop('disabled', true);
+        } else {
+            $(this).find('.btn-checkout').prop('disabled', false);
+        }
         checkCart(pic);
     });
 
+    // Change in quantity - recalculation
     $('#cart-modal').on('keyup change', '.product_quantity', function () {
         if (parseFloat($(this).val()) === parseInt($(this).val(), 10)) {
             cart[$(this).attr('data-id')].quantity = parseInt($(this).val());
@@ -272,10 +306,9 @@
         updateCart();
     });
 
+    // Remove product from cart
     $('.product-in-cart').on('click', '.remove-from-cart', function (e) {
-
         e.preventDefault();
-
         // Delete from cart
         $id = $(this).attr('data-id');
         delete cart[$id];
@@ -288,6 +321,27 @@
         checkCart(pic);
     });
 
+    /*$('.product-list').on('click', '.btn-vd', function () {
+        $('#details-modal').find('.modal-body').empty().html('<i class="fa fa-spin fa-fw fa-spinner"></i> Loading Data...');
+        $product_id = $(this).attr('data-id');
+        $.get({
+            url: '/api/{{ $business }}/get/product',
+            data: {
+                 product: $product_id
+             }
+        }).done(function (detail) {
+            setTimeout(function () {
+                $('#details-modal').find('.modal-body').empty().html(detail);
+            }, 800);
+        });
+        if ($product_id in cart) {
+            $('#details-modal').find('.add-to-cart-details').prop('disabled', true).attr('data-id', $product_id).html('<i class="fa fa-check"></i> Added');
+        } else {
+            $('#details-modal').find('.add-to-cart-details').prop('disabled', false).attr('data-id', $product_id).html('Add to Cart');
+        }
+    })*/
+
+    // Update Cart
     function updateCart(pic) {
         grossTotal = 0;
         $cartModal = $('#cart-modal');
@@ -301,6 +355,7 @@
         $('.price-cart').html('RM'+grossTotal+' ('+Object.keys(cart).length+' items)')
     }
 
+    // Check cart if got changes
     function checkCart(pic) {
         pic.empty();
         grossTotal = 0;
@@ -325,7 +380,6 @@
             $colspan = '<td colspan="5" class="your-cart-empty">Your cart is empty</td>';
             pic.append($colspan);
         }
-
         $('.price-cart').html('RM'+grossTotal+' ('+Object.keys(cart).length+' items)')
     }
 </script>
