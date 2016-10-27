@@ -98,6 +98,7 @@ class OrderController extends Controller
 
         // Validators
         $orderValidation = Validator::make($order, Order::$rules);
+        $buyerValidation = Validator::make($order, Buyer::$rules);
 
         if ($orderValidation->fails() || $buyerValidation->fails()) {
             return $orderValidation->messages();

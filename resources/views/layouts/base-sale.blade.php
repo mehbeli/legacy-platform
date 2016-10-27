@@ -47,13 +47,52 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">Product Details</h4>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div class="row">
+                        <div class="col-md-5" style="border-right: 1px solid #E0E0E0;">
+                            <h5>Cart Review</h5>
+                            <table class="table table-condensed table-striped" style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                        Itik Ayam (2 units)
+                                        </td>
+                                        <td style="text-align: right">
+                                            RM123
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        Itik Ayam (2 units)
+                                        </td>
+                                        <td style="text-align: right">
+                                            RM123
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        Itik Ayam (2 units)
+                                        </td>
+                                        <td style="text-align: right">
+                                            RM123
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <div class="total-price-checkout">
+
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            Billing Address
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Add to Cart</button>
+                    <button type="button" class="btn btn-success add-to-cart-details">Add to Cart</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -79,34 +118,11 @@
                             </tr>
                         </thead>
                         <tbody class="product-in-cart">
-                            {{-- <tr>
-                                <td><i class="fa fa-remove remove-from-cart"></i></td>
-                                <td>Kokkokkk</td>
-                                <td>RM21</td>
-                                <td>
-                                    <input type="text" class="form-control input-sm">
-                                </td>
-                                <td>RM1234</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-remove"></i></td>
-                                <td>Kokkokkk dfgsdgf fdg sdfgd  sddg sdg sgsd gsdgsdg </td>
-                                <td>RM21</td>
-                                <td><input type="text" class="form-control input-sm"></td>
-                                <td>RM1234</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-remove"></i></td>
-                                <td>Kokkokkk</td>
-                                <td>RM21</td>
-                                <td><input type="text" class="form-control input-sm"></td>
-                                <td>RM1234</td>
-                            </tr> --}}
-                            
+
                         </tbody>
                     </table>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success"><i class="fa fa-check"></i> Checkout</button>
+                    <button type="button" class="btn btn-success btn-checkout"><i class="fa fa-check"></i> Checkout</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>

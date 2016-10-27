@@ -447,3 +447,18 @@ transition-delay:.2s;
     padding-top: 31px;
     padding-bottom: 10px;
 }
+
+.product-details-sale {
+    max-width: 100%;
+    height: auto;
+}
+
+.details-price {
+    font-weight: bold;
+    color: #d32f2f;
+}
+
+.total-price-checkout {
+    font-size: 18px;
+    text-align: right;
+}

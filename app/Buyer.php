@@ -8,7 +8,9 @@ class Buyer extends Model
 {
 
     protected $fillable = [
-
+        'order_id',
+        'user_id',
+        'name'
     ];
 
     private $rules = [
