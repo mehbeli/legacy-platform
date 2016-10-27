@@ -27,7 +27,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('buyer_id')->references('id')->on('users');
 
             // add coupons table foreign key later
-            $table->integer('coupon_id')->unsigned();
+            $table->integer('coupon_id')->unsigned()->nullable();
             $table->float('discount')->default(0);
             $table->float('shipping')->default(0);
             $table->float('tax')->nullable();

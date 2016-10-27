@@ -41,7 +41,7 @@
         &copy; Copyright 2016. Powered by Jejual
     </div>
 
-    <!-- Modal -->
+    <!-- Details Modal -->
     <div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="details-modal">
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
@@ -54,6 +54,59 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success">Add to Cart</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="cart-modal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Shopping Cart</h4>
+                </div>
+                <table class="table selected-product">
+                        <thead>
+                            <tr>
+                                <th style="width: 20px;"></th>
+                                <th>Product</th>
+                                <th style="width: 100px;">Price</th>
+                                <th style="width: 50px;">Quantity</th>
+                                <th style="width: 150px;">Nett Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="product-in-cart">
+                            {{-- <tr>
+                                <td><i class="fa fa-remove remove-from-cart"></i></td>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td>
+                                    <input type="text" class="form-control input-sm">
+                                </td>
+                                <td>RM1234</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-remove"></i></td>
+                                <td>Kokkokkk dfgsdgf fdg sdfgd  sddg sdg sgsd gsdgsdg </td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-remove"></i></td>
+                                <td>Kokkokkk</td>
+                                <td>RM21</td>
+                                <td><input type="text" class="form-control input-sm"></td>
+                                <td>RM1234</td>
+                            </tr> --}}
+                            
+                        </tbody>
+                    </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"><i class="fa fa-check"></i> Checkout</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>

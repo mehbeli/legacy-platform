@@ -902,3 +902,14 @@ ul.nav-tabs-custom li:first-child {
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+/* Add another order */
+.checkbox-aoa {
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+.form-group-aoa {
+    margin-bottom: 0px !important;
+    margin-right: 15px;
+}
