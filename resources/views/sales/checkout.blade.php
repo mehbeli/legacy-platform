@@ -3,6 +3,30 @@
         <h5><b>Cart Review</b></h5>
         <table class="table table-condensed product-list-selected" style="width: 100%;">
             <tbody>
+                <tr>
+                    <td>
+                        Itik Ayam (2 units)
+                    </td>
+                    <td style="text-align: right">
+                        RM123
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Itik Ayam (2 units)
+                    </td>
+                    <td style="text-align: right">
+                        RM123
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Itik Ayam (2 units)
+                    </td>
+                    <td style="text-align: right">
+                        RM123
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-summary">
@@ -11,7 +35,7 @@
                     <td style="font-weight: bold; text-align: right">
                         Subtotal
                     </td>
-                    <td id="checkout-subtotal" style="text-align: right">
+                    <td style="text-align: right">
                         RM123
                     </td>
                 </tr>
@@ -19,7 +43,7 @@
                     <td style="font-weight: bold; text-align: right">
                         Delivery Charge
                     </td>
-                    <td id="checkout-delivery" style="text-align: right">
+                    <td style="text-align: right">
                         RM123
                     </td>
                 </tr>
@@ -27,7 +51,7 @@
                     <td style="font-weight: bold; text-align: right">
                         Grand Total
                     </td>
-                    <td id="checkout-grandtotal" style="font-size: 18px; font-weight:bold; color: #FB8C00; text-align: right;">
+                    <td style="text-align: right">
                         RM123
                     </td>
                 </tr>
@@ -45,7 +69,7 @@
                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#billing" aria-expanded="true" aria-controls="billing">
                             <b>Billing Address</b>
                         </a>
-                        <span class="billing-status pull-right"><i class="fa fa-check text-success"></i></span>
+                        <i class="fa fa-check text-success pull-right"></i>
                     </h4>
                 </div>
                 <div id="billing" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
@@ -114,7 +138,7 @@
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#delivery" aria-expanded="false" aria-controls="delivery">
                             <b>Delivery Address</b>
                         </a>
-                        <span class="delivery-status pull-right"><i class="fa fa-check text-success"></i></span>
+                        <i class="fa fa-exclamation-circle text-danger pull-right"></i>
                     </h4>
                 </div>
                 <div id="delivery" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
@@ -187,7 +211,7 @@
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#paymentDelivery" aria-expanded="false" aria-controls="paymentDelivery">
                             <b>Payment & Delivery</b>
                         </a>
-                        <span class="payment-delivery-status pull-right"><i class="fa fa-check text-success"></i></span>
+                        <i class="fa fa-exclamation-circle text-danger pull-right"></i>
                     </h4>
                 </div>
                 <div id="paymentDelivery" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
@@ -215,17 +239,17 @@
                                 <h5><b>Delivery Options</b></h5>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="delivery" data-price="6" id="blankRadio1" value="courier" aria-label="..."> Courier (RM6)
+                                        <input type="radio" name="delivery" id="blankRadio1" value="courier" aria-label="..."> Courier (RM6)
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="delivery" data-price="0" id="blankRadio1" value="self-pickup" aria-label="..."> Self Pickup
+                                        <input type="radio" name="delivery" id="blankRadio1" value="self-pickup" aria-label="..."> Self Pickup
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="delivery" data-price="0" id="blankRadio1" value="free" aria-label="..."> Free Shipping
+                                        <input type="radio" name="delivery" id="blankRadio1" value="free" aria-label="..."> Free Shipping
                                         <div style="font-size: 10px;">Limited to Bandar Saujana Putra only</div>
                                     </label>
                                 </div>
@@ -235,5 +259,7 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>

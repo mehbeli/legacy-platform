@@ -21,4 +21,10 @@ class SaleController extends Controller
         return view('sales.new')->with('products', $products)->with('business', $business->unique_id);
     }
 
+    public function postCheckout(Request $request, $sale_url) {
+
+    	return response()->json($request->customer);
+
+    }
+
 }

@@ -32,6 +32,7 @@ Route::get('/email', function () {
 });
 
 Route::get('/sale/{sale_url}', 'SaleController@getSalePage');
+Route::post('/sale/{sale_url}/checkout', 'SaleController@postCheckout');
 
 Route::get('/sale', function () {
     $products = \App\Product::paginate(8);

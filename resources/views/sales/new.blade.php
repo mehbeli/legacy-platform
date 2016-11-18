@@ -6,7 +6,9 @@
 @endsection
 
 @section('content')
-<div class="heading-background">
+<div class="container-fluid">
+    <div class="row">
+        <div class="heading-background">
     <span class="sale-description">
         <div class="line-one">Year End Sale !</div>
         <div class="line-two">
@@ -24,7 +26,7 @@
         </span>
     </div>
 </div>
-<div class="container-fluid">
+    </div>
     <div class="col-sm-10 col-sm-offset-1">
         <div class="row verifier">
             <span class="verify-pending" data-toggle="tooltip" data-placement="bottom" title="Verified (Identification Card & SSM)">
@@ -177,6 +179,8 @@
   </div>
 </div>
 
+@include('sales.modal')
+
 </div>
 
 @endsection
@@ -203,17 +207,55 @@
     </tr>
 </script>
 <script id="checkout-template" type="text/template">
+@include('sales.cart')
 </script>
 <script src="/components/jquery-calx/jquery-calx-2.2.7.min.js"></script>
 <script type="text/javascript">
+
+    $.ajaxSetup(
+    {
+        headers:
+        {
+            'X-CSRF-Token': '{{ csrf_token() }}'
+        }
+    });
+
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
   })
 
+    $checkOut = {
+        'billing': false,
+        'delivery': false,
+        'payment_delivery': false
+    }
+
+    $checkOutForm = {
+        'billing_name': '',
+        'billing_email_address': '',
+        'billing_phone': '',
+        'billing_address_one': '',
+        'billing_address_two': '',
+        'billing_post_code': '',
+        'billing_city': '',
+        'billing_state': '',
+        'billing_country': 'Malaysia',
+        'same_as_billing': false,
+        'delivery_name': '',
+        'delivery_phone': '',
+        'delivery_address_one': '',
+        'delivery_address_two': '',
+        'delivery_post_code': '',
+        'delivery_city': '',
+        'delivery_state': '',
+        'delivery_country': 'Malaysia',
+        'payment': null,
+        'delivery': null
+    }
+
     $(document).ready(function() {
         $(document).on('click', '.pagination a', function (e) {
             getPosts($(this).attr('href').split('page=')[1]);
-            console.log('test');
             e.preventDefault();
         });
     });
@@ -242,6 +284,7 @@
 
     // Add product to cart
     var cart = {};
+    var cartDelivery = 0;
     $('.product-list').on('click', '.btn-add-to-cart', function () {
         // Disable button
         $(this).prop('disabled', true);
@@ -285,13 +328,96 @@
     // Show modal for cart
     $('#cart-modal').on('show.bs.modal', function () {
         pic = $(this).find('.product-in-cart');
+        $checkOut = $(this).find('.btn-checkout');
         if (Object.keys(cart).length <= 0) {
-            $(this).find('.btn-checkout').prop('disabled', true);
+            $checkOut.prop('disabled', true);
+            $checkOut.off();
         } else {
-            $(this).find('.btn-checkout').prop('disabled', false);
+            $checkOut.off();
+            $checkOut.prop('disabled', false);
+            $checkOut.on('click', function () {
+                $('#cart-modal').modal('hide');
+                setTimeout(function () {
+                    $content = checkOutForm();
+                    $('#checkout-modal').find('.modal-body').html($content);
+                    $('#checkout-modal').modal({backdrop: 'static', keyboard: false, show:true });
+                }, 500);
+            });
         }
         checkCart(pic);
     });
+
+    $('#checkout-modal').on('show.bs.modal', function () {
+        checker();
+        reviewCart();
+    });
+
+    $('#checkout-modal').on('keyup change', 'input', function (event) {
+        $chModal = $(this);
+        if (event.type == 'change') {
+
+            $checkOutForm[$chModal.attr('name')] = $chModal.val();
+
+            if ($chModal.attr('name') == 'delivery') {
+
+                if ($chModal.val() == "courier") {
+                    $('input[value=cash]').prop('disabled', true).prop('checked', false);
+                    if ($checkOutForm['payment'] === 'cash')
+                        $checkOutForm['payment'] = null;
+                } else {
+                    $('input[value=cash]').prop('disabled', false);
+                }
+
+                cartDelivery = parseFloat($chModal.attr('data-price'));
+                $('#checkout-modal').find('#checkout-delivery').html('RM'+cartDelivery);
+                subtotal = $('#checkout-modal').find('#checkout-subtotal').html();
+                subtotal = parseFloat(subtotal.replace('RM', ''));
+                grandTotal = subtotal + cartDelivery;
+                $('#checkout-modal').find('#checkout-grandtotal').html('RM'+grandTotal);
+            }
+
+            if ($chModal.attr('name') == 'same_as_billing') {
+                checkorNot = false;
+                if ($chModal.prop('checked')) { checkorNot = true }
+                $checkOutForm[$chModal.attr('name')] = checkorNot;
+            }
+
+            if ($('#checkout-modal').find('input[name=same_as_billing]').prop('checked')) {
+                if ($chModal.attr('name') != 'delivery') {
+                    if ($chModal.attr('name') != 'payment') {
+                        sameAsBilling($chModal.attr('name'));
+                    }
+                }
+            }
+
+            checker();
+
+        } else if (event.type == 'keyup') {
+            delay(function () {
+            $checkOutForm[$chModal.attr('name')] = $chModal.val();
+            if ($chModal.find('input[name=same_as_billing]').prop('checked')) {
+                if ($chModal.attr('name') != 'delivery') {
+                    if ($chModal.attr('name') != 'payment') {
+                        sameAsBilling($chModal.attr('name'));
+                    }
+                }
+            }
+        }, 1000);
+        }
+    });
+
+    $('#checkout-modal').on('click', 'input[name=same_as_billing]', function () {
+        if ($(this).prop('checked')) {
+            $('#checkout-modal').find("input[name^=delivery_]").prop('readonly', true);
+                for (i in $checkOutForm) {
+                    if (i.indexOf('billing') >= 0) {
+                        sameAsBilling(i);
+                    }
+                }
+        } else {
+            $('#checkout-modal').find("input[name^=delivery_]").prop('readonly', false);
+        }
+    })
 
     // Change in quantity - recalculation
     $('#cart-modal').on('keyup change', '.product_quantity', function () {
@@ -318,7 +444,7 @@
         checkCart(pic);
     });
 
-    /*$('.product-list').on('click', '.btn-vd', function () {
+    $('.product-list').on('click', '.btn-vd', function () {
         $('#details-modal').find('.modal-body').empty().html('<i class="fa fa-spin fa-fw fa-spinner"></i> Loading Data...');
         $product_id = $(this).attr('data-id');
         $.get({
@@ -336,7 +462,126 @@
         } else {
             $('#details-modal').find('.add-to-cart-details').prop('disabled', false).attr('data-id', $product_id).html('Add to Cart');
         }
-    })*/
+    });
+
+    // Send Checkout
+    $('.btn-proceed').on('click', function () {
+        $('#checkout-modal').find('input').prop('disabled', true);
+        $(this).prop('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...')
+        $.post('/sale/{{ $business }}/checkout', { cart: cart, customer: $checkOutForm })
+            .done(function (data) {
+                console.log(data);
+            });
+    });
+
+    function reviewCart() {
+
+        $subtotal = 0;
+        for (i in cart) {
+            price = cart[i].quantity * cart[i].price;
+            $subtotal += price;
+            $('#checkout-modal').find('.product-list-selected').find('tbody').append('<tr><td>'+cart[i].name+' ('+cart[i].quantity+' unit(s))</td><td class="text-right">RM'+price+'</td></tr>')
+        }
+
+        $('#checkout-subtotal').html('RM'+$subtotal);
+        $('#checkout-delivery').html('RM'+cartDelivery);
+        grandtotal = $subtotal + cartDelivery;
+        $('#checkout-grandtotal').html('RM'+grandtotal);
+
+    }
+
+    function checker() {
+
+        $billingObj = $('#checkout-modal').find('input[name^=billing_]').length;
+        $billingNo = 0;
+        $deliveryObj = $('#checkout-modal').find('input[name^=delivery_]').length;
+        $deliveryNo = 0;
+
+        for (i in $checkOutForm) {
+            // check billing
+            if (i.indexOf('billing_') >= 0) {
+                if ($checkOutForm[i].length > 0) {
+                    $billingNo++;
+                }
+                if ($billingNo >= $billingObj) {
+                    $('#checkout-modal').find('.billing-status').find('i').removeClass('fa-exclamation-circle').removeClass('text-danger').addClass('fa-check').addClass('text-success');
+                    $checkOut['billing'] = true;
+                } else {
+                    $('#checkout-modal').find('.billing-status').find('i').addClass('fa-exclamation-circle').addClass('text-danger').removeClass('fa-check').removeClass('text-success');
+                    $checkOut['billing'] = false;
+                }
+            }
+
+            // check delivery
+            else if (i.indexOf('delivery_') >= 0) {
+                if ($checkOutForm[i].length > 0) {
+                    $deliveryNo++;
+                }
+                if ($deliveryNo >= $deliveryObj) {
+                    $('#checkout-modal').find('.delivery-status').find('i').removeClass('fa-exclamation-circle').removeClass('text-danger').addClass('fa-check').addClass('text-success');
+                    $checkOut['delivery'] = true;
+                } else {
+                    $('#checkout-modal').find('.delivery-status').find('i').addClass('fa-exclamation-circle').addClass('text-danger').removeClass('fa-check').removeClass('text-success');
+                    $checkOut['delivery'] = false;
+                }
+            }
+
+        }
+
+        if ($checkOutForm['delivery'] != null
+            && $checkOutForm['payment'] != null) {
+            $('#checkout-modal').find('.payment-delivery-status').find('i').removeClass('fa-exclamation-circle').removeClass('text-danger').addClass('fa-check').addClass('text-success');
+            $checkOut['payment_delivery'] = true;
+        } else {
+            $('#checkout-modal').find('.payment-delivery-status').find('i').addClass('fa-exclamation-circle').addClass('text-danger').removeClass('fa-check').removeClass('text-success');
+            $checkOut['payment_delivery'] = false;
+        }
+
+        $no_true = 0;
+        for (i in $checkOut) {
+            if ($checkOut[i] === true)
+                $no_true++;
+        }
+        if ($no_true >= 3) {
+            $('.btn-proceed').prop('disabled', false);
+        } else {
+            $('.btn-proceed').prop('disabled', true);
+        }
+
+    }
+
+    function sameAsBilling(el_name) {
+
+        bilval = $('#checkout-modal').find('input[name='+el_name+']').val();
+        $repname = el_name.replace('billing', 'delivery');
+        delval = $('#checkout-modal').find('input[name='+$repname+']').val(bilval);
+        if (el_name != 'billing_email_address') {
+            $checkOutForm[$repname] = $checkOutForm[el_name];
+        }
+
+    }
+
+    function checkOutForm() {
+        $myCheckOut = $($('#checkout-template').html());
+        for (i in $checkOutForm) {
+            if (i == 'same_as_billing') {
+
+                if ($checkOutForm[i] === true) {
+                    $myCheckOut.find('input[name='+i+']').click()
+                    $myCheckOut.find("input[name^=delivery_]").prop('readonly', true);
+                }
+
+            } else if (i == 'payment' || i == 'delivery') {
+                console.log($checkOutForm[i]);
+                if ($checkOutForm[i] !== '' || $checkOutForm[i] !== null) {
+                    $myCheckOut.find('input[name='+i+'][value='+$checkOutForm[i]+']').prop('checked', true);
+                }
+            } else {
+                $myCheckOut.find('input[name='+i+']').val($checkOutForm[i]);
+            }
+        }
+        return $myCheckOut;
+    }
 
     // Update Cart
     function updateCart(pic) {
@@ -380,5 +625,13 @@
         }
         $('.price-cart').html('RM'+grossTotal+' ('+Object.keys(cart).length+' items)')
     }
+
+    var delay = (function(){
+        var timer = 0;
+        return function(callback, ms){
+            clearTimeout (timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
 </script>
 @endsection

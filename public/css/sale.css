@@ -2,7 +2,8 @@
 
 body {
     background-color: #F5F5F5;
-    font-family: 'Karla', sans-serif;
+    /* font-family: 'Karla', sans-serif; */
+    font-family: 'Raleway', sans-serif;
 }
 
 .container-margin-open-order {
@@ -52,6 +53,15 @@ body {
     color: #fff;
     border-radius: 4px;
     font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .business-name {
+       display: none;
+    }
+    .cart a {
+        padding-left: 20px;
+    }
 }
 
 /* */
@@ -461,4 +471,8 @@ transition-delay:.2s;
 .total-price-checkout {
     font-size: 18px;
     text-align: right;
+}
+
+.table-summary>tbody>tr>td {
+    border-top: none;
 }

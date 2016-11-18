@@ -49,9 +49,9 @@ class OpenOrderController extends Controller
                 'sale_url' => 'unique:open_orders,sale_url,'.$openOrder->id.'|required',
             ])) {
             $openOrder->fill($inputs);
-            $openOrder->start_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->start_at)->toDateTimeString();
+            $openOrder->start_at = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_at)->toDateTimeString();
             if (!empty($request->end_at)) {
-                $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->toDateTimeString();
+                $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s', $request->end_at)->toDateTimeString();
             }
 
             $openOrder->products_list = json_encode($request->products_list); // to be remove
