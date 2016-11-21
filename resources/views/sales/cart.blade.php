@@ -69,8 +69,7 @@
 
                                 <div class="form-group">
                                     <label for="billing_address_one">Address</label>
-                                    <input type="text" name="billing_address_one" class="form-control input-sm" id="billing_address_one" placeholder="">
-                                    <input type="text" name="billing_address_two" class="form-control input-sm" style="margin-top: 7px;" id="billing_address_two" placeholder="">
+                                    <textarea name="billing_address_one" class="form-control" rows="5" cols="100%"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -143,8 +142,7 @@
 
                                 <div class="form-group">
                                     <label for="delivery_address_one">Address</label>
-                                    <input type="text" name="delivery_address_one" class="form-control input-sm" id="delivery_address_one" placeholder="">
-                                    <input type="text" name="delivery_address_two" class="form-control input-sm" style="margin-top: 7px;" id="delivery_address_two" placeholder="">
+                                    <textarea name="delivery_address_one" class="form-control" rows="5" cols="100%"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -195,6 +193,8 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <h5><b>Payment Options</b></h5>
+                                @foreach ($payments as $key => $payment)
+                                @endforeach
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="payment" id="blankRadio1" value="fpx" aria-label="..."> FPX
@@ -213,22 +213,16 @@
                             </div>
                             <div class="col-sm-6">
                                 <h5><b>Delivery Options</b></h5>
+                                @foreach ($shippings as $key => $shipping)
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="delivery" data-price="6" id="blankRadio1" value="courier" aria-label="..."> Courier (RM6)
+                                        <input type="radio" name="delivery" data-price="{{ $shipping->price }}" id="blankRadio1" value="{{ $key }}" aria-label="..."> {{ $shipping->name }} (RM{{ $shipping->price }})
+                                        @if (isset($shipping->remarks))
+                                            <div style="font-size: 10px;">{{ $shipping->remarks }}</div>
+                                        @endif
                                     </label>
                                 </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="delivery" data-price="0" id="blankRadio1" value="self-pickup" aria-label="..."> Self Pickup
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="delivery" data-price="0" id="blankRadio1" value="free" aria-label="..."> Free Shipping
-                                        <div style="font-size: 10px;">Limited to Bandar Saujana Putra only</div>
-                                    </label>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

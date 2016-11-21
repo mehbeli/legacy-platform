@@ -262,7 +262,7 @@ var table = $('#products-table').DataTable({
                 if (full.unique_id in sale_price) {
                     return '<input type="text" class="form-control input-sm sale-price" data-id="'+full.unique_id+'" value="'+sale_price[full.unique_id]+'"/>';
                 } else {
-                    return data;
+                    return '<input type="text" class="form-control input-sm sale-price" data-id="'+full.unique_id+'" value="'+data+'"/>';
                 }
             },
         }
@@ -323,6 +323,7 @@ $('#openOrder').on('submit', function(e){
 
     $.each(rows_selected, function(index, rowId){
         // Create a hidden element
+
         $(form).append(
             $('<input>')
             .attr('type', 'hidden')
@@ -330,6 +331,16 @@ $('#openOrder').on('submit', function(e){
             .val(rowId)
         );
     });
+
+    $.each(sale_price, function (index, price) {
+        $(form).append(
+            $('<input>')
+            .attr('type', 'hidden')
+            .attr('name', 'price['+index+']')
+            .val(price)
+        );
+    });
+
     $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Open Sale Now!');
     setTimeout(function () {
         form.submit();

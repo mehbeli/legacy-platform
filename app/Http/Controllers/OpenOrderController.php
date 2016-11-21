@@ -54,7 +54,11 @@ class OpenOrderController extends Controller
                 $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s', $request->end_at)->toDateTimeString();
             }
 
-            $openOrder->products_list = json_encode($request->products_list); // to be remove
+            // Filtering
+            $fullPrice = $this->filterListPrice($request->productList, $request->price);
+
+            // used for different price
+            $openOrder->products_list = json_encode($fullPrice);
             $openOrder->sale_url = str_slug($request->sale_url, '-');
             $openOrder->business()->associate($business);
             $openOrder->save();
@@ -68,13 +72,13 @@ class OpenOrderController extends Controller
             foreach ($inputs['shipping'] as $shipping) {
                 switch ($shipping) {
                     case 'courier':
-                        $settings['shipping'][$shipping] = [ 'price' => $inputs[$shipping.'_price'] ];
+                        $settings['shipping'][$shipping] = [ 'name' => 'Courier', 'price' => $inputs[$shipping.'_price'] ];
                         break;
                     case 'selfpickup':
-                        $settings['shipping'][$shipping] = [ 'price' => $inputs[$shipping.'_price'] ];
+                        $settings['shipping'][$shipping] = [ 'name' => 'Self Pickup', 'price' => $inputs[$shipping.'_price'] ];
                         break;
                     case 'freeshipping':
-                        $settings['shipping'][$shipping] = [ 'price' => 0, 'remarks' => $inputs['freeshipping_remarks'] ];
+                        $settings['shipping'][$shipping] = [ 'name' => 'Free Shipping', 'price' => 0, 'remarks' => $inputs['freeshipping_remarks'] ];
                         break;
                 }
             }
@@ -83,10 +87,13 @@ class OpenOrderController extends Controller
             foreach ($inputs['payment'] as $payment) {
                 switch ($payment) {
                     case 'fpx':
-                        $settings['payment'][] = 'fpx';
+                        $settings['payment']['fpx'] = 'FPX';
                         break;
                     case 'manual':
-                        $settings['payment'][] = 'manual';
+                        $settings['payment']['manual'] = 'Manual Internet Bank In / Cash Deposit';
+                        break;
+                    case 'cash':
+                        $settings['payment']['cash'] = 'Cash';
                         break;
                 }
             }
@@ -117,7 +124,11 @@ class OpenOrderController extends Controller
                 $openOrder->end_at = Carbon::createFromFormat('d/m/Y H:i:s A', $request->end_at)->format('Y-m-d H:i:s');
             }
 
-            $openOrder->products_list = json_encode($request->products_list);  // to be remove
+            // Filtering
+            $fullPrice = $this->filterListPrice($request->productList, $request->price);
+
+            // use for price different from selling price set on the product page
+            $openOrder->products_list = json_encode($fullPrice);
             $openOrder->sale_url = str_slug($request->sale_url, '-');
             $openOrder->business()->associate($business);
             $openOrder->save();
@@ -131,13 +142,13 @@ class OpenOrderController extends Controller
             foreach ($inputs['shipping'] as $shipping) {
                 switch ($shipping) {
                     case 'courier':
-                        $settings['shipping'][$shipping] = [ 'price' => $inputs[$shipping.'_price'] ];
+                        $settings['shipping'][$shipping] = [  'name' => 'Courier', 'price' => $inputs[$shipping.'_price'] ];
                         break;
                     case 'selfpickup':
-                        $settings['shipping'][$shipping] = [ 'price' => $inputs[$shipping.'_price'] ];
+                        $settings['shipping'][$shipping] = [  'name' => 'Self Pickup', 'price' => $inputs[$shipping.'_price'] ];
                         break;
                     case 'freeshipping':
-                        $settings['shipping'][$shipping] = [ 'price' => 0, 'remarks' => $inputs['freeshipping_remarks'] ];
+                        $settings['shipping'][$shipping] = [ 'name' => 'Free Shipping', 'price' => 0, 'remarks' => $inputs['freeshipping_remarks'] ];
                         break;
                 }
             }
@@ -146,10 +157,13 @@ class OpenOrderController extends Controller
             foreach ($inputs['payment'] as $payment) {
                 switch ($payment) {
                     case 'fpx':
-                        $settings['payment'][] = 'fpx';
+                        $settings['payment']['fpx'] = 'FPX';
                         break;
                     case 'manual':
-                        $settings['payment'][] = 'manual';
+                        $settings['payment']['manual'] = 'Manual Internet Bank In / Cash Deposit';
+                        break;
+                    case 'cash':
+                        $settings['payment']['cash'] = 'Cash';
                         break;
                 }
             }
@@ -197,6 +211,19 @@ class OpenOrderController extends Controller
         } else {
             return response()->json([ 'found' => false ]);
         }
+    }
+
+    private function filterListPrice($productList, $priceList) {
+
+        $newPriceList = $priceList;
+        foreach ($priceList as $key => $price) {
+            if (!in_array($key, $productList)) {
+                unset($newPriceList[$key]);
+            }
+        }
+
+        return $newPiceList;
+
     }
 
 }

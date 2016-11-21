@@ -98,8 +98,8 @@ class DatatableController extends Controller
                 ->editColumn('selling_price', function ($product) {
                     return number_format($product->selling_price, 2);
                 })
-                ->addColumn('sale_price', function ($product) use ($businessId) {
-                    return '<input type="text" class="form-control input-sm sale-price" data-id="'.$product->unique_id.'" value="'.$product->selling_price.'"/>';
+                ->addColumn('sale_price', function ($product) use ($businessId, $open_order_products) {
+                    return $product->selling_price;
                 })
                 ->addColumn('quantity', function ($product) use ($businessId) {
                     return '<input type="text" class="form-control input-sm quantity_buy" data-id="'.$product->unique_id.'" data-price="'.$product->selling_price.'" value="1"/>';

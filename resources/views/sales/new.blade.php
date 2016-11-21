@@ -352,7 +352,7 @@
         reviewCart();
     });
 
-    $('#checkout-modal').on('keyup change', 'input', function (event) {
+    $('#checkout-modal').on('keyup change', ':input', function (event) {
         $chModal = $(this);
         if (event.type == 'change') {
 
@@ -408,14 +408,14 @@
 
     $('#checkout-modal').on('click', 'input[name=same_as_billing]', function () {
         if ($(this).prop('checked')) {
-            $('#checkout-modal').find("input[name^=delivery_]").prop('readonly', true);
+            $('#checkout-modal').find(":input[name^=delivery_]").prop('readonly', true);
                 for (i in $checkOutForm) {
                     if (i.indexOf('billing') >= 0) {
                         sameAsBilling(i);
                     }
                 }
         } else {
-            $('#checkout-modal').find("input[name^=delivery_]").prop('readonly', false);
+            $('#checkout-modal').find(":input[name^=delivery_]").prop('readonly', false);
         }
     })
 
@@ -492,9 +492,9 @@
 
     function checker() {
 
-        $billingObj = $('#checkout-modal').find('input[name^=billing_]').length;
+        $billingObj = $('#checkout-modal').find(':input[name^=billing_]').length;
         $billingNo = 0;
-        $deliveryObj = $('#checkout-modal').find('input[name^=delivery_]').length;
+        $deliveryObj = $('#checkout-modal').find(':input[name^=delivery_]').length;
         $deliveryNo = 0;
 
         for (i in $checkOutForm) {
@@ -551,10 +551,11 @@
     }
 
     function sameAsBilling(el_name) {
-
-        bilval = $('#checkout-modal').find('input[name='+el_name+']').val();
+        //console.log(el_name)
+        bilval = $('#checkout-modal').find(':input[name='+el_name+']').val();
+        console.log(bilval);
         $repname = el_name.replace('billing', 'delivery');
-        delval = $('#checkout-modal').find('input[name='+$repname+']').val(bilval);
+        delval = $('#checkout-modal').find(':input[name='+$repname+']').val(bilval);
         if (el_name != 'billing_email_address') {
             $checkOutForm[$repname] = $checkOutForm[el_name];
         }
@@ -568,7 +569,7 @@
 
                 if ($checkOutForm[i] === true) {
                     $myCheckOut.find('input[name='+i+']').click()
-                    $myCheckOut.find("input[name^=delivery_]").prop('readonly', true);
+                    $myCheckOut.find(":input[name^=delivery_]").prop('readonly', true);
                 }
 
             } else if (i == 'payment' || i == 'delivery') {

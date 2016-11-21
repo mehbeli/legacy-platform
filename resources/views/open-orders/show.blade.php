@@ -115,12 +115,17 @@ hr {
                             <div class="validation-delivery-method-payment"></div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="payment[]" data-parsley-errors-container=".validation-delivery-method-payment" data-parsley-required value="manual" {{ in_array('manual', $payment) ? 'checked' : '' }}> Manual Bank In / Internet Banking
+                                    <input type="checkbox" name="payment[]" data-parsley-errors-container=".validation-delivery-method-payment" data-parsley-required value="manual" {{ array_key_exists('manual', $payment) ? 'checked' : '' }}> Manual Bank In / Internet Banking
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="payment[]" value="fpx" {{ in_array('fpx', $payment) ? 'checked' : '' }}> FPX (through BillPlz)
+                                    <input type="checkbox" name="payment[]" value="fpx" {{ array_key_exists('fpx', $payment) ? 'checked' : '' }}> FPX (through BillPlz)
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="payment[]" value="fpx" {{ array_key_exists('cash', $payment) ? 'checked' : '' }}> Cash
                                 </label>
                             </div>
                         </div>
@@ -257,9 +262,10 @@ $(document).ready(function () {
             { data: 'product_name', name: 'product_name' },
             { data: 'quantity_in_stock', name: 'quantity_in_stock', sortable: true },
             { data: 'selling_price', name: 'selling_price' },
+            { data: 'sale_price', name: 'sale_price', sortable: false, searchable: false },
             { data: 'actionnodelete', name: 'actionnodelete', sortable: false, searchable: false }
         ],
-        columnDefs: [
+        /*columnDefs: [
             {
                 targets: 0,
                 searchable: false,
@@ -276,7 +282,38 @@ $(document).ready(function () {
         },
         order: [[1, 'asc']],
         lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
-        pageLength: 5,
+        pageLength: 5,*/
+        columnDefs: [
+            {
+                targets: 0,
+                searchable: false,
+                orderable: false,
+                className: 'dt-body-center',
+                render: function (data, type, full, meta){
+                    return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                },
+                checkboxes: { selectRow: true }
+            },
+            {
+                targets: 4,
+                searchable: false,
+                orderable: false,
+                render: function (data, type, full, meta) {
+                    if (full.unique_id in sale_price) {
+                        return '<input type="text" class="form-control input-sm sale-price" data-id="'+full.unique_id+'" value="'+sale_price[full.unique_id]+'"/>';
+                    } else {
+                        return data;
+                    }
+                },
+            }
+        ],
+        select: {
+            style: 'multi',
+            selector: 'td:first-child'
+        },
+        order: [[1, 'asc']],
+        lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
+        pageLength: 5
     });
 
     function selectOn(thisVal, indexes) {
