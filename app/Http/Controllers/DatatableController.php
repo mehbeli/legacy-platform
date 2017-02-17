@@ -23,25 +23,29 @@ class DatatableController extends Controller
         $isOwner = $this->checkBusinessBelongsToUser($businessId);
 
         if ($isOwner) {
-            $query = Business::findByUniqueId($businessId)->orders();
+            $business = \App\Business::findByUniqueId($businessId)->first();
+            $query = \App\Order::where('business_id', $business->id);
 
-            if ($request->status == 'confirmed') {
+            /*if ($request->status == 'confirmed') {
                 $query = $query->where('status', 'confirmed');
             } elseif ($request->status == 'pending') {
                 $query = $query->where('status', 'pending');
             } elseif ($request->status == 'completed') {
                 $query = $query->where('status', 'completed');
-            }
+            }*/
 
             return Datatables::of($query)
                 ->addColumn('checkboxes', function ($order) {
                     return '<input type="checkbox" value="'.$order->id.'">';
                 })
                 ->editColumn('buyer', function ($order) {
-                    return '<a href="#" data-toggle="tooltip" data-placement="bottom" title="{{$order->buyer()->email}}">{{$order->buyer()->name}}</a>';
+                    return '<a href="#" data-toggle="tooltip" data-placement="bottom" title="'.$order->buyer()->first()->billing_email_address.'">'.$order->buyer()->first()->billing_name.'</a>';
                 })
                 ->editColumn('paid', function ($order) {
                     return ($order->paid) ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-remove text-danger"></i>';
+                })
+                ->addColumn('action', function ($order) {
+                    return 'test';
                 })
                 ->make(true);
         } else {

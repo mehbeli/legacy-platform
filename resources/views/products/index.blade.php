@@ -36,7 +36,8 @@ hr {
                 </div>
             </div>
             <div class="panel-body">
-                <!-- Nav tabs --><div class="row">
+                <!-- Nav tabs -->
+                <div class="row">
                 <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
                 <?php
                     $inactive = null;

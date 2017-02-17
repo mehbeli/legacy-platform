@@ -21,7 +21,7 @@ class Order extends Model
     }
 
     public function buyer() {
-        return $this->hasOne('App\User', 'buyer_id');
+        return $this->hasOne('App\Buyer', 'id', 'anonymous_buyer_id');
     }
 
 }

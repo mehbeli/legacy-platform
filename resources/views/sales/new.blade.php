@@ -467,10 +467,21 @@
     // Send Checkout
     $('.btn-proceed').on('click', function () {
         $('#checkout-modal').find('input').prop('disabled', true);
-        $(this).prop('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...')
+        $('#checkout-modal').find('button').not('.btn-proceed').prop('disabled', true);
+        $(this).prop('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Processing...')
         $.post('/sale/{{ $business }}/checkout', { cart: cart, customer: $checkOutForm })
             .done(function (data) {
-                console.log(data);
+                $('#checkout-modal').hide();
+                swal({
+                    title: "Submitted",
+                    text: "Your order have been submitted.",
+                    type: "success",
+                    showCancelButton: false,
+                    closeOnConfirm: true,
+                },
+                function(){
+                    window.location.href = window.location.href;
+                });
             });
     });
 

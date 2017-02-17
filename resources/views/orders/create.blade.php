@@ -28,8 +28,6 @@ hr {
 @endsection
 
 @section('content')
-@include('partials.flashmessage')
-
 <div class="row">
     <div class="col-md-12">
         @include('partials.topbusinessinfo')
@@ -40,6 +38,7 @@ hr {
         @include('partials.businesssidebar')
     </div>
     <div class="col-md-9">
+        @include('partials.flashmessage')
         <div class="panel panel-default from-menu">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px; padding-bottom: 7.5px">Add Order</h4>
@@ -94,14 +93,14 @@ hr {
                                     </div>
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input type="text" name="billing_phone_no" class="form-control input-sm" placeholder="Phone Number" required>
+                                        <input type="text" name="billing_phone_number" class="form-control input-sm" placeholder="Phone Number" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <input type="text" name="billing_address_one" class="form-control input-sm" placeholder="" required>
+                                        <input type="text" name="billing_first_line" class="form-control input-sm" placeholder="" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="billing_address_two" class="form-control input-sm" placeholder="">
+                                        <input type="text" name="billing_second_line" class="form-control input-sm" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +108,7 @@ hr {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Post Code</label>
-                                        <input type="text" name="billing_post_code" class="form-control input-sm" placeholder="Post Code" required>
+                                        <input type="text" name="billing_postal_code" class="form-control input-sm" placeholder="Post Code" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -156,20 +155,20 @@ hr {
                                             <label>Name</label>
                                             <input type="text" name="delivery_name" class="form-control input-sm" placeholder="Delivery Name" required>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group hidden">
                                             <label>Email Address</label>
                                             <input type="text" name="delivery_email_address" class="form-control input-sm" placeholder="Email Address">
                                         </div>
                                         <div class="form-group">
                                             <label>Phone Number</label>
-                                            <input type="text" name="delivery_phone_no" class="form-control input-sm" placeholder="Phone Number" required>
+                                            <input type="text" name="delivery_phone_number" class="form-control input-sm" placeholder="Phone Number" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Address</label>
-                                            <input type="text" name="delivery_address_one" class="form-control input-sm" placeholder="" required>
+                                            <input type="text" name="delivery_first_line" class="form-control input-sm" placeholder="" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" name="delivery_address_two" class="form-control input-sm" placeholder="">
+                                            <input type="text" name="delivery_second_line" class="form-control input-sm" placeholder="">
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +176,7 @@ hr {
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Post Code</label>
-                                            <input type="text" name="delivery_post_code" class="form-control input-sm" placeholder="Post Code" required>
+                                            <input type="text" name="delivery_postal_code" class="form-control input-sm" placeholder="Post Code" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -269,7 +268,7 @@ hr {
                                 </div>
                                 <div class="form-group">
                                     <label>Delivery options</label>
-                                    <select name="delivery" class="form-control selectpicker" multiple data-max-options="1" title="Select Delivery Option...">
+                                    <select name="delivery" class="form-control selectpicker" multiple data-max-options="1" title="Select Delivery Option..." required>
                                         @foreach ($deliveries as $delivery)
                                         <option value="{{ $delivery->id }}">
                                             {{ $delivery->delivery }}
@@ -279,7 +278,7 @@ hr {
                                 </div>
                                 <div class="form-group">
                                     <label>Payment options</label>
-                                    <select name="payment" class="form-control selectpicker" multiple data-max-options="1" title="Select Payment Option...">
+                                    <select name="payment" class="form-control selectpicker" multiple data-max-options="1" title="Select Payment Option..." required>
                                         @foreach ($payments as $payment)
                                         <option value="{{ $payment->id }}">
                                             {{ $payment->payment }}
@@ -331,7 +330,7 @@ hr {
                 </div>
                 <div class="panel-footer clearfix">
                     <button type="button" class="btn btn-info">View Invoice</button>
-                    <button type="submit" class="btn btn-primary pull-right">Add Order</button>
+                    <button type="submit" class="btn button-submit btn-primary pull-right">Add Order</button>
                     <div class="form-group form-group-aoa pull-right">
                         <div class="checkbox checkbox-aoa checkbox-info">
                             <input type="checkbox" id="aoa" name="aoa">
@@ -521,7 +520,7 @@ $('#order').on('submit', function(e){
     // Iterate over all selected checkboxes
 
     if (rows_selected.length === 0) {
-        $('.validation-product').append('Please choose one product to be include in this order.');
+        swal("Ooops!", "You haven't select any product to be include in this order", "warning")
         return false;
     }
 
@@ -538,7 +537,7 @@ $('#order').on('submit', function(e){
     $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Add Order');
     setTimeout(function () {
         form.submit();
-    }, 1000);
+    }, 1500);
 });
 
 $('#same-as-billing').on('click', function () {
@@ -546,6 +545,7 @@ $('#same-as-billing').on('click', function () {
         var billing = $('[name^=billing_]');
         var delivery = $('[name^=delivery_]').not('[name=delivery_charge]');
         $.each( billing , function (i, val) {
+            console.log(delivery[i]);
             $(delivery[i]).val($(val).val()).prop('readonly', true);
         });
         $('[name^=billing_]').on('keyup', function () {
