@@ -160,6 +160,9 @@ hr {
                         <th>
                             Price
                         </th>
+                        <th>
+                            Price
+                        </th>
                         <th style="width: 70px;">
 
                         </th>

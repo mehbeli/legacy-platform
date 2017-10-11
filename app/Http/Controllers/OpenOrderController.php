@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Business;
-use App\Product;
 use App\OpenOrder;
 use App\OpenOrderSetting;
-
+use App\Product;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class OpenOrderController extends Controller
 {
-    public function __construct() {
-        $this->middleware('business')->except([ 'checkSaleUrl' ]);
+    public function __construct()
+    {
+        $this->middleware('business')->except(['checkSaleUrl']);
     }
 
-    public function index($businessId) {
+    public function index($businessId)
+    {
         $business = Business::findByUniqueId($businessId);
         return view('open-orders.index')->with('business', $business);
     }
 
-    public function show($businessId, $salesId) {
+    public function show($businessId, $salesId)
+    {
         $open_order = OpenOrder::where('sale_url', $salesId)->first();
         $product_list = $open_order->productStocks()->pluck('unique_id')->all();
         $business = Business::findByUniqueId($businessId);
@@ -32,22 +32,24 @@ class OpenOrderController extends Controller
         return view('open-orders.show')->with('openorder', $open_order)->with('business', $business)->with('shipping', $settings->shipping)->with('payment', $settings->payment)->with('product_list', $product_list);
     }
 
-    public function create($businessId) {
+    public function create($businessId)
+    {
         $business = Business::findByUniqueId($businessId);
         return view('open-orders.create')->with('business', $business);
     }
 
-    public function update(Request $request, $businessId, $saleId) {
+    public function update(Request $request, $businessId, $saleId)
+    {
         $business = Business::findByUniqueId($businessId);
         $openOrder = $business->openOrders()->where('sale_url', $saleId)->first();
         $inputs = $request->all();
         if ($openOrder->validate($inputs, [
-                'title' => 'required',
-                'descriptions' => 'required',
-                'products_list' => 'required',
-                'start_at' => 'required',
-                'sale_url' => 'unique:open_orders,sale_url,'.$openOrder->id.'|required',
-            ])) {
+            'title' => 'required',
+            'descriptions' => 'required',
+            'products_list' => 'required',
+            'start_at' => 'required',
+            'sale_url' => 'unique:open_orders,sale_url,' . $openOrder->id . '|required',
+        ])) {
             $openOrder->fill($inputs);
             $openOrder->start_at = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_at)->toDateTimeString();
             if (!empty($request->end_at)) {
@@ -55,7 +57,7 @@ class OpenOrderController extends Controller
             }
 
             // Filtering
-            $fullPrice = $this->filterListPrice($request->productList, $request->price);
+            $fullPrice = $this->filterListPrice($request->products_list, $request->price);
 
             // used for different price
             $openOrder->products_list = json_encode($fullPrice);
@@ -72,13 +74,13 @@ class OpenOrderController extends Controller
             foreach ($inputs['shipping'] as $shipping) {
                 switch ($shipping) {
                     case 'courier':
-                        $settings['shipping'][$shipping] = [ 'name' => 'Courier', 'price' => $inputs[$shipping.'_price'] ];
+                        $settings['shipping'][$shipping] = ['name' => 'Courier', 'price' => $inputs[$shipping . '_price']];
                         break;
                     case 'selfpickup':
-                        $settings['shipping'][$shipping] = [ 'name' => 'Self Pickup', 'price' => $inputs[$shipping.'_price'] ];
+                        $settings['shipping'][$shipping] = ['name' => 'Self Pickup', 'price' => $inputs[$shipping . '_price']];
                         break;
                     case 'freeshipping':
-                        $settings['shipping'][$shipping] = [ 'name' => 'Free Shipping', 'price' => 0, 'remarks' => $inputs['freeshipping_remarks'] ];
+                        $settings['shipping'][$shipping] = ['name' => 'Free Shipping', 'price' => 0, 'remarks' => $inputs['freeshipping_remarks']];
                         break;
                 }
             }
@@ -102,17 +104,18 @@ class OpenOrderController extends Controller
             $setting->options = json_encode($settings);
             $setting->save();
 
-            return redirect('/business/'.$businessId.'/open-orders/'.$openOrder->sale_url)->with('success', 'Sale Information Updated');
+            return redirect('/business/' . $businessId . '/open-orders/' . $openOrder->sale_url)->with('success', 'Sale Information Updated');
 
         } else {
             return redirect()
-                        ->back()
-                        ->withErrors($openOrder->errors())
-                        ->withInput();
+                ->back()
+                ->withErrors($openOrder->errors())
+                ->withInput();
         }
     }
 
-    public function store(Request $request, $businessId) {
+    public function store(Request $request, $businessId)
+    {
         //dd($request->all());
         $business = Business::findByUniqueId($businessId);
         $openOrder = new OpenOrder;
@@ -125,7 +128,7 @@ class OpenOrderController extends Controller
             }
 
             // Filtering
-            $fullPrice = $this->filterListPrice($request->productList, $request->price);
+            $fullPrice = $this->filterListPrice($request->products_list, $request->price);
 
             // use for price different from selling price set on the product page
             $openOrder->products_list = json_encode($fullPrice);
@@ -142,13 +145,13 @@ class OpenOrderController extends Controller
             foreach ($inputs['shipping'] as $shipping) {
                 switch ($shipping) {
                     case 'courier':
-                        $settings['shipping'][$shipping] = [  'name' => 'Courier', 'price' => $inputs[$shipping.'_price'] ];
+                        $settings['shipping'][$shipping] = ['name' => 'Courier', 'price' => $inputs[$shipping . '_price']];
                         break;
                     case 'selfpickup':
-                        $settings['shipping'][$shipping] = [  'name' => 'Self Pickup', 'price' => $inputs[$shipping.'_price'] ];
+                        $settings['shipping'][$shipping] = ['name' => 'Self Pickup', 'price' => $inputs[$shipping . '_price']];
                         break;
                     case 'freeshipping':
-                        $settings['shipping'][$shipping] = [ 'name' => 'Free Shipping', 'price' => 0, 'remarks' => $inputs['freeshipping_remarks'] ];
+                        $settings['shipping'][$shipping] = ['name' => 'Free Shipping', 'price' => 0, 'remarks' => $inputs['freeshipping_remarks']];
                         break;
                 }
             }
@@ -177,13 +180,14 @@ class OpenOrderController extends Controller
 
         } else {
             return redirect()
-                        ->back()
-                        ->withErrors($openOrder->errors())
-                        ->withInput();
+                ->back()
+                ->withErrors($openOrder->errors())
+                ->withInput();
         }
     }
 
-    public function postToggle(Request $request, $businessId) {
+    public function postToggle(Request $request, $businessId)
+    {
         $status = $request->status;
         $open_order = $request->sale;
 
@@ -195,34 +199,38 @@ class OpenOrderController extends Controller
         }
 
         if ($status == 'deactivate') {
-            $open_sale->update([ 'active' => 0 ]);
+            $open_sale->update(['active' => 0]);
         } else {
-            $open_sale->update([ 'active' => 1 ]);
+            $open_sale->update(['active' => 1]);
         }
 
-        return response()->json([ 'status' => true ]);
+        return response()->json(['status' => true]);
 
     }
 
-    public function checkSaleUrl(Request $request) {
+    public function checkSaleUrl(Request $request)
+    {
         $openOrder = OpenOrder::where('sale_url', $request->url)->first();
         if (!is_null($openOrder)) {
-            return response()->json([ 'found' => true ]);
+            return response()->json(['found' => true]);
         } else {
-            return response()->json([ 'found' => false ]);
+            return response()->json(['found' => false]);
         }
     }
 
-    private function filterListPrice($productList, $priceList) {
+    private function filterListPrice($productList, $priceList)
+    {
 
         $newPriceList = $priceList;
-        foreach ($priceList as $key => $price) {
-            if (!in_array($key, $productList)) {
-                unset($newPriceList[$key]);
+        if (!is_null($priceList)) {
+            foreach ($priceList as $key => $price) {
+                if (!in_array($key, $productList)) {
+                    unset($newPriceList[$key]);
+                }
             }
         }
 
-        return $newPiceList;
+        return $newPriceList;
 
     }
 
