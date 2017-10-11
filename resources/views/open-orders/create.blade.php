@@ -323,11 +323,12 @@ $('#openOrder').on('submit', function(e){
 
     $.each(rows_selected, function(index, rowId){
         // Create a hidden element
-
+        console.log(rowId);
         $(form).append(
             $('<input>')
             .attr('type', 'hidden')
             .attr('name', 'products_list[]')
+            .addClass('productList')
             .val(rowId)
         );
     });
@@ -342,9 +343,10 @@ $('#openOrder').on('submit', function(e){
     });
 
     $('.button-submit').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Open Sale Now!');
+    //console.log($(".productList"));
     setTimeout(function () {
         form.submit();
-    }, 1000);
+    }, 1500);
 
 });
 $(function () {
